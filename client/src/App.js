@@ -5,6 +5,8 @@ import readingTime from 'reading-time';
 //* MUI
 import Snackbar from '@material-ui/core/Snackbar';
 import { ThemeProvider } from '@material-ui/core/styles';
+
+//* Utils
 import theme from './utils/theme';
 import { auth, firestore } from './firebase';
 
@@ -260,28 +262,16 @@ function App() {
                 user={user}
                 userData={userData}
                 onSignUpClick={() =>
-                  setDialog({
-                    ...dialog,
-                    signUpDialog: true,
-                  })
+                  setDialog({...dialog, signUpDialog: true })
                 }
                 onSignInClick={() =>
-                  setDialog({
-                    ...dialog,
-                    signInDialog: true,
-                  })
+                  setDialog({ ...dialog, signInDialog: true })
                 }
                 onSettingsClick={() =>
-                  setDialog({
-                    ...dialog,
-                    settingsDialog: true,
-                  })
+                  setDialog({...dialog, settingsDialog: true })
                 }
                 onSignOutClick={() =>
-                  setDialog({
-                    ...dialog,
-                    signOutDialog: true,
-                  })
+                  setDialog({...dialog, signOutDialog: true })
                 }
               />
               <Routes signedIn={signedIn} />
@@ -292,10 +282,7 @@ function App() {
                     dialogProps: {
                       open: dialog.signUpDialog,
                       onClose: () =>
-                        setDialog({
-                          ...dialog,
-                          signUpDialog: false,
-                        }),
+                        setDialog({ ...dialog, signUpDialog: false }),
                     },
 
                     props: {
@@ -308,10 +295,7 @@ function App() {
                     dialogProps: {
                       open: dialog.signInDialog,
                       onClose: () =>
-                        setDialog({
-                          ...dialog,
-                          signInDialog: false,
-                        }),
+                        setDialog({ ...dialog, signInDialog: false }),
                     },
 
                     props: {
@@ -324,22 +308,16 @@ function App() {
                     dialogProps: {
                       open: dialog.settingsDialog,
                       onClose: () =>
-                        setDialog({
-                          ...dialog,
-                          settingsDialog: false,
-                        }),
+                        setDialog({ ...dialog, settingsDialog: false }),
                     },
 
                     props: {
                       user,
-                userData: userData, // eslint-disable-line
-                      theme,
+                      userData: userData, // eslint-disable-line
+                      theme, //! may not need this...
                       openSnackbar: message => openSnackbar(message),
                       onDeleteAccountClick: () =>
-                        setDialog({
-                          ...dialog,
-                          deleteAccountDialog: false,
-                        }),
+                        setDialog({ ...dialog, deleteAccountDialog: false }),
                     },
                   },
 
@@ -347,15 +325,12 @@ function App() {
                     dialogProps: {
                       open: dialog.deleteAccountDialog,
                       onClose: () =>
-                        setDialog({
-                          ...dialog,
-                          deleteAccountDialog: false,
-                        }),
+                        setDialog({...dialog, deleteAccountDialog: false }),
                     },
 
                     props: {
                       performingAction,
-                userData: userData, // eslint-disable-line
+                      userData: userData, // eslint-disable-line
                       openSnackbar: message => openSnackbar(message),
                     },
                   },
@@ -364,10 +339,7 @@ function App() {
                     dialogProps: {
                       open: dialog.signOutDialog,
                       onClose: () =>
-                        setDialog({
-                          ...dialog,
-                          signOutDialog: false,
-                        }),
+                        setDialog({ ...dialog, signOutDialog: false }),
                     },
 
                     props: {
