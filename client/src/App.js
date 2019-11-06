@@ -115,7 +115,7 @@ async function medical_history(aadhaar) {
     return newStr;
   }
 
-  const medical_hist = {}; // eslint-disable-line
+  const medical_hist = {};
 
   await contract_instance.contract.methods
     .medical_history_details(aadhaar)
@@ -135,7 +135,7 @@ async function medical_history(aadhaar) {
       medical_hist.timestamp = get_string(res[2]);
     });
 
-  return medical_hist; // eslint-disable-line
+  return medical_hist;
 }
 
 //* App
