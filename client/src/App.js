@@ -34,6 +34,8 @@ var contract_instance = {
 };
 
 //* Blockchain Functions
+//? Would dialog be a better place to move this call...
+//? Anything we need to refactor out given this is all from TruffleBox?
 async function getBlock() {
   try {
     const data = {
@@ -66,6 +68,7 @@ async function getBlock() {
   }
 }
 
+//TODO: ADD TO CONTEXT
 async function add_paitent(aadhaar, age, name, dob, weight, sex, allergies) {
   await contract_instance.contract.methods.add_paitent(aadhaar, age, name, dob, weight, sex, allergies).send({
     from: contract_instance.accounts[0],
@@ -73,6 +76,7 @@ async function add_paitent(aadhaar, age, name, dob, weight, sex, allergies) {
   console.log('Sent add_paitent to contract');
 }
 
+//TODO: ADD TO CONTEXT
 async function add_prescription(d_id, aadhaar, disease, symptoms, medicine, time) {
   await contract_instance.contract.methods.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time).send({
     from: contract_instance.accounts[0],
@@ -80,6 +84,7 @@ async function add_prescription(d_id, aadhaar, disease, symptoms, medicine, time
   console.log('Sent add_prescription to contract');
 }
 
+//TODO: lookup_paitent() == getPatient in patient context.
 async function lookup_paitent(aadhaar) {
   const paitent_page_data = {};
 
@@ -110,6 +115,7 @@ async function lookup_paitent(aadhaar) {
   return paitent_page_data;
 }
 
+//TODO: medical_history() == getPatient() in patient context.
 async function medical_history(aadhaar) {
   function get_string(str) {
     const newStr = str.split('-');
