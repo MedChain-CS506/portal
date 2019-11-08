@@ -11,12 +11,12 @@ import theme from './utils/theme';
 import { auth, firestore } from './firebase';
 
 //* Components
-import Navbar from './components/Navbar';
-import Loading from './components/Loading';
-import DialogHost from './components/Dialog/DialogHost';
+import Navbar from './components/layout/Navbar';
+import Loading from './components/layout/Loading';
+import DialogHost from './components/layout/Dialog/DialogHost';
 
 //* Pages
-import Routes from './pages/Routes';
+import Routes from './components/pages/Routes';
 
 //* Context
 import PatientContextProvider from './context/patient/PatientContext';
@@ -158,7 +158,7 @@ function App() {
     signInDialog: false,
     settingsDialog: false,
     signOutDialog: false,
-    deleteAccountDialog: false,
+    deleteAccountDialog: false, //!May want to remove later
   });
 
   const [snackbar, setSnackbar] = useState({
@@ -259,6 +259,7 @@ function App() {
       <AlertContextProvider>
         <ThemeProvider theme={theme}>
           {' '}
+          {/* //? ^ What are these for? */}
           {!ready && <Loading />}{' '}
           {ready && (
             <>
