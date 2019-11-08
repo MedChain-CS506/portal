@@ -26,7 +26,7 @@ const PatientContextProvider = props => {
   const searchPatients = async text => {
     setLoading();
 
-    // const response = await ...//! from some url
+    //const response = await ...//! from some url
 
     dispatch({
       type: SEARCH_PATIENTS,

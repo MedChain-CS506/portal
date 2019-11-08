@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 //* MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+//* Context
+import { PatientContext } from '../../../context/patient/PatientContext';
+
+//* Components
+
 
 // TODO: GIVE THE LINK THE PROFILE
 const columns = [
@@ -53,6 +59,10 @@ const useStyles = makeStyles({
 
 const Patients = () => {
   const classes = useStyles();
+
+  const patientContext = useContext(PatientContext);
+
+  const { loading, patients } = patientContext;
 
   return (
     <Grid container>
