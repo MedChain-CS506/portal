@@ -15,7 +15,7 @@ const PatientContextProvider = props => {
     patients: [],
     patient: {},
     records: [],
-    loading: false,
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(PatientReducer, initialState);
