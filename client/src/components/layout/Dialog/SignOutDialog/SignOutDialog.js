@@ -46,13 +46,6 @@ const SignOutDialog = ({ dialogProps }) => {
           Sign Out
         </Button>
       </DialogActions>
-      {/* {(dismissiveAction || confirmingAction || acknowledgementAction) &&
-                <DialogActions>
-                    {dismissiveAction}
-                    {confirmingAction}
-                    {acknowledgementAction}
-                </DialogActions>
-            } */}
     </Dialog>
   );
 };
