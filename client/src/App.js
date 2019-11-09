@@ -20,7 +20,6 @@ import Routes from './components/pages/Routes';
 
 //* Context
 import PatientContextProvider from './context/patient/PatientContext';
-import AlertContextProvider from './context/alert/AlertContext';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -256,119 +255,117 @@ function App() {
 
   return (
     <PatientContextProvider>
-      <AlertContextProvider>
-        <ThemeProvider theme={theme}>
-          {' '}
-          {/* //? ^ What are these for? */}
-          {!ready && <Loading />}{' '}
-          {ready && (
-            <>
-              <Navbar
-                signedIn={signedIn}
-                performingAction={performingAction}
-                user={user}
-                userData={userData}
-                onSignUpClick={() =>
-                  setDialog({...dialog, signUpDialog: true })
-                }
-                onSignInClick={() =>
-                  setDialog({ ...dialog, signInDialog: true })
-                }
-                onSettingsClick={() =>
-                  setDialog({...dialog, settingsDialog: true })
-                }
-                onSignOutClick={() =>
-                  setDialog({...dialog, signOutDialog: true })
-                }
-              />
-              <Routes signedIn={signedIn} />
-              <DialogHost
-                signedIn={signedIn}
-                dialogs={{
-                  signUpDialog: {
-                    dialogProps: {
-                      open: dialog.signUpDialog,
-                      onClose: () =>
-                        setDialog({ ...dialog, signUpDialog: false }),
-                    },
-
-                    props: {
-                      performingAction,
-                      openSnackbar: message => openSnackbar(message),
-                    },
+      <ThemeProvider theme={theme}>
+        {' '}
+        {/* //? ^ What are these for? */}
+        {!ready && <Loading />}{' '}
+        {ready && (
+          <>
+            <Navbar
+              signedIn={signedIn}
+              performingAction={performingAction}
+              user={user}
+              userData={userData}
+              onSignUpClick={() =>
+                setDialog({...dialog, signUpDialog: true })
+              }
+              onSignInClick={() =>
+                setDialog({ ...dialog, signInDialog: true })
+              }
+              onSettingsClick={() =>
+                setDialog({...dialog, settingsDialog: true })
+              }
+              onSignOutClick={() =>
+                setDialog({...dialog, signOutDialog: true })
+              }
+            />
+            <Routes signedIn={signedIn} />
+            <DialogHost
+              signedIn={signedIn}
+              dialogs={{
+                signUpDialog: {
+                  dialogProps: {
+                    open: dialog.signUpDialog,
+                    onClose: () =>
+                      setDialog({ ...dialog, signUpDialog: false }),
                   },
 
-                  signInDialog: {
-                    dialogProps: {
-                      open: dialog.signInDialog,
-                      onClose: () =>
-                        setDialog({ ...dialog, signInDialog: false }),
-                    },
+                  props: {
+                    performingAction,
+                    openSnackbar: message => openSnackbar(message),
+                  },
+                },
 
-                    props: {
-                      performingAction,
-                      openSnackbar: message => openSnackbar(message),
-                    },
+                signInDialog: {
+                  dialogProps: {
+                    open: dialog.signInDialog,
+                    onClose: () =>
+                      setDialog({ ...dialog, signInDialog: false }),
                   },
 
-                  settingsDialog: {
-                    dialogProps: {
-                      open: dialog.settingsDialog,
-                      onClose: () =>
-                        setDialog({ ...dialog, settingsDialog: false }),
-                    },
+                  props: {
+                    performingAction,
+                    openSnackbar: message => openSnackbar(message),
+                  },
+                },
 
-                    props: {
-                      user,
-                      userData: userData, // eslint-disable-line
-                      theme, //! may not need this...
-                      openSnackbar: message => openSnackbar(message),
-                      onDeleteAccountClick: () =>
-                        setDialog({ ...dialog, deleteAccountDialog: false }),
-                    },
+                settingsDialog: {
+                  dialogProps: {
+                    open: dialog.settingsDialog,
+                    onClose: () =>
+                      setDialog({ ...dialog, settingsDialog: false }),
                   },
 
-                  deleteAccountDialog: {
-                    dialogProps: {
-                      open: dialog.deleteAccountDialog,
-                      onClose: () =>
-                        setDialog({...dialog, deleteAccountDialog: false }),
-                    },
+                  props: {
+                    user,
+                    userData: userData, // eslint-disable-line
+                    theme, //! may not need this...
+                    openSnackbar: message => openSnackbar(message),
+                    onDeleteAccountClick: () =>
+                      setDialog({ ...dialog, deleteAccountDialog: false }),
+                  },
+                },
 
-                    props: {
-                      performingAction,
-                      userData: userData, // eslint-disable-line
-                      openSnackbar: message => openSnackbar(message),
-                    },
+                deleteAccountDialog: {
+                  dialogProps: {
+                    open: dialog.deleteAccountDialog,
+                    onClose: () =>
+                      setDialog({...dialog, deleteAccountDialog: false }),
                   },
 
-                  signOutDialog: {
-                    dialogProps: {
-                      open: dialog.signOutDialog,
-                      onClose: () =>
-                        setDialog({ ...dialog, signOutDialog: false }),
-                    },
-
-                    props: {
-                      performingAction,
-                    },
+                  props: {
+                    performingAction,
+                    userData: userData, // eslint-disable-line
+                    openSnackbar: message => openSnackbar(message),
                   },
-                }}
-              />
-              <Snackbar
-                open={snackbar.open}
-                autoHideDuration={snackbar.autoHideDuration}
-                message={snackbar.message}
-                onClose={() =>
-                  setSnackbar({
-                    open: false,
-                  })
-                }
-              />{' '}
-            </>
-          )}{' '}
-        </ThemeProvider>
-      </AlertContextProvider>
+                },
+
+                signOutDialog: {
+                  dialogProps: {
+                    open: dialog.signOutDialog,
+                    onClose: () =>
+                      setDialog({ ...dialog, signOutDialog: false }),
+                  },
+
+                  props: {
+                    performingAction,
+                  },
+                },
+              }}
+            />
+            <Snackbar
+              open={snackbar.open}
+              autoHideDuration={snackbar.autoHideDuration}
+              message={snackbar.message}
+              onClose={() =>
+                setSnackbar({
+                  open: false,
+                })
+              }
+            />{' '}
+          </>
+        )}{' '}
+      </ThemeProvider>
     </PatientContextProvider>
   );
 }

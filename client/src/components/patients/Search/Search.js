@@ -35,7 +35,7 @@ const Search = () => {
   const onSubmit = e => {
     e.preventDefault()
     if (text === '') {
-      console.log('Please enter something') //TODO: Make a call to the alert context to enter text
+      return console.log('Please enter something') //TODO: Should be visible to user
     } else {
       patientContext.searchPatients(text)
       setText('')
