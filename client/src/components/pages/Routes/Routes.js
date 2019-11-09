@@ -10,11 +10,12 @@ import {
 } from 'react-router-dom';
 
 //* PAGES
-import { makeStyles } from '@material-ui/core/styles';
 import Landing from '../Landing';
 import NewPatient from '../../patients/NewPatient';
 import Profile from '../../patients/Profile';
 import NotFound from '../NotFound';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   container: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
 
 const Routes = ({ signedIn = false }) => {
   const classes = useStyles();
+  
   return (
     <Router>
       <div className={classes.container}>

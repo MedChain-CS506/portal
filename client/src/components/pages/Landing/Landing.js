@@ -2,8 +2,6 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-//* Components
-
 //* MUI
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';

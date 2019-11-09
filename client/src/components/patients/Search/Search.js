@@ -51,7 +51,7 @@ const Search = () => {
             name='text'
             className={classes.input}
             fullWidth
-            placeholder="Search Patients..."
+            placeholder="Search by Aadhar..."
             inputProps={{ 'aria-label': 'search patients' }}
             value={text}
             onChange={e => setText(e.target.value)}

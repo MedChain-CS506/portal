@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "^1.3.11",
+    "@date-io/date-fns": "latest",
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
-    "date-fns": "^2.6.0",
+    "date-fns": "latest",
     "firebase": "latest",
     "lodash": "latest",
     "moment": "latest",
