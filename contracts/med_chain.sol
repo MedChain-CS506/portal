@@ -22,7 +22,6 @@ contract med_chain {
 
     struct patient {
         uint aadhaar;
-        uint age;
         string name;
         string dob;
         uint weight;
@@ -74,6 +73,8 @@ contract med_chain {
     mapping(address => auth) oracle_auth;
     mapping(address => auth) admin_auth;
     
+    //events
+    event prescription_added(uint aadhaar);
 
     //modifiers
     modifier only_doctor() {
@@ -147,10 +148,9 @@ contract med_chain {
     
 
     //external functions
-    function add_patient(uint aadhaar, uint age, string memory name, string memory dob, uint weight, string memory sex, string memory allergies) public {
+    function add_patient(uint aadhaar, string memory name, string memory dob, uint weight, string memory sex, string memory allergies) public {
         if(!patient_aadhaar_mapping[aadhaar].exists){
             patient_aadhaar_mapping[aadhaar].aadhaar = aadhaar;
-            patient_aadhaar_mapping[aadhaar].age = age;
             patient_aadhaar_mapping[aadhaar].name = name;
             patient_aadhaar_mapping[aadhaar].dob = dob;
             patient_aadhaar_mapping[aadhaar].weight = weight;
@@ -159,6 +159,18 @@ contract med_chain {
             patient_aadhaar_mapping[aadhaar].exists = true;
         } else {
             revert("Patient already exists in system");
+        }
+    }
+
+    function edit_patient(uint aadhaar, string memory name, uint weight, string memory sex, string memory allergies) public {
+        if(patient_aadhaar_mapping[aadhaar].exists){
+            patient_aadhaar_mapping[aadhaar].name = name;
+            patient_aadhaar_mapping[aadhaar].weight = weight;
+            patient_aadhaar_mapping[aadhaar].sex = sex;
+            allergies = strConcat(patient_aadhaar_mapping[aadhaar].allergies, allergies);
+            patient_aadhaar_mapping[aadhaar].allergies = allergies;
+        } else {
+            revert("Patient doesn't exists in system");
         }
     }
 
@@ -198,10 +210,9 @@ contract med_chain {
         }
     }
 
-    function lookup_patient(uint aadhaar) view public returns(uint, uint, string memory, string memory, string memory, uint, string memory) {
+    function lookup_patient(uint aadhaar) view public returns(uint, string memory, string memory, string memory, uint, string memory) {
         return (
             patient_aadhaar_mapping[aadhaar].aadhaar,
-            patient_aadhaar_mapping[aadhaar].age,
             patient_aadhaar_mapping[aadhaar].name,
             patient_aadhaar_mapping[aadhaar].sex,
             patient_aadhaar_mapping[aadhaar].dob,
@@ -256,6 +267,7 @@ contract med_chain {
             prescription_id_mapping[current_pres_id].timestamp_prescribed = time;
             prescription_id_mapping[current_pres_id].marked = false;
             current_pres_id = current_pres_id + 1;
+            emit prescription_added(p_aadhar);
         } else {
             revert("Patient does not exists");
         }
