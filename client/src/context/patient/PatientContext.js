@@ -6,7 +6,7 @@ import {
   GET_RECORDS,
   CLEAR_PATIENTS,
   SET_LOADING,
-} from '../types';
+} from './types';
 
 export const PatientContext = createContext();
 
