@@ -8,8 +8,6 @@ import Button from '@material-ui/core/Button';
 
 //* Context
 import PatientContext from '../../../context/patient/PatientContext'
-console.log(PatientContext);
-
 
 const useStyles = makeStyles({
   input: {
@@ -27,11 +25,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Search = () => {
+const Search = ({contract}) => {
   const classes = useStyles();
-
   const patientContext = useContext(PatientContext);
-  console.log(patientContext);
 
   const [text, setText] = useState('')
 
@@ -40,13 +36,14 @@ const Search = () => {
     if (text === '') {
       return console.log('Please enter something') //TODO: Should be visible to user
     } else {
-      patientContext.getPatient(text)
+      console.log(text)
+      patientContext.getPatient(contract, text)
       setText('')
     }
   }
 
   return (
-    <>
+    <div>
       <form onSubmit={onSubmit}>
         <Paper>
           <InputBase
@@ -55,7 +52,6 @@ const Search = () => {
             className={classes.input}
             fullWidth
             placeholder="Search by Aadhar..."
-            inputProps={{ 'aria-label': 'search patients' }}
             value={text}
             onChange={e => setText(e.target.value)}
           />
@@ -70,7 +66,7 @@ const Search = () => {
           </Button>
         </Paper>
       </form>
-    </>
+    </div>
   );
 };
 

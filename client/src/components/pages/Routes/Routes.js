@@ -11,8 +11,8 @@ import {
 
 //* PAGES
 import Landing from '../Landing';
-import NewPatient from '../../patients/NewPatient';
-import Profile from '../../patients/Profile';
+import NewPatient from '../NewPatient';
+import Profile from '../Profile';
 import NotFound from '../NotFound';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,15 +25,15 @@ const useStyles = makeStyles({
   },
 });
 
-const Routes = ({ signedIn = false }) => {
+const Routes = ({ signedIn = false, contract }) => {
   const classes = useStyles();
-  
+
   return (
     <Router>
       <div className={classes.container}>
         <Switch>
           <Route exact path="/">
-            <Landing signedIn={signedIn} />
+            <Landing signedIn={signedIn} contract={contract}/>
           </Route>
           <Route exact path="/patient-form">
             <NewPatient signedIn={signedIn} />
