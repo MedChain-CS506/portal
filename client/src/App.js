@@ -147,7 +147,7 @@ function App() {
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
-    contract: null,
+    contract: null
   });
 
   useEffect(() => {
@@ -164,13 +164,15 @@ function App() {
           deployedNetwork && deployedNetwork.address
         );
         console.log("got data");
-        setContract({
-          accounts,
-          web3,
-          contract: instance,
-        })
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
+        };
+        setContract(data);
         setSignedIn(true);
         setReady(true);
+        return data
       } catch (error) {
         setSignedIn(false);
         setReady(false);
@@ -179,7 +181,6 @@ function App() {
     }
 
     connectMetamask();
-    console.log(contract);
 
   }, []);
 
