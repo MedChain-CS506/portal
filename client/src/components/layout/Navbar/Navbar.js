@@ -128,13 +128,13 @@ const Navbar = ({
 };
 
 Navbar.propTypes = {
-  performingAction: PropTypes.bool.isRequired,
+  // performingAction: PropTypes.bool.isRequired,
   signedIn: PropTypes.bool.isRequired,
-  userData: PropTypes.object,
-  onSignUpClick: PropTypes.func.isRequired,
-  onSignInClick: PropTypes.func.isRequired,
-  onSettingsClick: PropTypes.func.isRequired,
-  onSignOutClick: PropTypes.func.isRequired,
+  // userData: PropTypes.object,
+  // onSignUpClick: PropTypes.func.isRequired,
+  // onSignInClick: PropTypes.func.isRequired,
+  // onSettingsClick: PropTypes.func.isRequired,
+  // onSignOutClick: PropTypes.func.isRequired,
 };
 
 export default Navbar;

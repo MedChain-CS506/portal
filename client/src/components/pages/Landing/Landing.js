@@ -11,7 +11,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import { Link } from 'react-router-dom';
-import Patients from '../../patients/Patients';
 import Search from '../../patients/Search';
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +51,7 @@ const Landing = ({ signedIn = false }) => {
           </Fab>
         </Link>
         <Search />
-        <Patients />
+
       </>
     );
   }

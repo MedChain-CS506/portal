@@ -25,233 +25,163 @@ import PatientContextProvider from './context/patient/PatientContext';
 import getWeb3 from './utils/getWeb3.js';
 import MedChainContract from './contracts/med_chain.json';
 
-var contract_instance = {
-  storageValue: 0,
-  web3: null,
-  accounts: null,
-  contract: null,
-};
+// //* Blockchain Functions
+// //? Would dialog be a better place to move this call...
+// //? Anything we need to refactor out given this is all from TruffleBox?
+// async function getBlock() {
+//   try {
+//     const data = {
+//       storageValue: 0,
+//       web3: null,
+//       accounts: null,
+//       contract: null,
+//     };
+//     console.log('its going');
+//     const web3 = await getWeb3();
+//     const accounts = await web3.eth.getAccounts();
+//     const networkId = await web3.eth.net.getId();
+//     const deployedNetwork = MedChainContract.networks[networkId];
+//     const instance = new web3.eth.Contract(
+//       MedChainContract.abi,
+//       deployedNetwork && deployedNetwork.address
+//     );
 
-//* Blockchain Functions
-//? Would dialog be a better place to move this call...
-//? Anything we need to refactor out given this is all from TruffleBox?
-async function getBlock() {
-  try {
-    const data = {
-      storageValue: 0,
-      web3: null,
-      accounts: null,
-      contract: null,
-    };
-    console.log('its going');
-    const web3 = await getWeb3();
-    const accounts = await web3.eth.getAccounts();
-    const networkId = await web3.eth.net.getId();
-    const deployedNetwork = MedChainContract.networks[networkId];
-    const instance = new web3.eth.Contract(
-      MedChainContract.abi,
-      deployedNetwork && deployedNetwork.address
-    );
+//     const cont = instance;
+//     data.accounts = accounts;
+//     data.web3 = web3;
+//     data.contract = instance;
+//     return data;
+//     console.log(contract_instance);
+//   } catch (error) {
+//     alert(
+//       `Failed to load web3, accounts, or contract. Check console for details.`
+//     );
+//     console.error(error);
+//   }
+// }
 
-    const cont = instance;
-    data.accounts = accounts;
-    data.web3 = web3;
-    data.contract = instance;
-    return data;
-    console.log(contract_instance);
-  } catch (error) {
-    alert(
-      `Failed to load web3, accounts, or contract. Check console for details.`
-    );
-    console.error(error);
-  }
-}
+// //TODO: ADD TO CONTEXT
+// async function add_paitent(aadhaar, age, name, dob, weight, sex, allergies) {
+//   await contract_instance.contract.methods.add_paitent(aadhaar, age, name, dob, weight, sex, allergies).send({
+//     from: contract_instance.accounts[0],
+//   });
+//   console.log('Sent add_paitent to contract');
+// }
 
-//TODO: ADD TO CONTEXT
-async function add_paitent(aadhaar, age, name, dob, weight, sex, allergies) {
-  await contract_instance.contract.methods.add_paitent(aadhaar, age, name, dob, weight, sex, allergies).send({
-    from: contract_instance.accounts[0],
-  });
-  console.log('Sent add_paitent to contract');
-}
+// //TODO: ADD TO CONTEXT
+// async function add_prescription(d_id, aadhaar, disease, symptoms, medicine, time) {
+//   await contract_instance.contract.methods.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time).send({
+//     from: contract_instance.accounts[0],
+//   });
+//   console.log('Sent add_prescription to contract');
+// }
 
-//TODO: ADD TO CONTEXT
-async function add_prescription(d_id, aadhaar, disease, symptoms, medicine, time) {
-  await contract_instance.contract.methods.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time).send({
-    from: contract_instance.accounts[0],
-  });
-  console.log('Sent add_prescription to contract');
-}
+// //TODO: lookup_paitent() == getPatient in patient context.
+// async function lookup_paitent(aadhaar) {
+//   const paitent_page_data = {};
 
-//TODO: lookup_paitent() == getPatient in patient context.
-async function lookup_paitent(aadhaar) {
-  const paitent_page_data = {};
+//   await contract_instance.contract.methods
+//     .lookup_paitent(aadhaar)
+//     .call()
+//     .then(function(res) {
+//       paitent_page_data.aadhaar = res[0];
+//       paitent_page_data.age = res[1];
+//       paitent_page_data.name = res[2];
+//       paitent_page_data.sex = res[3];
+//       paitent_page_data.dob = res[4];
+//       paitent_page_data.weight = res[5];
+//       paitent_page_data.allergies = res[6];
+//     });
 
-  await contract_instance.contract.methods
-    .lookup_paitent(aadhaar)
-    .call()
-    .then(function(res) {
-      paitent_page_data.aadhaar = res[0];
-      paitent_page_data.age = res[1];
-      paitent_page_data.name = res[2];
-      paitent_page_data.sex = res[3];
-      paitent_page_data.dob = res[4];
-      paitent_page_data.weight = res[5];
-      paitent_page_data.allergies = res[6];
-    });
+//   await contract_instance.contract.methods
+//     .doctor_last_prescription(aadhaar)
+//     .call()
+//     .then(function(res) {
+//       paitent_page_data.last_pres_id = res[0];
+//       paitent_page_data.last_pres_medicine = res[1];
+//       paitent_page_data.last_pres_doc_id = res[2];
+//       paitent_page_data.last_pres_symptoms = res[3];
+//       paitent_page_data.last_pres_timestamp = res[4];
+//     });
 
-  await contract_instance.contract.methods
-    .doctor_last_prescription(aadhaar)
-    .call()
-    .then(function(res) {
-      paitent_page_data.last_pres_id = res[0];
-      paitent_page_data.last_pres_medicine = res[1];
-      paitent_page_data.last_pres_doc_id = res[2];
-      paitent_page_data.last_pres_symptoms = res[3];
-      paitent_page_data.last_pres_timestamp = res[4];
-    });
+//   return paitent_page_data;
+// }
 
-  return paitent_page_data;
-}
+// //TODO: medical_history() == getPatient() in patient context.
+// async function medical_history(aadhaar) {
+//   function get_string(str) {
+//     const newStr = str.split('-');
+//     newStr.splice(0, 2);
+//     return newStr;
+//   }
 
-//TODO: medical_history() == getPatient() in patient context.
-async function medical_history(aadhaar) {
-  function get_string(str) {
-    const newStr = str.split('-');
-    newStr.splice(0, 2);
-    return newStr;
-  }
+//   const medical_hist = {};
 
-  const medical_hist = {};
+//   await contract_instance.contract.methods
+//     .medical_history_details(aadhaar)
+//     .call()
+//     .then(function(res) {
+//       medical_hist.pres_ids = get_string(res[0]).map(Number);
+//       medical_hist.doctor_ids = get_string(res[1]).map(Number);
+//       medical_hist.symptoms = get_string(res[2]);
+//     });
 
-  await contract_instance.contract.methods
-    .medical_history_details(aadhaar)
-    .call()
-    .then(function(res) {
-      medical_hist.pres_ids = get_string(res[0]).map(Number);
-      medical_hist.doctor_ids = get_string(res[1]).map(Number);
-      medical_hist.symptoms = get_string(res[2]);
-    });
+//   await contract_instance.contract.methods
+//     .medical_history(aadhaar)
+//     .call()
+//     .then(function(res) {
+//       medical_hist.disease = get_string(res[0]);
+//       medical_hist.medicine = get_string(res[1]);
+//       medical_hist.timestamp = get_string(res[2]);
+//     });
 
-  await contract_instance.contract.methods
-    .medical_history(aadhaar)
-    .call()
-    .then(function(res) {
-      medical_hist.disease = get_string(res[0]);
-      medical_hist.medicine = get_string(res[1]);
-      medical_hist.timestamp = get_string(res[2]);
-    });
-
-  return medical_hist;
-}
+//   return medical_hist;
+// }
 
 //* App
 function App() {
-  const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null);
+
   const [signedIn, setSignedIn] = useState(false);
   const [ready, setReady] = useState(false);
-  const [performingAction, setPerformingAction] = useState(false);
-  const [dialog, setDialog] = useState({
-    signUpDialog: false,
-    signInDialog: false,
-    settingsDialog: false,
-    signOutDialog: false,
-    deleteAccountDialog: false, //!May want to remove later
-  });
 
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    autoHideDuration: 0,
-    message: '',
+  const [contract, setContract] = useState({
+    web3: null,
+    accounts: null,
+    contract: null,
   });
 
   useEffect(() => {
-    
-    // getBlock().then(function (data) {
-    //   contract_instance = data;
-    //   console.log(contract_instance);
-    // });
-    
-    const removeAuthStateChangedObserver = auth.onAuthStateChanged(user => { // eslint-disable-line
-      //* if there is no user...
-      if (!user) {
-        setUser(null);
-        setUserData(null);
-        setSignedIn(false);
-        setReady(true);
-        return;
-      }
-
-      const { uid } = user;
-
-      //* if there is no uid...
-      if (!uid) {
-        setUser(null);
-        setUserData(null);
-        setSignedIn(false);
-        setReady(true);
-        return;
-      }
-
-      const reference = firestore.collection('users').doc(uid);
-
-      //* if there is no reference...
-      if (!reference) {
-        setUser(null);
-        setUserData(null);
-        setSignedIn(false);
-        setReady(true);
-        return;
-      }
-
-      const removeReferenceListener = reference.onSnapshot(snapshot => {
-        if (!snapshot.exists) {
-          if (removeReferenceListener) {
-            removeReferenceListener();
-          }
-          setUser(null);
-          setUserData(null);
-          setSignedIn(false);
-          setReady(true);
-          return;
-        }
-
-        const data = snapshot.data();
-
-        if (!data) {
-          if (removeReferenceListener) {
-            removeReferenceListener();
-          }
-
-          setUser(null);
-          setUserData(null);
-          setSignedIn(false);
-          setReady(true);
-          return;
-        }
-
-        setUser(user);
-        setUserData(data);
+    console.log("use effect rendering");
+    async function connectMetamask() {
+      try {
+        console.log('its going');
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = MedChainContract.networks[networkId];
+        const instance = new web3.eth.Contract(
+          MedChainContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        console.log("got data");
+        setContract({
+          accounts,
+          web3,
+          contract: instance,
+        })
         setSignedIn(true);
         setReady(true);
-      });
-    });
+      } catch (error) {
+        setSignedIn(false);
+        setReady(false);
+        console.error(error);
+      }      
+    }
 
-    return () => {
-      if (removeAuthStateChangedObserver) {
-        removeAuthStateChangedObserver();
-      }
-    };
+    connectMetamask();
+    console.log(contract);
+
   }, []);
-
-  const openSnackbar = (message, autoHideDuration = 2) => {
-    setSnackbar({
-      open: true,
-      message,
-      autoHideDuration: readingTime(message).time * autoHideDuration,
-    });
-  };
 
   return (
     <PatientContextProvider>
@@ -261,108 +191,8 @@ function App() {
         {!ready && <Loading />}{' '}
         {ready && (
           <>
-            <Navbar
-              signedIn={signedIn}
-              performingAction={performingAction}
-              user={user}
-              userData={userData}
-              onSignUpClick={() =>
-                setDialog({...dialog, signUpDialog: true })
-              }
-              onSignInClick={() =>
-                setDialog({ ...dialog, signInDialog: true })
-              }
-              onSettingsClick={() =>
-                setDialog({...dialog, settingsDialog: true })
-              }
-              onSignOutClick={() =>
-                setDialog({...dialog, signOutDialog: true })
-              }
-            />
+            <Navbar signedIn={signedIn}/>
             <Routes signedIn={signedIn} />
-            <DialogHost
-              signedIn={signedIn}
-              dialogs={{
-                signUpDialog: {
-                  dialogProps: {
-                    open: dialog.signUpDialog,
-                    onClose: () =>
-                      setDialog({ ...dialog, signUpDialog: false }),
-                  },
-
-                  props: {
-                    performingAction,
-                    openSnackbar: message => openSnackbar(message),
-                  },
-                },
-
-                signInDialog: {
-                  dialogProps: {
-                    open: dialog.signInDialog,
-                    onClose: () =>
-                      setDialog({ ...dialog, signInDialog: false }),
-                  },
-
-                  props: {
-                    performingAction,
-                    openSnackbar: message => openSnackbar(message),
-                  },
-                },
-
-                settingsDialog: {
-                  dialogProps: {
-                    open: dialog.settingsDialog,
-                    onClose: () =>
-                      setDialog({ ...dialog, settingsDialog: false }),
-                  },
-
-                  props: {
-                    user,
-                    userData: userData, // eslint-disable-line
-                    theme, //! may not need this...
-                    openSnackbar: message => openSnackbar(message),
-                    onDeleteAccountClick: () =>
-                      setDialog({ ...dialog, deleteAccountDialog: false }),
-                  },
-                },
-
-                deleteAccountDialog: {
-                  dialogProps: {
-                    open: dialog.deleteAccountDialog,
-                    onClose: () =>
-                      setDialog({...dialog, deleteAccountDialog: false }),
-                  },
-
-                  props: {
-                    performingAction,
-                    userData: userData, // eslint-disable-line
-                    openSnackbar: message => openSnackbar(message),
-                  },
-                },
-
-                signOutDialog: {
-                  dialogProps: {
-                    open: dialog.signOutDialog,
-                    onClose: () =>
-                      setDialog({ ...dialog, signOutDialog: false }),
-                  },
-
-                  props: {
-                    performingAction,
-                  },
-                },
-              }}
-            />
-            <Snackbar
-              open={snackbar.open}
-              autoHideDuration={snackbar.autoHideDuration}
-              message={snackbar.message}
-              onClose={() =>
-                setSnackbar({
-                  open: false,
-                })
-              }
-            />{' '}
           </>
         )}{' '}
       </ThemeProvider>
