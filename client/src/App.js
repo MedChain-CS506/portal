@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-import readingTime from 'reading-time';
-
 //* MUI
-import Snackbar from '@material-ui/core/Snackbar';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 //* Utils
 import theme from './utils/theme';
-import { auth, firestore } from './firebase';
 
 //* Components
 import Navbar from './components/layout/Navbar';
 import Loading from './components/layout/Loading';
-import DialogHost from './components/layout/Dialog/DialogHost';
 
 //* Pages
 import Routes from './components/pages/Routes';
 
 //* Context
-import PatientContextProvider from './context/patient/PatientContext';
+import PatientContextProvider from './context/patient/PatientContext'
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -187,15 +182,13 @@ function App() {
   return (
     <PatientContextProvider>
       <ThemeProvider theme={theme}>
-        {' '}
-        {/* //? ^ What are these for? */}
-        {!ready && <Loading />}{' '}
+        {!ready && <Loading />}
         {ready && (
           <>
             <Navbar signedIn={signedIn}/>
             <Routes signedIn={signedIn} />
           </>
-        )}{' '}
+        )}
       </ThemeProvider>
     </PatientContextProvider>
   );

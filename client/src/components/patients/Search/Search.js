@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 
 //* Context
 import PatientContext from '../../../context/patient/PatientContext'
+console.log(PatientContext);
+
 
 const useStyles = makeStyles({
   input: {
@@ -28,7 +30,8 @@ const useStyles = makeStyles({
 const Search = () => {
   const classes = useStyles();
 
-  const patientContext = useContext(PatientContext)
+  const patientContext = useContext(PatientContext);
+  console.log(patientContext);
 
   const [text, setText] = useState('')
 
@@ -37,10 +40,10 @@ const Search = () => {
     if (text === '') {
       return console.log('Please enter something') //TODO: Should be visible to user
     } else {
-      //patientContext.searchPatients(text)
+      patientContext.getPatient(text)
       setText('')
     }
-  } 
+  }
 
   return (
     <>
@@ -58,9 +61,9 @@ const Search = () => {
           />
         </Paper>
         <Paper className={classes.paperButton}>
-          <Button 
-            className={classes.button} 
-            fullWidth 
+          <Button
+            className={classes.button}
+            fullWidth
             type='submit'
           >
             Search
