@@ -37,7 +37,7 @@ const Search = () => {
     if (text === '') {
       return console.log('Please enter something') //TODO: Should be visible to user
     } else {
-      patientContext.searchPatients(text)
+      //patientContext.searchPatients(text)
       setText('')
     }
   } 

@@ -1,12 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import PatientReducer from './PatientReducer';
-import {
-  SEARCH_PATIENTS,
-  GET_PATIENT,
-  GET_RECORDS,
-  CLEAR_PATIENTS,
-  SET_LOADING,
-} from './types';
+import { GET_PATIENT, GET_RECORDS } from './types';
 
 export const PatientContext = createContext();
 
@@ -20,24 +14,8 @@ const PatientContextProvider = props => {
 
   const [state, dispatch] = useReducer(PatientReducer, initialState);
 
-  const setLoading = () => dispatch({ type: SET_LOADING });
-
-  // ! THESE FUNCTIONS SHOULD BE WHERE WE FETCH INFORMATION FROM THE BLOCKCHAIN
-  const searchPatients = async text => {
-    setLoading();
-
-    //const response = await ...//! from some url
-
-    dispatch({
-      type: SEARCH_PATIENTS,
-      // payload: response...
-    });
-  };
-
   const getPatient = async aadhar => {
-    setLoading();
-
-    // const response = await ... //! from some url
+    // const response = await ...
 
     dispatch({
       type: GET_PATIENT,
@@ -46,8 +24,6 @@ const PatientContextProvider = props => {
   };
 
   const getPatientRecords = () => {
-    setLoading();
-
     // const response = await ...
 
     dispatch({
@@ -56,22 +32,8 @@ const PatientContextProvider = props => {
     });
   };
 
-  const clearPatients = () => dispatch({ type: CLEAR_PATIENTS });
-
   return (
-    <PatientContext.Provider
-      value={
-        (searchPatients, clearPatients, getPatient, getPatientRecords)
-        // (patients,
-        //   patient,
-        //   records,
-        //   loading,
-        //   searchPatients,
-        //   clearPatients,
-        //   getPatient,
-        //   getPatientRecords) // ! TO AVOID ESLINT... WILL BE USED WHEN WE GET DATA
-      }
-    >
+    <PatientContext.Provider value={{getPatient, getPatientRecords}}>
       {props.children}
     </PatientContext.Provider>
   );

@@ -13,9 +13,6 @@ import TableRow from '@material-ui/core/TableRow';
 //* Context
 import { PatientContext } from '../../../context/patient/PatientContext';
 
-//* Components
-import Loading from '../../layout/Loading'
-
 // TODO: GIVE THE LINK THE PROFILE
 const columns = [
   { id: 'aadhar', label: 'Aadhar #', minWidth: 170 },
@@ -64,52 +61,48 @@ const Patients = () => {
 
   const { loading, patients } = patientContext;
 
-  if (loading) { 
-    return <Loading /> 
-  }
-  else {
-    return (
-      <Grid container>
-        <Grid item xs={12}>
-          <Paper className={classes.root}>
-            <div className={classes.tableWrapper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {columns.map(column => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                      {columns.map(column => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <Paper className={classes.root}>
+          <div className={classes.tableWrapper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {columns.map(column => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
                   ))}
-                </TableBody>
-              </Table>
-            </div>
-          </Paper>
-        </Grid>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map(column => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </Paper>
       </Grid>
-    );
-  }
+    </Grid>
+  );
+  
 };
 
 export default Patients;
