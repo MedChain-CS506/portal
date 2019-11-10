@@ -59,7 +59,7 @@ const Patients = () => {
 
   const patientContext = useContext(PatientContext);
 
-  const { loading, patients } = patientContext;
+  const { patients } = patientContext;
 
   return (
     <Grid container>
