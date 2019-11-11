@@ -60,9 +60,10 @@ function App() {
     connectMetamask().then((data) => {
       setInterval(async () => {
         const rn = await data.web3.eth.getAccounts();
-        if (rn[0] != data.accounts[0]) {
-          console.log("inside logout");
+        if (rn[0] !== data.accounts[0]) {
           setSignedIn(false);
+        } else if (rn[0] === data.accounts[0]) {
+          setSignedIn(true);
         }
       }, 100)
     });
@@ -76,7 +77,7 @@ function App() {
         <>
           <Navbar />
           <Routes signedIn={signedIn} contract={contract} /> 
-          <Routes signedIn={signedIn} />
+          {/* <Routes signedIn={signedIn} /> */}
         </>
       )}
     </PatientState>
