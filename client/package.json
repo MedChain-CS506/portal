@@ -8,7 +8,7 @@
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
     "date-fns": "latest",
-    "firebase": "latest",
+    "formik": "^2.0.3",
     "lodash": "latest",
     "moment": "latest",
     "prop-types": "latest",
@@ -16,12 +16,11 @@
     "react-dom": "latest",
     "react-router-dom": "latest",
     "react-scripts": "latest",
-    "react-swipeable-views": "latest",
     "reading-time": "latest",
     "truffle": "latest",
     "typeface-roboto": "latest",
-    "validate.js": "latest",
-    "web3": "latest"
+    "web3": "latest",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",

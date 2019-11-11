@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-//* MUI
-import { ThemeProvider } from '@material-ui/core/styles';
-
 //* Utils
 import theme from './utils/theme';
 
@@ -24,8 +21,8 @@ import MedChainContract from './contracts/med_chain.json';
 //* App
 function App() {
 
-  const [signedIn, setSignedIn] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
+  const [ready, setReady] = useState(true);
 
   const [contract, setContract] = useState({
     web3: null,
@@ -63,15 +60,14 @@ function App() {
 
   return (
     <PatientState>
-      <ThemeProvider theme={theme}>
-        {!ready && <Loading />}
-        {ready && (
-          <>
-            <Navbar  />
-            <Routes signedIn={signedIn} contract={contract}/>
-          </>
-        )}
-      </ThemeProvider>
+      {!ready && <Loading />}
+      {ready && (
+        <>
+          <Navbar />
+          <Routes signedIn={signedIn} contract={contract} />
+          {/* <Routes signedIn={signedIn} /> */}
+        </>
+      )}
     </PatientState>
   );
 }

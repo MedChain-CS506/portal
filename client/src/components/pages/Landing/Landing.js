@@ -26,13 +26,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
 
-  buttonIcon: {
-    marginRight: theme.spacing(1),
-  },
-
-  addNewPatientIcon: {
-    marginBottom: theme.spacing(2),
-  },
+  patientFormIcon: {
+    marginBottom: theme.spacing(4),
+  }
 }));
 
 const Landing = ({ signedIn = false, contract }) => {
@@ -43,14 +39,15 @@ const Landing = ({ signedIn = false, contract }) => {
       <>
         <Link to="/patient-form">
           <Fab
-            className={classes.addNewPatientIcon}
+            className={classes.patientFormIcon}
             color="secondary"
             variant="extended"
           >
-            <AddCircleIcon className={classes.buttonIcon} /> Add New Patient
+            <AddCircleIcon className={classes.buttonIcon} /> Patient Form
           </Fab>
         </Link>
-        <Search contract={contract}/>
+        {/* <Search contract={contract} /> */}
+        <Search />
 
       </>
     );

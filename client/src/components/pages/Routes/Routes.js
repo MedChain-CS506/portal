@@ -11,7 +11,7 @@ import {
 
 //* PAGES
 import Landing from '../Landing';
-import NewPatient from '../NewPatient';
+import PatientForm from '../PatientForm';
 import Profile from '../Profile';
 import NotFound from '../NotFound';
 
@@ -33,10 +33,10 @@ const Routes = ({ signedIn = false, contract }) => {
       <div className={classes.container}>
         <Switch>
           <Route exact path="/">
-            <Landing signedIn={signedIn} contract={contract}/>
+            <Landing signedIn={signedIn} contract={contract} />
           </Route>
           <Route exact path="/patient-form">
-            <NewPatient signedIn={signedIn} />
+            <PatientForm signedIn={signedIn} />
           </Route>
           <Route exact path="/profile/:id">
             <Profile signedIn={signedIn} />
