@@ -7,11 +7,9 @@ import {
     TextField, Button, Radio,
     FormControlLabel,
     Select, MenuItem,
-    InputAdornment
+    InputAdornment,
+    FormGroup
 } from '@material-ui/core'
-
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import 'date-fns';
@@ -48,19 +46,19 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const SexRadio = ({ label, ...props }) => {
-    const [field] = useField(props); //props could be the name we want associated. clicking cmd + useField will tell us what props expects, either fieldattributes or a string
-    return (
-        <FormControlLabel {...field} control={< Radio />} label={label} />
-        // ^{...field} formik handles all functions need to update fields
-    )
-}
-
 const MyTextField = ({ placeholder, ...props }) => {
     const [field, meta] = useField(props)
     const errorText = meta.error && meta.touched ? meta.error : ''
     return (
         <TextField fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+    )
+}
+
+const SexRadio = ({ label, ...props }) => {
+    const [field] = useField(props); //props could be the name we want associated. clicking cmd + useField will tell us what props expects, either fieldattributes or a string
+    return (
+        <FormControlLabel {...field} control={< Radio color="primary" />} label={label} labelPlacement="bottom" />
+        // ^{...field} formik handles all functions need to update fields
     )
 }
 
@@ -96,7 +94,7 @@ const PatientForm = () => {
                     <Typography variant="h3" align='center' gutterBottom> New Patient </Typography>
                     <Divider className={classes.divider} />
                     <Formik
-                        initialValues={{ aadhar: '', firstName: '', lastName: '', sex: '', dob: '', weight: '', notes: [{ type: "allergy", name: "hay fever", id: "" + Math.random() }] }}
+                        initialValues={{ aadhar: '', firstName: '', lastName: '', sex: '', weight: '', dob: '', notes: [{ type: "allergy", name: "hay fever", id: "" + Math.random() }] }}
                         validationSchema={validationSchema}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
@@ -109,37 +107,21 @@ const PatientForm = () => {
                             <Form>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
-                                        <MyTextField placeholder='aadhar' name='aadhar' type='input' as={TextField} />
+                                        <MyTextField placeholder='Aadhar' name='aadhar' type='input' as={TextField} />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <Field placeholder='first name' name='firstName' type='input' fullWidth as={TextField} />
+                                        <Field placeholder='First name' name='firstName' type='input' fullWidth as={TextField} />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <Field placeholder='last name' name='lastName' type='input' fullWidth as={TextField} />
+                                        <Field placeholder='Last name' name='lastName' type='input' fullWidth as={TextField} />
                                     </Grid>
                                     <Grid item xs={12} md={4}>
-                                        <FormLabel component="legend">Sex</FormLabel>
-                                        <SexRadio name="sex" type="radio" value="male" label="male" />
-                                        <SexRadio name="sex" type="radio" value="female" label="female" />
-                                        {/* <FormControl>
-                                            <MySelect label="Sex">Sex
-                                                <option value=""><em>None</em></option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="other">Other</option>
-                                            </MySelect>
-                                        </FormControl> */}
+                                        <FormLabel fullWidth>Sex</FormLabel>
+                                        <FormGroup row='true'>
+                                            <SexRadio name="sex" type="radio" value="male" label="male" />
+                                            <SexRadio name="sex" type="radio" value="female" label="female" />
+                                        </FormGroup>
                                     </Grid>
-
-                                    <Grid item xs={12} md={4}>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                            <KeyboardDatePicker name='dob' label="Date of Birth" format="MM/dd/yyyy"
-                                                margin="normal" value={selectedDate} onChange={handleDateChange}
-                                                KeyboardButtonProps={{ 'aria-label': 'change date' }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </Grid>
-
                                     <Grid item xs={12} md={4}>
                                         <Field name='weight' margin="normal" label="Weight" type="number"
                                             InputProps={{ startAdornment: <InputAdornment position="start">Kg</InputAdornment> }}
@@ -147,7 +129,9 @@ const PatientForm = () => {
                                             as={TextField}
                                         />
                                     </Grid>
-
+                                    <Grid item xs={12} md={4}>
+                                        <Field name="dob" margin="normal" label="Birthday" type="date" defaultValue="2000-01-01" InputLabelProps={{ shrink: true }} as={TextField} />
+                                    </Grid>
                                     <Grid item xs={12}>
                                         <FieldArray name="notes">
                                             {arrayHelpers => (
