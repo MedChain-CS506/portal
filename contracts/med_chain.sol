@@ -273,12 +273,12 @@ contract med_chain {
         }
     }
 
-    function last_prescription(uint aadhaar) view public returns(string memory) {
+    function last_prescription(uint aadhaar) view public returns(uint, string memory, string memory) {
         if(prescription_id_mapping[patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1]].marked == false){
             uint last_presc_id = patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1];
-            return (prescription_id_mapping[last_presc_id].medicine);
+            return (prescription_id_mapping[last_presc_id].doctor_id, prescription_id_mapping[last_presc_id].medicine, prescription_id_mapping[last_presc_id].timestamp_prescribed);
         } else {
-            return("Prescription already marked");
+            revert("Prescription already marked");
         }
     }
 

@@ -26,14 +26,6 @@ const PatientState = props => {
                     paitent_page_data.weight = res[4];
                     paitent_page_data.allergies = res[5];
                 });
-                await contract.contract.methods.doctor_last_prescription(aadhaar).call().then(function(res) {
-                    paitent_page_data.last_pres_id = res[0];
-                    paitent_page_data.last_pres_medicine = res[1];
-                    paitent_page_data.last_pres_doc_id = res[2];
-                    paitent_page_data.last_pres_symptoms = res[3];
-                    paitent_page_data.last_pres_timestamp = res[4];
-                });
-                return paitent_page_data;
             } catch (error) {
                 paitent_page_data.aadhaar = 0;
                 paitent_page_data.name = "";
@@ -41,14 +33,27 @@ const PatientState = props => {
                 paitent_page_data.dob = "";
                 paitent_page_data.weight = 0;
                 paitent_page_data.allergies = "";
+                console.log(error);
+            }
+            try {
+                await contract.contract.methods.doctor_last_prescription(aadhaar).call().then(function(res) {
+                    paitent_page_data.last_pres_id = res[0];
+                    paitent_page_data.last_pres_medicine = res[1];
+                    paitent_page_data.last_pres_doc_id = res[2];
+                    paitent_page_data.last_pres_symptoms = res[3];
+                    paitent_page_data.last_pres_timestamp = res[4];
+                });
+                
+            } catch (error) {
                 paitent_page_data.last_pres_id = 0;
                 paitent_page_data.last_pres_medicine = "";
                 paitent_page_data.last_pres_doc_id = 0;
                 paitent_page_data.last_pres_symptoms = "";
                 paitent_page_data.last_pres_timestamp = "";
                 console.log(error);
-                return paitent_page_data;
+
             }
+            return paitent_page_data;
         }
 
         const res = await temp(contract,aadhaar);
@@ -105,15 +110,17 @@ const PatientState = props => {
     const addPatient = async (contract, aadhaar, name, dob, weight, sex, allergies) => {
         await contract.contract.methods.add_patient(aadhaar, name, dob, weight, sex, allergies).send({
             from: contract.accounts[0],
+        }, (error) => {
+            console.log(error);
         });
-        console.log('Sent add_paitent to contract');
     }
 
     const addPrescription = async (contract, d_id, aadhaar, disease, symptoms, medicine, time) => {
         await contract.contract.methods.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time).send({
             from: contract.accounts[0],
+        }, (error) => {
+            console.log(error);
         });
-        console.log('Sent add_prescription to contract');
     }
 
     return (
