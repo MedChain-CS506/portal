@@ -14,8 +14,8 @@ import Routes from './components/pages/Routes';
 import PatientState from './context/patient/PatientState'
 
 //* Blockchain
-// import getWeb3 from './utils/getWeb3.js';
-// import MedChainContract from './contracts/med_chain.json';
+import getWeb3 from './utils/getWeb3.js';
+import MedChainContract from './contracts/med_chain.json';
 
 
 //* App
@@ -24,39 +24,39 @@ function App() {
   const [signedIn, setSignedIn] = useState(true);
   const [ready, setReady] = useState(true);
 
-  // const [contract, setContract] = useState({
-  //   web3: null,
-  //   accounts: null,
-  //   contract: null
-  // });
+  const [contract, setContract] = useState({
+    web3: null,
+    accounts: null,
+    contract: null
+  });
 
-  // useEffect(() => {
-  //   async function connectMetamask() {
-  //     try {
-  //       const web3 = await getWeb3();
-  //       const accounts = await web3.eth.getAccounts();
-  //       const networkId = await web3.eth.net.getId();
-  //       const deployedNetwork = MedChainContract.networks[networkId];
-  //       const instance = new web3.eth.Contract(
-  //         MedChainContract.abi,
-  //         deployedNetwork && deployedNetwork.address
-  //       );
-  //       let data = {
-  //         accounts: accounts,
-  //         web3: web3,
-  //         contract: instance
-  //       };
-  //       setContract(data);
-  //       setSignedIn(true);
-  //       setReady(true);
-  //     } catch (error) {
-  //       setSignedIn(false);
-  //       setReady(false);
-  //       console.error(error);
-  //     }
-  //   }
-  //   connectMetamask();
-  // }, []);
+  useEffect(() => {
+    async function connectMetamask() {
+      try {
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = MedChainContract.networks[networkId];
+        const instance = new web3.eth.Contract(
+          MedChainContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
+        };
+        setContract(data);
+        setSignedIn(true);
+        setReady(true);
+      } catch (error) {
+        setSignedIn(false);
+        setReady(false);
+        console.error(error);
+      }
+    }
+    connectMetamask();
+  }, []);
 
   return (
     <PatientState>
@@ -64,8 +64,7 @@ function App() {
       {ready && (
         <>
           <Navbar />
-          {/* <Routes signedIn={signedIn} contract={contract} /> */}
-          <Routes signedIn={signedIn} />
+          <Routes signedIn={signedIn} contract={contract} />
         </>
       )}
     </PatientState>
