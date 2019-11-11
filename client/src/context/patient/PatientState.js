@@ -33,10 +33,7 @@ const PatientState = props => {
                     paitent_page_data.last_pres_symptoms = res[3];
                     paitent_page_data.last_pres_timestamp = res[4];
                 });
-                
-                console.log(paitent_page_data);
                 return paitent_page_data;
-                
             } catch (error) {
                 paitent_page_data.aadhaar = 0;
                 paitent_page_data.name = "";
@@ -50,10 +47,8 @@ const PatientState = props => {
                 paitent_page_data.last_pres_symptoms = "";
                 paitent_page_data.last_pres_timestamp = "";
                 console.log(error);
-                console.log(paitent_page_data);
                 return paitent_page_data;
             }
-
         }
 
         const res = await temp(contract,aadhaar);
@@ -107,6 +102,20 @@ const PatientState = props => {
         });
     };
 
+    const addPatient = async (contract, aadhaar, name, dob, weight, sex, allergies) => {
+        await contract.contract.methods.add_patient(aadhaar, name, dob, weight, sex, allergies).send({
+            from: contract.accounts[0],
+        });
+        console.log('Sent add_paitent to contract');
+    }
+
+    const addPrescription = async (contract, d_id, aadhaar, disease, symptoms, medicine, time) => {
+        await contract.contract.methods.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time).send({
+            from: contract.accounts[0],
+        });
+        console.log('Sent add_prescription to contract');
+    }
+
     return (
         <PatientContext.Provider value={{ getPatient, getPatientRecords }}>
             {props.children}
@@ -115,30 +124,3 @@ const PatientState = props => {
 };
 
 export default PatientState;
-
-
-
-
-
-
-
-
-//! Functions that are going to be implemented
-//* Blockchain Functions
-
-// //TODO: ADD TO CONTEXT
-// async function add_patient(aadhaar, name, dob, weight, sex, allergies) {
-//   await contract_instance.contract.methods.add_patient(aadhaar, name, dob, weight, sex, allergies).send({
-//       from: contract_instance.accounts[0],
-//   });
-//   console.log('Sent add_paitent to contract');
-// }
-
-// //TODO: ADD TO CONTEXT
-// async function add_prescription(d_id, aadhaar, disease, symptoms, medicine, time) {
-//   await contract_instance.contract.methods.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time).send({
-//     from: contract_instance.accounts[0],
-//   });
-//   console.log('Sent add_prescription to contract');
-// }
-
