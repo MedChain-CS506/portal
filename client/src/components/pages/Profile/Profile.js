@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import CardContent from '@material-ui/core/CardContent';
 
 import { Redirect } from 'react-router-dom'
 
@@ -22,9 +21,14 @@ const Profile = ({ signedIn = false }) => {
 
   const patientContext = useContext(PatientContext)
 
+  //! Now, pull out (destructure) the variables and functions we'd like to use for profile
+  // const { patient, getPatient, records, getRecords, prescriptions, getPrescriptions } = patientContext
+
   useEffect(() => {
     //getPatient()
   }, [])
+
+  // const { aadhar, firstName, lastName, dob, sex, weight } = patient
 
   //! test variables
   const firstName = "Satoshi"

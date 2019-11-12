@@ -1,24 +1,23 @@
-import React, { createContext, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import PatientReducer from './PatientReducer';
 import PatientContext from './PatientContext';
 import { GET_PATIENT, GET_RECORDS } from './types';
 
 const PatientState = props => {
     const initialState = {
-        patients: [],
         patient: {},
         records: [],
-        loading: true,
+        loading: true
     };
 
     const [state, dispatch] = useReducer(PatientReducer, initialState);
 
     const getPatient = async (contract, aadhaar) => {
-        
+
         async function temp(contract, aadhaar) {
             let paitent_page_data = {};
             try {
-                await contract.contract.methods.lookup_patient(aadhaar).call().then(function(res) {
+                await contract.contract.methods.lookup_patient(aadhaar).call().then(function (res) {
                     paitent_page_data.aadhaar = res[0];
                     paitent_page_data.name = res[1];
                     paitent_page_data.sex = res[2];
@@ -36,14 +35,14 @@ const PatientState = props => {
                 console.log(error);
             }
             try {
-                await contract.contract.methods.doctor_last_prescription(aadhaar).call().then(function(res) {
+                await contract.contract.methods.doctor_last_prescription(aadhaar).call().then(function (res) {
                     paitent_page_data.last_pres_id = res[0];
                     paitent_page_data.last_pres_medicine = res[1];
                     paitent_page_data.last_pres_doc_id = res[2];
                     paitent_page_data.last_pres_symptoms = res[3];
                     paitent_page_data.last_pres_timestamp = res[4];
                 });
-                
+
             } catch (error) {
                 paitent_page_data.last_pres_id = 0;
                 paitent_page_data.last_pres_medicine = "";
@@ -56,17 +55,17 @@ const PatientState = props => {
             return paitent_page_data;
         }
 
-        const res = await temp(contract,aadhaar);
+        const res = await temp(contract, aadhaar);
         console.log(res);
 
         dispatch({
-          type: GET_PATIENT,
-          payload: res,
+            type: GET_PATIENT,
+            payload: res,
         });
     };
 
     const getPatientRecords = async (contract, aadhaar) => {
-        
+
         async function medical_history(contract, aadhaar) {
             function get_string(str) {
                 const newStr = str.split('-');
@@ -75,16 +74,16 @@ const PatientState = props => {
             }
             const medical_hist = {};
             try {
-                await contract.contract.methods.medical_history_details(aadhaar).call().then(function(res) {
+                await contract.contract.methods.medical_history_details(aadhaar).call().then(function (res) {
                     medical_hist.pres_ids = get_string(res[0]).map(Number);
                     medical_hist.doctor_ids = get_string(res[1]).map(Number);
                     medical_hist.symptoms = get_string(res[2]);
-                  });
-                await contract.contract.methods.medical_history(aadhaar).call().then(function(res) {
+                });
+                await contract.contract.methods.medical_history(aadhaar).call().then(function (res) {
                     medical_hist.disease = get_string(res[0]);
                     medical_hist.medicine = get_string(res[1]);
                     medical_hist.timestamp = get_string(res[2]);
-                  });
+                });
                 return medical_hist;
             } catch (error) {
                 medical_hist.pres_ids = 0;
@@ -92,7 +91,7 @@ const PatientState = props => {
                 medical_hist.symptoms = "";
                 medical_hist.disease = "";
                 medical_hist.medicine = "";
-                medical_hist.timestamp = "";                
+                medical_hist.timestamp = "";
                 console.log(error);
                 return medical_hist;
             }
