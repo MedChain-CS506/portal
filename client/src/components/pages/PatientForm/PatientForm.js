@@ -29,6 +29,7 @@ const useStyles = makeStyles(theme => ({
             marginRight: 'auto',
         },
     },
+
     paper: {
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
@@ -39,13 +40,15 @@ const useStyles = makeStyles(theme => ({
             padding: theme.spacing(3),
         },
     },
+
     divider: {
         marginBottom: theme.spacing(3)
     },
+
     button: {
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(1),
-    },
+    }
 }));
 
 const MyTextField = ({ placeholder, ...props }) => {
@@ -85,10 +88,11 @@ const validationSchema = yup.object({
 
 const PatientForm = ({ signedIn = false }) => {
     const classes = useStyles();
-
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
     const handleDateChange = (date) => setSelectedDate(date);
+
     if (!signedIn) return <Redirect to='/not-found' />
+
     return (
         <>
             <main className={classes.layout}>
