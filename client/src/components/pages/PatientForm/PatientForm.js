@@ -11,6 +11,8 @@ import {
     FormGroup
 } from '@material-ui/core'
 
+import { Redirect } from 'react-router-dom'
+
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -81,12 +83,12 @@ const validationSchema = yup.object({
     )
 })
 
-const PatientForm = () => {
+const PatientForm = ({ signedIn = false }) => {
     const classes = useStyles();
 
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
     const handleDateChange = (date) => setSelectedDate(date);
-
+    if (!signedIn) return <Redirect to='/not-found' />
     return (
         <>
             <main className={classes.layout}>

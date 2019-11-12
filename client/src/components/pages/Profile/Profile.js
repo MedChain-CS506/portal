@@ -8,6 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 
+import { Redirect } from 'react-router-dom'
+
 const useStyles = makeStyles(theme => ({
   paper: {
     m: 'auto',
@@ -15,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Profile = () => {
+const Profile = ({ signedIn = false }) => {
   const classes = useStyles();
 
   const patientContext = useContext(PatientContext)
@@ -31,6 +33,8 @@ const Profile = () => {
   const dob = 1 / 1 / 2000
   const sex = 'Male'
   const weight = 100
+
+  if (!signedIn) return <Redirect to='/not-found' />
 
   return (
     <>
