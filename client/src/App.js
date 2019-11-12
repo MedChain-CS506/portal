@@ -72,10 +72,10 @@ function App() {
   }, [signedIn]);
 
   //! To explain this return...
-  //! First, wrap what our components with the provided PatientState (which can be found in the context folder)
-  //! Second, conditionally render with ternary operator (i.e. condition ? expr1 : expr2 ), which states: if ready
-  //! is set to true, render expression 1, which is the Navbar and the following routes to the various pages. 
-  //! Otherwise, render expression 2, which is the Loading component.
+  //! First, wrap our components with the provided PatientState (i.e. Model, which can be found in the context folder)
+  //! Second, conditionally render with a ternary operator (i.e. condition ? expr1 : expr2 ), which states: if the 
+  //! 'ready' variable is currently true, render expression 1, which is the Navbar + the following page routes. 
+  //! Otherwise, render expression 2, which is the just Loading component.
   return (
     <PatientState>
       {ready ? (
