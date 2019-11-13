@@ -1,11 +1,16 @@
-pragma solidity ^0.5.8;
+pragma solidity ^0.5.12;
 
 contract med_chain {
-    
+
     //global variables
-    uint private current_pres_id = 1;
-    address private oracle;
-    enum auth {doc, phar, admin, oracle}
+    uint internal current_pres_id = 1;
+    address internal oracle;
+    enum auth {
+        doc,
+        phar,
+        admin,
+        oracle
+    }
 
     //constructor
     constructor() public {
@@ -72,7 +77,7 @@ contract med_chain {
     mapping(address => auth) pharmacy_auth;
     mapping(address => auth) oracle_auth;
     mapping(address => auth) admin_auth;
-    
+
     //events
     event prescription_added(uint aadhaar);
 
@@ -100,7 +105,7 @@ contract med_chain {
             revert("Only admin can call this function");
         }
     }
-    
+
     modifier only_oracle() {
         if (oracle_auth[msg.sender] == auth.oracle) {
             _;
@@ -145,69 +150,56 @@ contract med_chain {
         }
         return string(bstr);
     }
-    
 
-    //external functions
-    function add_patient(uint aadhaar, string memory name, string memory dob, uint weight, string memory sex, string memory allergies) public {
-        if(!patient_aadhaar_mapping[aadhaar].exists){
-            patient_aadhaar_mapping[aadhaar].aadhaar = aadhaar;
-            patient_aadhaar_mapping[aadhaar].name = name;
-            patient_aadhaar_mapping[aadhaar].dob = dob;
-            patient_aadhaar_mapping[aadhaar].weight = weight;
-            patient_aadhaar_mapping[aadhaar].sex = sex;
-            patient_aadhaar_mapping[aadhaar].allergies = allergies;
-            patient_aadhaar_mapping[aadhaar].exists = true;
-        } else {
-            revert("Patient already exists in system");
-        }
+
+    //public functions
+    function add_patient(uint aadhaar, string calldata name, string calldata dob, uint weight, string calldata sex, string calldata allergies) external {
+        require(!patient_aadhaar_mapping[aadhaar].exists, "Paitent already exists");
+        patient_aadhaar_mapping[aadhaar].aadhaar = aadhaar;
+        patient_aadhaar_mapping[aadhaar].name = name;
+        patient_aadhaar_mapping[aadhaar].dob = dob;
+        patient_aadhaar_mapping[aadhaar].weight = weight;
+        patient_aadhaar_mapping[aadhaar].sex = sex;
+        patient_aadhaar_mapping[aadhaar].allergies = allergies;
+        patient_aadhaar_mapping[aadhaar].exists = true;
+
     }
 
-    function edit_patient(uint aadhaar, string memory name, uint weight, string memory sex, string memory allergies) public {
-        if(patient_aadhaar_mapping[aadhaar].exists){
-            patient_aadhaar_mapping[aadhaar].name = name;
-            patient_aadhaar_mapping[aadhaar].weight = weight;
-            patient_aadhaar_mapping[aadhaar].sex = sex;
-            allergies = strConcat(patient_aadhaar_mapping[aadhaar].allergies, allergies);
-            patient_aadhaar_mapping[aadhaar].allergies = allergies;
-        } else {
-            revert("Patient doesn't exists in system");
-        }
+    function edit_patient(uint aadhaar, string calldata name, uint weight, string calldata sex, string calldata allergies) external {
+        require(patient_aadhaar_mapping[aadhaar].exists, "Patient doesn't exists in system");
+        patient_aadhaar_mapping[aadhaar].name = name;
+        patient_aadhaar_mapping[aadhaar].weight = weight;
+        patient_aadhaar_mapping[aadhaar].sex = sex;
+        string memory allergies_new = allergies;
+        allergies_new = strConcat(patient_aadhaar_mapping[aadhaar].allergies, allergies_new);
+        patient_aadhaar_mapping[aadhaar].allergies = allergies_new;
     }
 
-    function add_doctor(uint id, uint license_no, string memory name, string memory specialisation, address d_addr) public {
-        if(!doctor_id_mapping[id].exists){
-            doctor_id_mapping[id].id = id;
-            doctor_id_mapping[id].license_no = license_no;
-            doctor_id_mapping[id].name = name;
-            doctor_id_mapping[id].specialisation = specialisation;
-            doctor_id_mapping[id].doctor_address = d_addr;
-            doctor_id_mapping[id].exists = true;
-            doctor_auth[d_addr] = auth.doc;
-        } else {
-            revert("Doctor already exists in system");
-        }
+    function add_doctor(uint id, uint license_no, string calldata name, string calldata specialisation, address d_addr) external {
+        require(!doctor_id_mapping[id].exists, "Doctor already exists in system");
+        doctor_id_mapping[id].id = id;
+        doctor_id_mapping[id].license_no = license_no;
+        doctor_id_mapping[id].name = name;
+        doctor_id_mapping[id].specialisation = specialisation;
+        doctor_id_mapping[id].doctor_address = d_addr;
+        doctor_id_mapping[id].exists = true;
+        doctor_auth[d_addr] = auth.doc;
     }
 
-    function add_pharmacy(uint id, uint license_no, address p_addr) public {
-        if(!pharmacy_id_mapping[id].exists){
-            pharmacy_id_mapping[id].id = id;
-            pharmacy_id_mapping[id].license_no = license_no;
-            pharmacy_id_mapping[id].phar_addr = p_addr;
-            pharmacy_id_mapping[id].exists = true;
-            pharmacy_auth[p_addr] = auth.phar;
-        } else {
-            revert("Pharmacy already exists in system");
-        }
+    function add_pharmacy(uint id, uint license_no, address p_addr) external {
+        require(!pharmacy_id_mapping[id].exists, "Pharmacy already exists in system");
+        pharmacy_id_mapping[id].id = id;
+        pharmacy_id_mapping[id].license_no = license_no;
+        pharmacy_id_mapping[id].phar_addr = p_addr;
+        pharmacy_id_mapping[id].exists = true;
+        pharmacy_auth[p_addr] = auth.phar;
     }
-    
-    function add_admin(uint id, address admin_address) public {
-        if(!doctor_id_mapping[id].exists){
-            admin_id_mapping[id].id = id;
-            admin_id_mapping[id].admin_address = admin_address;
-            admin_auth[admin_address] = auth.admin;
-        } else {
-            revert("Admin already exists in the system");
-        }
+
+    function add_admin(uint id, address admin_address) external {
+        require(!doctor_id_mapping[id].exists, "Admin already exists in the system");
+        admin_id_mapping[id].id = id;
+        admin_id_mapping[id].admin_address = admin_address;
+        admin_auth[admin_address] = auth.admin;
     }
 
     function lookup_patient(uint aadhaar) view public returns(uint, string memory, string memory, string memory, uint, string memory) {
@@ -255,42 +247,33 @@ contract med_chain {
         return (dis, med, time);
     }
 
-    function add_prescription(uint d_id, uint p_aadhar, string memory disease, string memory symptoms, string memory medicine, string memory time) public {
-        if(patient_aadhaar_mapping[p_aadhar].exists == true){
-            patient_aadhaar_mapping[p_aadhar].prescription_ids.push(current_pres_id);
-            prescription_id_mapping[current_pres_id].id = current_pres_id;
-            prescription_id_mapping[current_pres_id].doctor_id = d_id;
-            prescription_id_mapping[current_pres_id].patient_aadhaar = p_aadhar;
-            prescription_id_mapping[current_pres_id].disease = disease;
-            prescription_id_mapping[current_pres_id].symptoms = symptoms;
-            prescription_id_mapping[current_pres_id].medicine = medicine;
-            prescription_id_mapping[current_pres_id].timestamp_prescribed = time;
-            prescription_id_mapping[current_pres_id].marked = false;
-            current_pres_id = current_pres_id + 1;
-            emit prescription_added(p_aadhar);
-        } else {
-            revert("Patient does not exists");
-        }
+    function add_prescription(uint d_id, uint p_aadhar, string calldata disease, string calldata symptoms, string calldata medicine, string calldata time) external {
+        require(patient_aadhaar_mapping[p_aadhar].exists, "Patient does not exists");
+        patient_aadhaar_mapping[p_aadhar].prescription_ids.push(current_pres_id);
+        prescription_id_mapping[current_pres_id].id = current_pres_id;
+        prescription_id_mapping[current_pres_id].doctor_id = d_id;
+        prescription_id_mapping[current_pres_id].patient_aadhaar = p_aadhar;
+        prescription_id_mapping[current_pres_id].disease = disease;
+        prescription_id_mapping[current_pres_id].symptoms = symptoms;
+        prescription_id_mapping[current_pres_id].medicine = medicine;
+        prescription_id_mapping[current_pres_id].timestamp_prescribed = time;
+        prescription_id_mapping[current_pres_id].marked = false;
+        current_pres_id = current_pres_id + 1;
+        emit prescription_added(p_aadhar);
     }
 
     function last_prescription(uint aadhaar) view public returns(uint, string memory, string memory) {
-        if(prescription_id_mapping[patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1]].marked == false){
-            uint last_presc_id = patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1];
-            return (prescription_id_mapping[last_presc_id].doctor_id, prescription_id_mapping[last_presc_id].medicine, prescription_id_mapping[last_presc_id].timestamp_prescribed);
-        } else {
-            revert("Prescription already marked");
-        }
+        require(prescription_id_mapping[patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1]].marked == false, "Prescription already marked");
+        uint last_presc_id = patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1];
+        return (prescription_id_mapping[last_presc_id].doctor_id, prescription_id_mapping[last_presc_id].medicine, prescription_id_mapping[last_presc_id].timestamp_prescribed);
     }
 
     function mark_prescription(uint aadhaar, uint pharmacy_id, string memory time) public {
-        if(prescription_id_mapping[patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1]].marked == false){
-            uint last_presc_id = patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1];
-            prescription_id_mapping[last_presc_id].pharmacy_id = pharmacy_id;
-            prescription_id_mapping[last_presc_id].marked = true;
-            prescription_id_mapping[last_presc_id].timestamp_marked = time;
-        } else {
-            revert("Prescription already marked");
-        }        
+        require(prescription_id_mapping[patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1]].marked == false, "Prescription already marked");
+        uint last_presc_id = patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1];
+        prescription_id_mapping[last_presc_id].pharmacy_id = pharmacy_id;
+        prescription_id_mapping[last_presc_id].marked = true;
+        prescription_id_mapping[last_presc_id].timestamp_marked = time;
     }
 
 }
