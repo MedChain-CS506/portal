@@ -94,10 +94,11 @@ const PatientForm = ({ signedIn = false, contract }) => {
     const handleDateChange = (date) => setSelectedDate(date);
     const patientContext = useContext(PatientContext);
 
-    // const onSubmit = (data) => {
-    //     fullName = data.firstName + data.lastName;
-    //     patientContext.addPatient(contract, data.aadhar, fullName, data.dob, data.weight, data.sex, data.notes.name);
-    // }
+    const onSubmit = (data) => {
+        let fullName = data.firstName + data.lastName;
+        patientContext.addPatient(contract, data.aadhar, fullName, data.dob, data.weight, data.sex, "a");
+    }
+
 
     if (!signedIn) return <Redirect to='/not-found' />
 
@@ -112,8 +113,9 @@ const PatientForm = ({ signedIn = false, contract }) => {
                         validationSchema={validationSchema}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
-                            //onSubmit(data);
-                            console.log("submit: ", data)
+                            
+                            console.log("submit: ", data);
+                            onSubmit(data);
                             setSubmitting(false);
                             //may want to reset form here
                         }}>

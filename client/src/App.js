@@ -85,7 +85,7 @@ function App() {
             <Switch>
               {/* <Route exact path="/" render={(props) => <Landing {...props} signedIn={signedIn} contract={contract} />} /> */}
               <Route exact path="/" render={(props) => <Landing {...props} signedIn={signedIn} contract={contract} />} />
-              <Route exact path="/patient-form" render={(props) => <PatientForm {...props} signedIn={signedIn} />} />
+              <Route exact path="/patient-form" render={(props) => <PatientForm {...props} signedIn={signedIn} contract={contract} />} />
               <Route exact path="/profile/:id" render={(props) => <Profile {...props} signedIn={signedIn} />} />
               <Route component={NotFound} />
               <Redirect to="/not-found" />

@@ -125,7 +125,7 @@ const PatientState = props => {
     }
 
     return (
-        <PatientContext.Provider value={{ getPatient, getPatientRecords }}>
+        <PatientContext.Provider value={{ getPatient, getPatientRecords, addPatient, addPrescription }}>
             {props.children}
         </PatientContext.Provider>
     );
