@@ -110,7 +110,7 @@ const PatientForm = ({ signedIn = false }) => {
                             //may want to reset form here
                         }}>
                         {({ values, errors, isSubmitting }) => (
-                            <Form>
+                            <Form id="patient-form">
                                 <Grid container spacing={3}>
                                     <Grid id="aadhar" item xs={12}>
                                         <MyTextField placeholder='Aadhar' name='aadhar' type='input' as={TextField} />
@@ -123,7 +123,7 @@ const PatientForm = ({ signedIn = false }) => {
                                     </Grid>
                                     <Grid id="sex" item xs={12} md={4}>
                                         <FormLabel fullWidth>Sex</FormLabel>
-                                        <FormGroup row='true'>
+                                        <FormGroup id="sex-choices" row='true'>
                                             <SexRadio name="sex" type="radio" value="male" label="male" />
                                             <SexRadio name="sex" type="radio" value="female" label="female" />
                                         </FormGroup>
@@ -171,7 +171,7 @@ const PatientForm = ({ signedIn = false }) => {
                                         </FieldArray>
                                     </Grid>
                                     <>
-                                        <Button id="submit-button" className={classes.button} disabled={isSubmitting} type="submit" variant="contained">Submit</Button>
+                                        <Button className={classes.button} disabled={isSubmitting} type="submit" variant="contained">Submit</Button>
                                     </>
                                 </Grid>
                                 <pre>{JSON.stringify(values, null, 2)}</pre>
