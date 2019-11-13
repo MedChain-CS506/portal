@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
+import { AppBar, Toolbar, Typography, Box, IconButton } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import theme from '../../../utils/theme';
 
 const useStyles = makeStyles({
   root: {
@@ -18,6 +17,18 @@ const useStyles = makeStyles({
 
 const Navbar = () => {
   const classes = useStyles();
+
+  const [theme, setTheme] = useState({ palette: { type: "dark" } })
+
+  const toggleTheme = () => {
+    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light'
+    setTheme({ palette: { type: newPaletteType } })
+
+    // theme.changeTheme(type)
+    // theme.changeTheme({ type: type })
+
+    console.log(theme)
+  }
 
   return (
     <AppBar className={classes.root} position="static">
@@ -29,6 +40,11 @@ const Navbar = () => {
             </Typography>
           </Link>
         </Box>
+
+        <IconButton color="secondary" onClick={() => toggleTheme()}>
+          {theme.palette.type === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+        </IconButton>
+
         <IconButton color="secondary" href="https://github.com/MedChain-CS506" rel="noopener noreferrer" target="_blank">
           <GitHubIcon />
         </IconButton>

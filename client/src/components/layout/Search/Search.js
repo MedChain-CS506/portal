@@ -1,12 +1,7 @@
 import React, { useState, useContext } from 'react';
 
-//* MUI
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
+import { makeStyles, Paper, InputBase, Button } from '@material-ui/core';
 
-//* Context
 import PatientContext from '../../../context/patient/PatientContext'
 
 const useStyles = makeStyles({
@@ -25,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Search = ({contract}) => {
+const Search = ({ contract }) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 

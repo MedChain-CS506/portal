@@ -1,17 +1,15 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
+import Search from '../../layout/Search';
+
 import PropTypes from 'prop-types';
 
-//* MUI
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
+import { makeStyles, Fab, Typography } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-
-import { Link } from 'react-router-dom';
-import Search from '../../layout/Search';
 
 const useStyles = makeStyles(theme => ({
   center: {

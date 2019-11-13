@@ -1,5 +1,9 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+// theme.changeTheme = (type) => {
+//   console.log(type)
+// }
+
 // A custom theme for this app
 const theme = createMuiTheme({
   palette: {
