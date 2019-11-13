@@ -57,8 +57,8 @@ const Navbar = () => {
           {theme.palette.type === "light" ? (
             <Brightness4Icon />
           ) : (
-            <Brightness7Icon />
-          )}
+              <Brightness7Icon />
+            )}
         </IconButton>
 
         <IconButton

@@ -1,17 +1,7 @@
-import React, { useReducer } from 'react';
-import PatientReducer from './PatientReducer';
+import React from 'react';
 import PatientContext from './PatientContext';
-import { GET_PATIENT, GET_RECORDS } from './types';
 
 const PatientState = props => {
-    const initialState = {
-        patient: {},
-        records: [],
-        loading: true
-    };
-
-    const [state, dispatch] = useReducer(PatientReducer, initialState);
-
     const getPatient = async (contract, aadhaar) => {
         console.log(contract);
 
@@ -44,7 +34,6 @@ const PatientState = props => {
                     paitent_page_data.last_pres_symptoms = res[3];
                     paitent_page_data.last_pres_timestamp = res[4];
                 });
-
             } catch (error) {
                 paitent_page_data.last_pres_id = 0;
                 paitent_page_data.last_pres_medicine = "";
@@ -52,22 +41,14 @@ const PatientState = props => {
                 paitent_page_data.last_pres_symptoms = "";
                 paitent_page_data.last_pres_timestamp = "";
                 console.log(error);
-
             }
             return paitent_page_data;
         }
-
         const res = await temp(contract, aadhaar);
         console.log(res);
-
-        dispatch({
-            type: GET_PATIENT,
-            payload: res,
-        });
     };
 
     const getPatientRecords = async (contract, aadhaar) => {
-
         async function medical_history(contract, aadhaar) {
             function get_string(str) {
                 const newStr = str.split('-');
@@ -98,14 +79,8 @@ const PatientState = props => {
                 return medical_hist;
             }
         }
-
         const response = await medical_history(contract, aadhaar);
         console.log(response);
-
-        dispatch({
-            type: GET_RECORDS,
-            payload: response,
-        });
     };
 
     const addPatient = async (contract, aadhaar, name, dob, weight, sex, allergies) => {
