@@ -40,13 +40,11 @@ const Navbar = () => {
     <AppBar className={classes.root} position="static">
       <Toolbar variant="regular">
         <Box id="title-link" flexGrow={1}>
-          <Router>
-            <Link to="/">
-              <Typography color="inherit" variant="h4">
-                {process.env.REACT_APP_NAME}
-              </Typography>
-            </Link>
-          </Router>
+          <Link to="/">
+            <Typography color="inherit" variant="h4">
+              {process.env.REACT_APP_NAME}
+            </Typography>
+          </Link>
         </Box>
 
         <IconButton
