@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Formik, Field, Form, useField, FieldAttributes, FieldArray } from 'formik'
 import {
     makeStyles,
@@ -17,6 +17,8 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import * as yup from "yup";
+import PatientContext from '../../../context/patient/PatientContext';
+
 
 const useStyles = makeStyles(theme => ({
     layout: {
@@ -86,10 +88,16 @@ const validationSchema = yup.object({
     )
 })
 
-const PatientForm = ({ signedIn = false }) => {
+const PatientForm = ({ signedIn = false, contract }) => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
     const handleDateChange = (date) => setSelectedDate(date);
+    const patientContext = useContext(PatientContext);
+
+    // const onSubmit = (data) => {
+    //     fullName = data.firstName + data.lastName;
+    //     patientContext.addPatient(contract, data.aadhar, fullName, data.dob, data.weight, data.sex, data.notes.name);
+    // }
 
     if (!signedIn) return <Redirect to='/not-found' />
 
@@ -104,7 +112,7 @@ const PatientForm = ({ signedIn = false }) => {
                         validationSchema={validationSchema}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
-                            //^ then, make an async call
+                            //onSubmit(data);
                             console.log("submit: ", data)
                             setSubmitting(false);
                             //may want to reset form here
