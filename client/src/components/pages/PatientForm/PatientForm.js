@@ -112,33 +112,33 @@ const PatientForm = ({ signedIn = false }) => {
                         {({ values, errors, isSubmitting }) => (
                             <Form>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={12}>
+                                    <Grid id="aadhar" item xs={12}>
                                         <MyTextField placeholder='Aadhar' name='aadhar' type='input' as={TextField} />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid id="first-name" item xs={12} sm={6}>
                                         <Field placeholder='First name' name='firstName' type='input' fullWidth as={TextField} />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid id="last-name" item xs={12} sm={6}>
                                         <Field placeholder='Last name' name='lastName' type='input' fullWidth as={TextField} />
                                     </Grid>
-                                    <Grid item xs={12} md={4}>
+                                    <Grid id="sex" item xs={12} md={4}>
                                         <FormLabel fullWidth>Sex</FormLabel>
                                         <FormGroup row='true'>
                                             <SexRadio name="sex" type="radio" value="male" label="male" />
                                             <SexRadio name="sex" type="radio" value="female" label="female" />
                                         </FormGroup>
                                     </Grid>
-                                    <Grid item xs={12} md={4}>
+                                    <Grid id="weight" item xs={12} md={4}>
                                         <Field name='weight' margin="normal" label="Weight" type="number"
                                             InputProps={{ startAdornment: <InputAdornment position="start">Kg</InputAdornment> }}
                                             InputLabelProps={{ shrink: true }}
                                             as={TextField}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={4}>
+                                    <Grid id="date-of-birth" item xs={12} md={4}>
                                         <Field name="dob" margin="normal" label="Birthday" type="date" defaultValue="2000-01-01" InputLabelProps={{ shrink: true }} as={TextField} />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid id="notes" item xs={12}>
                                         <FieldArray name="notes">
                                             {arrayHelpers => (
                                                 <div>
@@ -171,7 +171,7 @@ const PatientForm = ({ signedIn = false }) => {
                                         </FieldArray>
                                     </Grid>
                                     <>
-                                        <Button className={classes.button} disabled={isSubmitting} type="submit" variant="contained">Submit</Button>
+                                        <Button id="submit-button" className={classes.button} disabled={isSubmitting} type="submit" variant="contained">Submit</Button>
                                     </>
                                 </Grid>
                                 <pre>{JSON.stringify(values, null, 2)}</pre>
