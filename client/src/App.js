@@ -11,7 +11,6 @@ import Loading from './components/layout/Loading';
 import Landing from './components/pages/Landing';
 import Profile from './components/pages/Profile';
 import PatientForm from './components/pages/PatientForm';
-import About from './components/pages/About';
 import NotFound from './components/pages/NotFound';
 
 //* Context
@@ -88,7 +87,6 @@ function App() {
               <Route exact path="/" render={(props) => <Landing {...props} signedIn={signedIn} contract={null} />} />
               <Route exact path="/patient-form" render={(props) => <PatientForm {...props} signedIn={signedIn} />} />
               <Route exact path="/profile/:id" render={(props) => <Profile {...props} signedIn={signedIn} />} />
-              <Route exact path="/about" render={(props) => <About {...props} signedIn={signedIn} />} />
               <Route component={NotFound} />
               <Redirect to="/not-found" />
             </Switch>

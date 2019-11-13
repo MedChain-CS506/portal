@@ -7,7 +7,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles({
   root: {
@@ -28,9 +29,9 @@ const Navbar = () => {
             </Typography>
           </Link>
         </Box>
-        <Button color="inherit">
-          <Link to='/about'>About</Link>
-        </Button>
+        <IconButton color="secondary" href="https://github.com/MedChain-CS506" rel="noopener noreferrer" target="_blank">
+          <GitHubIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
   )

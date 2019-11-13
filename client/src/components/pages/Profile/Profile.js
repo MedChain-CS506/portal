@@ -58,8 +58,8 @@ const Profile = ({ signedIn = false }) => {
   //! test variables
   const firstName = "Satoshi"
   const lastName = "Nakamoto"
-  const aadhar = "000011112222"
-  const dob = 1 / 1 / 2000
+  const aadhar = "0000 1111 2222"
+  const dob = "January 1st, 2000"
   const sex = 'Male'
   const weight = 100
 

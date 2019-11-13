@@ -8,7 +8,7 @@
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
     "date-fns": "latest",
-    "formik": "^2.0.3",
+    "formik": "^2.0.4",
     "lodash": "latest",
     "moment": "latest",
     "prop-types": "latest",
