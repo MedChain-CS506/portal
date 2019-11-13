@@ -9,7 +9,7 @@ it('renders without crashing', () => {
 
   ReactDOM.render(
     (
-      <Profile />
+      <Profile signedIn={true}/>
     ),
     div
   );

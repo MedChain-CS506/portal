@@ -7,6 +7,7 @@
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
+    "cypress": "^3.6.1",
     "date-fns": "latest",
     "formik": "^2.0.4",
     "lodash": "latest",

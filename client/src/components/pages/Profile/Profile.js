@@ -75,34 +75,34 @@ const Profile = ({ signedIn = false }) => {
             <Divider className={classes.divider} />
 
             <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <Typography variant="h5">Aadhaar - {aadhar}</Typography>
+              <Grid id="aadhar" item xs={12}>
+                <Typography variant="h5">Aadhar - {aadhar}</Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid id="date-of-birth" item xs={12}>
                 <Typography variant="h5">Date of Birth - {dob}</Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid id="sex" item xs={12}>
                 <Typography variant="h5">Sex - {sex}</Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid id="weight" item xs={12}>
                 <Typography variant="h5">Weight - {weight}</Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid id="known-allergies" item xs={12}>
                 <Typography variant="h5">Known Allergies</Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid id="known-diseases" item xs={12}>
                 <Typography variant="h5">Known Diseases</Typography>
               </Grid>
             </Grid>
           </Paper>
 
-          <Grid item xs={12} sm={6}>
+          <Grid id="prescriptions" item xs={12} sm={6}>
             <Paper className={classes.prescriptionsAndFiles}>
               <Typography variant="h4">Prescriptions</Typography>
             </Paper>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid id="medical-files" item xs={12} sm={6}>
             <Paper className={classes.prescriptionsAndFiles}>
               <Typography variant="h4">Medical Files</Typography>
             </Paper>

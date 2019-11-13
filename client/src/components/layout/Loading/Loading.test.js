@@ -2,14 +2,14 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 
-import Navbar from './Navbar';
+import Loading from './Loading';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
 
   ReactDOM.render(
     (
-      <Navbar signedIn={true}/>
+      <Loading />
     ),
     div
   );
