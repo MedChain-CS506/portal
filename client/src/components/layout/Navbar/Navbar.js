@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <AppBar className={classes.root} position="static">
       <Toolbar variant="regular">
-        <Box flexGrow={1}>
+        <Box id="title-link" flexGrow={1}>
           <Link to="/">
             <Typography color="inherit" variant="h4">
               {process.env.REACT_APP_NAME}
@@ -41,11 +41,11 @@ const Navbar = () => {
           </Link>
         </Box>
 
-        <IconButton color="secondary" onClick={() => toggleTheme()}>
+        <IconButton id="theme-toggle" color="secondary" onClick={() => toggleTheme()}>
           {theme.palette.type === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>
 
-        <IconButton color="secondary" href="https://github.com/MedChain-CS506" rel="noopener noreferrer" target="_blank">
+        <IconButton id="git-hub-link" color="secondary" href="https://github.com/MedChain-CS506" rel="noopener noreferrer" target="_blank">
           <GitHubIcon />
         </IconButton>
       </Toolbar>
