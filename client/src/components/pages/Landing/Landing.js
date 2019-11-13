@@ -49,8 +49,7 @@ const Landing = ({ signedIn = false, contract }) => {
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
-        {/* <Search contract={contract} /> */}
-        <Search />
+        <Search contract={contract} />
       </>
     );
   }

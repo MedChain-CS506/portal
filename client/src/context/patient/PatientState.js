@@ -13,8 +13,10 @@ const PatientState = props => {
     const [state, dispatch] = useReducer(PatientReducer, initialState);
 
     const getPatient = async (contract, aadhaar) => {
+        console.log(contract);
 
         async function temp(contract, aadhaar) {
+            console.log(contract);
             let paitent_page_data = {};
             try {
                 await contract.contract.methods.lookup_patient(aadhaar).call().then(function (res) {
