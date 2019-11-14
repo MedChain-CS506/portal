@@ -6,6 +6,7 @@ contract med_chain {
     uint internal current_pres_id = 1;
     address internal oracle;
     enum auth {
+        no_one,
         doc,
         phar,
         admin,
@@ -162,7 +163,16 @@ contract med_chain {
         patient_aadhaar_mapping[aadhaar].sex = sex;
         patient_aadhaar_mapping[aadhaar].allergies = allergies;
         patient_aadhaar_mapping[aadhaar].exists = true;
+    }
 
+    function is_doctor_or_pharmacist() view public returns (uint) {
+        if (doctor_auth[msg.sender] == auth.doc) {
+            return 0;
+        }
+        if (pharmacy_auth[msg.sender] == auth.phar) {
+            return 1;
+        }
+        return 2;
     }
 
     function edit_patient(uint aadhaar, string calldata name, uint weight, string calldata sex, string calldata allergies) external {
