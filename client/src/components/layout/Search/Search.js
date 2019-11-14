@@ -49,6 +49,7 @@ const Search = () => {
             className={classes.input}
             fullWidth
             placeholder="Search by Aadhar..."
+            autoFocus
             value={text}
             onChange={e => setText(e.target.value)}
           />
