@@ -1,1 +1,1 @@
-export { default } from './PatientForm'
+export { default } from './PatientForm';

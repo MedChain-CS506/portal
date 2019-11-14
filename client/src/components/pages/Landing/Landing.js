@@ -2,14 +2,13 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import Search from '../../layout/Search';
-
 import PropTypes from 'prop-types';
 
 import { makeStyles, Fab, Typography } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Search from '../../layout/Search';
 
 const useStyles = makeStyles(theme => ({
   center: {
@@ -31,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   patientFormIcon: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-  }
+  },
 }));
 
 const Landing = ({ signedIn = false }) => {
@@ -49,7 +48,7 @@ const Landing = ({ signedIn = false }) => {
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
-        <Search/>
+        <Search />
       </>
     );
   }

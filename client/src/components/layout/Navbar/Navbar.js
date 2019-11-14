@@ -1,40 +1,40 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Link, BrowserRouter as Router } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
   Toolbar,
   Typography,
   Box,
-  IconButton
-} from "@material-ui/core";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import Brightness4Icon from "@material-ui/icons/Brightness4";
-import Brightness7Icon from "@material-ui/icons/Brightness7";
-import theme from "../../../utils/theme";
+  IconButton,
+} from '@material-ui/core';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import theme from '../../../utils/theme';
 
 const useStyles = makeStyles({
   root: {
-    background: "linear-gradient(45deg, #F00000 30%, #DC281E 90%)"
-  }
+    background: 'linear-gradient(45deg, #F00000 30%, #DC281E 90%)',
+  },
 });
 
 const Navbar = () => {
   const classes = useStyles();
 
-  const [theme, setTheme] = useState({ palette: { type: "dark" } });
+  // const [theme, setTheme] = useState({ palette: { type: 'dark' } });
 
-  const toggleTheme = () => {
-    const newPaletteType = theme.palette.type === "light" ? "dark" : "light";
-    setTheme({ palette: { type: newPaletteType } });
+  // const toggleTheme = () => {
+  //   const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
+  //   setTheme({ palette: { type: newPaletteType } });
 
-    // theme.changeTheme(type)
-    // theme.changeTheme({ type: type })
+  //   // theme.changeTheme(type)
+  //   // theme.changeTheme({ type: type })
 
-    console.log(theme);
-  };
+  //   console.log(theme);
+  // };
 
   return (
     <AppBar className={classes.root} position="static">
@@ -50,13 +50,13 @@ const Navbar = () => {
         <IconButton
           id="theme-toggle"
           color="secondary"
-          onClick={() => toggleTheme()}
+          // onClick={() => toggleTheme()}
         >
-          {theme.palette.type === "light" ? (
+          {theme.palette.type === 'light' ? (
             <Brightness4Icon />
           ) : (
-              <Brightness7Icon />
-            )}
+            <Brightness7Icon />
+          )}
         </IconButton>
 
         <IconButton

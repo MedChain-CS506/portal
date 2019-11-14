@@ -1,11 +1,12 @@
-import React, { useContext } from 'react'
-import { Formik, Field, Form, useField, FieldArray } from 'formik'
+/* eslint-disable */
+import React, { useContext } from 'react';
+import { Formik, Field, Form, useField, FieldArray } from 'formik';
 import {
     makeStyles, Paper, Divider, Grid, Typography, FormLabel, TextField,
     Button, Radio, FormControlLabel, Select, MenuItem, InputAdornment, FormGroup
-} from '@material-ui/core'
+} from '@material-ui/core';
 
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 
 import 'date-fns';
 import * as yup from "yup";
