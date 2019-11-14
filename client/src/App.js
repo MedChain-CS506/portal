@@ -24,8 +24,8 @@ import MedChainContract from './contracts/med_chain.json';
 import './index.css'
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
+  const [ready, setReady] = useState(true);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
@@ -84,9 +84,8 @@ function App() {
           <div className='container'>
             <Switch>
               <Route exact path="/" render={(props) => <Landing {...props} signedIn={signedIn} contract={contract} />} />
-              {/* <Route exact path="/" render={(props) => <Landing {...props} signedIn={signedIn} contract={contract} />} /> */}
               <Route exact path="/patient-form" render={(props) => <PatientForm {...props} signedIn={signedIn} contract={contract} />} />
-              <Route exact path="/profile/:id" render={(props) => <Profile {...props} signedIn={signedIn} contract={contract}/>} />
+              <Route exact path="/profile/:id" render={(props) => <Profile {...props} signedIn={signedIn} contract={contract} />} />
               <Route component={NotFound} />
               <Redirect to="/not-found" />
             </Switch>
