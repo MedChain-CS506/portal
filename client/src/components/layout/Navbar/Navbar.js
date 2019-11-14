@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Navbar = ({ theme, handleToggleTheme }) => {
+const Navbar = ({ handleToggleTheme }) => {
   const classes = useStyles();
 
   return (
