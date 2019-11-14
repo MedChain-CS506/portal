@@ -52,20 +52,12 @@ const Profile = ({ signedIn = false, contract, match }) => {
     dob: "",
     weight: 0,
     allergies: "",
-    last_pres_id: 0,
-    last_pres_medicine: "",
-    last_pres_doc_id: 0,
-    last_pres_symptoms: "",
-    last_pres_timestamp: "",
   });
 
   useEffect(() => {
-    console.log(match);
-
     let asyncCallToGetPatient =  async () => {
       let data = await patientContext.getPatient(contract, match.params.id);
       setPatientData(data);
-      console.log(data);
     };
     asyncCallToGetPatient();
   }, [patientData])

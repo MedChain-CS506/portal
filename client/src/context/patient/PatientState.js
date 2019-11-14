@@ -22,29 +22,32 @@ const PatientState = props => {
                 paitent_page_data.dob = "";
                 paitent_page_data.weight = 0;
                 paitent_page_data.allergies = "";
-                console.log(error);
-            }
-            try {
-                await contract.contract.methods.doctor_last_prescription(aadhaar).call().then(function (res) {
-                    paitent_page_data.last_pres_id = res[0];
-                    paitent_page_data.last_pres_medicine = res[1];
-                    paitent_page_data.last_pres_doc_id = res[2];
-                    paitent_page_data.last_pres_symptoms = res[3];
-                    paitent_page_data.last_pres_timestamp = res[4];
-                });
-            } catch (error) {
-                paitent_page_data.last_pres_id = 0;
-                paitent_page_data.last_pres_medicine = "";
-                paitent_page_data.last_pres_doc_id = 0;
-                paitent_page_data.last_pres_symptoms = "";
-                paitent_page_data.last_pres_timestamp = "";
-                console.log(error);
             }
             return paitent_page_data;
         }
         const res = await temp(contract, aadhaar);
         return res;
     };
+
+    const lastPrescription = async (contract, aadhaar) => {
+        let paitent_page_data = {};
+        try {
+            await contract.contract.methods.doctor_last_prescription(aadhaar).call().then(function (res) {
+                paitent_page_data.last_pres_id = res[0];
+                paitent_page_data.last_pres_medicine = res[1];
+                paitent_page_data.last_pres_doc_id = res[2];
+                paitent_page_data.last_pres_symptoms = res[3];
+                paitent_page_data.last_pres_timestamp = res[4];
+            });
+        } catch (error) {
+            paitent_page_data.last_pres_id = 0;
+            paitent_page_data.last_pres_medicine = "";
+            paitent_page_data.last_pres_doc_id = 0;
+            paitent_page_data.last_pres_symptoms = "";
+            paitent_page_data.last_pres_timestamp = "";
+        }
+        return paitent_page_data;
+    }
 
     const getPatientRecords = async (contract, aadhaar) => {
         async function medical_history(contract, aadhaar) {
@@ -98,7 +101,7 @@ const PatientState = props => {
     }
 
     return (
-        <PatientContext.Provider value={{ getPatient, getPatientRecords, addPatient, addPrescription }}>
+        <PatientContext.Provider value={{ getPatient, getPatientRecords, addPatient, addPrescription, lastPrescription }}>
             {props.children}
         </PatientContext.Provider>
     );
