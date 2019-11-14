@@ -65,6 +65,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
     let asyncCallToGetPatient =  async () => {
       let data = await patientContext.getPatient(contract, match.params.id);
       setPatientData(data);
+      console.log(data);
     };
     asyncCallToGetPatient();
   }, [patientData])
