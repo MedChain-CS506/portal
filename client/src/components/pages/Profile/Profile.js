@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PatientContext from '../../../context/patient/PatientContext';
 
 //* MUI
@@ -41,27 +41,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Profile = ({ signedIn = false }) => {
+const Profile = ({ signedIn = false, contract, match }) => {
   const classes = useStyles();
 
   const patientContext = useContext(PatientContext)
-
-  //! Now, pull out (destructure) the variables and functions we'd like to use for profile
-  // const { patient, getPatient, records, getRecords, prescriptions, getPrescriptions } = patientContext
+  const [patientData, setPatientData] = useState({
+    aadhaar: 0,
+    name: "",
+    sex: "",
+    dob: "",
+    weight: 0,
+    allergies: "",
+    last_pres_id: 0,
+    last_pres_medicine: "",
+    last_pres_doc_id: 0,
+    last_pres_symptoms: "",
+    last_pres_timestamp: "",
+  });
 
   useEffect(() => {
-    //getPatient()
-  }, [])
+    console.log(match);
 
-  // const { aadhar, firstName, lastName, dob, sex, weight } = patient
+    let asyncCallToGetPatient =  async () => {
+      let data = await patientContext.getPatient(contract, match.params.id);
+      setPatientData(data);
+    };
+    asyncCallToGetPatient();
+  }, [patientData])
 
-  //! test variables
-  const firstName = "Satoshi"
-  const lastName = "Nakamoto"
-  const aadhar = "0000 1111 2222"
-  const dob = "January 1st, 2000"
-  const sex = 'Male'
-  const weight = 100
 
   if (!signedIn) return <Redirect to='/not-found' />
 
@@ -70,25 +77,25 @@ const Profile = ({ signedIn = false }) => {
       <main className={classes.layout}>
         <Grid container spacing={1} alignItems="center" justify="center">
           <Paper className={classes.basicInfo}>
-            <Typography variant="h3" align='center' gutterBottom>{firstName} {lastName}</Typography>
+            <Typography variant="h3" align='center' gutterBottom>{patientData.name}</Typography>
 
             <Divider className={classes.divider} />
 
             <Grid container spacing={4}>
               <Grid id="aadhar" item xs={12}>
-                <Typography variant="h5">Aadhar - {aadhar}</Typography>
+                <Typography variant="h5">Aadhar - {patientData.aadhaar}</Typography>
               </Grid>
               <Grid id="date-of-birth" item xs={12}>
-                <Typography variant="h5">Date of Birth - {dob}</Typography>
+                <Typography variant="h5">Date of Birth - {patientData.dob}</Typography>
               </Grid>
               <Grid id="sex" item xs={12}>
-                <Typography variant="h5">Sex - {sex}</Typography>
+                <Typography variant="h5">Sex - {patientData.sex}</Typography>
               </Grid>
               <Grid id="weight" item xs={12}>
-                <Typography variant="h5">Weight - {weight}</Typography>
+                <Typography variant="h5">Weight - {patientData.weight}</Typography>
               </Grid>
               <Grid id="known-allergies" item xs={12}>
-                <Typography variant="h5">Known Allergies</Typography>
+                <Typography variant="h5">Known Allergies - {patientData.allergies}</Typography>
               </Grid>
               <Grid id="known-diseases" item xs={12}>
                 <Typography variant="h5">Known Diseases</Typography>

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import { makeStyles, Paper, InputBase, Button } from '@material-ui/core';
-
+import { Redirect } from 'react-router-dom';
 import PatientContext from '../../../context/patient/PatientContext'
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Search = ({ contract }) => {
+const Search = () => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
@@ -32,8 +32,9 @@ const Search = ({ contract }) => {
       return console.log('Please enter something') //TODO: Should be visible to user
     } else {
       console.log(text)
-      patientContext.getPatient(contract, text)
-      setText('')
+      // patientContext.getPatient(contract, text)
+      setText('');
+      return <Redirect to="/patient-form"/>
     }
   }
 

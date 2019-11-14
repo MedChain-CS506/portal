@@ -95,7 +95,7 @@ const PatientForm = ({ signedIn = false, contract }) => {
     const patientContext = useContext(PatientContext);
 
     const onSubmit = (data) => {
-        let fullName = data.firstName + data.lastName;
+        let fullName = data.firstName + " " + data.lastName;
         patientContext.addPatient(contract, data.aadhar, fullName, data.dob, data.weight, data.sex, "a");
     }
 

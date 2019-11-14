@@ -3,10 +3,8 @@ import PatientContext from './PatientContext';
 
 const PatientState = props => {
     const getPatient = async (contract, aadhaar) => {
-        console.log(contract);
 
         async function temp(contract, aadhaar) {
-            console.log(contract);
             let paitent_page_data = {};
             try {
                 await contract.contract.methods.lookup_patient(aadhaar).call().then(function (res) {
@@ -45,7 +43,7 @@ const PatientState = props => {
             return paitent_page_data;
         }
         const res = await temp(contract, aadhaar);
-        console.log(res);
+        return res;
     };
 
     const getPatientRecords = async (contract, aadhaar) => {
@@ -80,7 +78,7 @@ const PatientState = props => {
             }
         }
         const response = await medical_history(contract, aadhaar);
-        console.log(response);
+        return response;
     };
 
     const addPatient = async (contract, aadhaar, name, dob, weight, sex, allergies) => {
