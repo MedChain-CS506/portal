@@ -1,21 +1,13 @@
-import React, { useState, useContext } from 'react'
-import { Formik, Field, Form, useField, FieldAttributes, FieldArray } from 'formik'
+import React, { useContext } from 'react'
+import { Formik, Field, Form, useField, FieldArray } from 'formik'
 import {
-    makeStyles,
-    Paper, Divider, Grid,
-    Typography, FormLabel,
-    TextField, Button, Radio,
-    FormControlLabel,
-    Select, MenuItem,
-    InputAdornment,
-    FormGroup
+    makeStyles, Paper, Divider, Grid, Typography, FormLabel, TextField,
+    Button, Radio, FormControlLabel, Select, MenuItem, InputAdornment, FormGroup
 } from '@material-ui/core'
 
 import { Redirect } from 'react-router-dom'
 
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
 import * as yup from "yup";
 import PatientContext from '../../../context/patient/PatientContext';
 
@@ -62,10 +54,9 @@ const MyTextField = ({ placeholder, ...props }) => {
 }
 
 const SexRadio = ({ label, ...props }) => {
-    const [field] = useField(props); //props could be the name we want associated. clicking cmd + useField will tell us what props expects, either fieldattributes or a string
+    const [field] = useField(props)
     return (
         <FormControlLabel {...field} control={< Radio color="primary" />} label={label} labelPlacement="bottom" />
-        // ^{...field} formik handles all functions need to update fields
     )
 }
 
@@ -90,15 +81,12 @@ const validationSchema = yup.object({
 
 const PatientForm = ({ signedIn = false, contract }) => {
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
-    const handleDateChange = (date) => setSelectedDate(date);
     const patientContext = useContext(PatientContext);
 
     const onSubmit = (data) => {
         let fullName = data.firstName + " " + data.lastName;
         patientContext.addPatient(contract, data.aadhar, fullName, data.dob, data.weight, data.sex, "a");
     }
-
 
     if (!signedIn) return <Redirect to='/not-found' />
 
@@ -113,7 +101,7 @@ const PatientForm = ({ signedIn = false, contract }) => {
                         validationSchema={validationSchema}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
-                            
+
                             console.log("submit: ", data);
                             onSubmit(data);
                             setSubmitting(false);

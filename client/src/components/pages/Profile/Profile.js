@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
+
 import PatientContext from '../../../context/patient/PatientContext';
 
-//* MUI
 import { makeStyles, Grid, Paper, Typography, Divider } from '@material-ui/core/';
 
 import { Redirect } from 'react-router-dom'
@@ -55,7 +55,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
   });
 
   useEffect(() => {
-    let asyncCallToGetPatient =  async () => {
+    let asyncCallToGetPatient = async () => {
       let data = await patientContext.getPatient(contract, match.params.id);
       setPatientData(data);
     };
@@ -91,7 +91,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
                 <Typography variant="h5">Known Allergies - {patientData.allergies}</Typography>
               </Grid>
               <Grid id="known-diseases" item xs={12}>
-                <Typography variant="h5">Known Diseases</Typography>
+                <Typography variant="h5">Known Diseases - </Typography>
               </Grid>
             </Grid>
           </Paper>
@@ -110,7 +110,6 @@ const Profile = ({ signedIn = false, contract, match }) => {
         </Grid>
       </main>
     </>
-
   );
 };
 

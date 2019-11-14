@@ -2,7 +2,6 @@ import React from "react";
 
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
-//* MUI
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
