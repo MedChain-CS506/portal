@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Landing = ({ signedIn = false, contract }) => {
+const Landing = ({ signedIn = false }) => {
   const classes = useStyles();
 
   if (signedIn) {
@@ -49,7 +49,7 @@ const Landing = ({ signedIn = false, contract }) => {
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
-        <Search contract={contract} />
+        <Search/>
       </>
     );
   }
