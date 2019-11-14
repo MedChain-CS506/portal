@@ -1,10 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-// theme.changeTheme = (type) => {
-//   console.log(type)
-// }
-
-// A custom theme for this app
 export const theme = createMuiTheme({
   palette: {
     primary: {
@@ -15,6 +10,11 @@ export const theme = createMuiTheme({
     secondary: {
       main: '#FFFFFF',
     },
-    type: 'dark',
+    type: 'light',
   },
 });
+
+export const changeTheme = newPaletteType => {
+  theme.palette.type = newPaletteType;
+  console.log(newPaletteType);
+};
