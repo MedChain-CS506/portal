@@ -32,14 +32,27 @@ import MedChainContract from './contracts/med_chain.json';
 //* Styles
 import './index.css';
 
+async function docCheck(contract) {
+  let result = 10;
+  await contract.contract.methods.is_doctor_or_pharmacist().call({
+    from: contract.accounts[0]
+  }).then((res) => {
+    result = res;
+    console.log(res);
+  })
+  return result;
+}
+
 function App() {
-  const [signedIn, setSignedIn] = useState(true);
-  const [ready, setReady] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
+  const [ready, setReady] = useState(false);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
     contract: null,
   });
+  const [isDoc, setIsDoc] = useState(false);
+  const [isPharmacist, setIsPharmacist] = useState(false);
 
   useEffect(() => {
     async function connectMetamask() {
@@ -57,6 +70,7 @@ function App() {
           web3: web3,
           contract: instance
         };
+        console.log(accounts);
         setContract(data);
         setSignedIn(true);
         setReady(true);
@@ -69,6 +83,14 @@ function App() {
     }
 
     connectMetamask().then((data) => {
+      docCheck(data).then((res) => {
+        console.log("res: " + res);
+        if(res == 0){
+          setIsDoc(true);
+        } else if (res == 1) {
+          setIsPharmacist(true);
+        } 
+      })
       setInterval(async () => {
         const rn = await data.web3.eth.getAccounts();
         if (rn[0] !== data.accounts[0]) {
@@ -78,7 +100,7 @@ function App() {
         }
       }, 100)
     });
-  }, [signedIn]);
+  }, [signedIn, isDoc, isPharmacist]);
 
   const toggleTheme = () => {
     const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
@@ -86,8 +108,14 @@ function App() {
     //changeTheme = newPaletteType;
   };
 
+  const log = () => {
+    console.log("isDoc:" +  isDoc);
+    console.log("isPhar:" +  isPharmacist);
+  }
+
   return (
     <PatientState>
+      { log() }
       <ThemeProvider theme={theme}>
       {ready ? (
         <Router>
