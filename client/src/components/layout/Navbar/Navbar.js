@@ -37,7 +37,7 @@ const Navbar = ({ theme, handleToggleTheme }) => {
 
         <IconButton
           id="theme-toggle"
-          color="secondary"
+          color="inherit"
           onClick={handleToggleTheme}
         >
           {theme.palette.type === 'light' ? (
@@ -49,7 +49,7 @@ const Navbar = ({ theme, handleToggleTheme }) => {
 
         <IconButton
           id="git-hub-link"
-          color="secondary"
+          color="inherit"
           href="https://github.com/MedChain-CS506"
           rel="noopener noreferrer"
           target="_blank"

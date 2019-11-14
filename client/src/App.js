@@ -9,7 +9,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { theme, changeTheme } from './utils/theme';
 
 //* Components
@@ -31,6 +31,7 @@ import MedChainContract from './contracts/med_chain.json';
 
 //* Styles
 import './index.css';
+import { CssBaseline } from '@material-ui/core';
 
 async function docCheck(contract) {
   let result = 10;
@@ -44,8 +45,8 @@ async function docCheck(contract) {
 }
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
+  const [ready, setReady] = useState(true);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
@@ -53,6 +54,22 @@ function App() {
   });
   const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
+
+  const [testTheme, setTestTheme] = useState({
+    palette: {
+      primary: {
+        main: '#FF0000',
+        light: '#E7F6E7',
+        contrastText: '#FFFFFF',
+      },
+      secondary: {
+        main: '#FFFFFF',
+      },
+      type: 'dark',
+    }
+  })
+
+  const muiTheme = createMuiTheme(testTheme);
 
   useEffect(() => {
     async function connectMetamask() {
@@ -107,18 +124,27 @@ function App() {
     console.log("isPhar:" +  isPharmacist);
   }
 
+  // const toggleTheme = () => {
+  //   const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
+  //   changeTheme(newPaletteType);
+  // };
+
   const toggleTheme = () => {
-    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-    changeTheme(newPaletteType);
+    let newPaletteType = testTheme.palette.type === "light" ? "dark" : "light";
+    setTestTheme({
+      palette: {
+        type: newPaletteType
+      }
+    });
   };
 
   return (
     <PatientState>
-      { log() }
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={muiTheme}>
+      <CssBaseline />
       {ready ? (
         <Router>
-          <Navbar theme={theme} handleToggleTheme={() => toggleTheme()} />
+          <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
           <div className="container">
             <Switch>
               <Route
