@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { ThemeProvider } from '@material-ui/core/styles';
-import theme from './utils/theme';
+import { theme } from './utils/theme';
 
 //* Components
 import Navbar from './components/layout/Navbar';
@@ -26,8 +26,8 @@ import NotFound from './components/pages/NotFound';
 import PatientState from './context/patient/PatientState';
 
 //* Blockchain
-import getWeb3 from './utils/getWeb3.js';
-import MedChainContract from './contracts/med_chain.json';
+// import getWeb3 from './utils/getWeb3.js';
+// import MedChainContract from './contracts/med_chain.json';
 
 //* Styles
 import './index.css';
@@ -41,44 +41,44 @@ function App() {
     contract: null,
   });
 
-  useEffect(() => {
-    async function connectMetamask() {
-      try {
-        const web3 = await getWeb3();
-        const accounts = await web3.eth.getAccounts();
-        const networkId = await web3.eth.net.getId();
-        const deployedNetwork = MedChainContract.networks[networkId];
-        const instance = new web3.eth.Contract(
-          MedChainContract.abi,
-          deployedNetwork && deployedNetwork.address
-        );
-        let data = {
-          accounts: accounts,
-          web3: web3,
-          contract: instance
-        };
-        setContract(data);
-        setSignedIn(true);
-        setReady(true);
-        return data;
-      } catch (error) {
-        setSignedIn(false);
-        setReady(false);
-        console.error(error);
-      }
-    }
+  // useEffect(() => {
+  //   async function connectMetamask() {
+  //     try {
+  //       const web3 = await getWeb3();
+  //       const accounts = await web3.eth.getAccounts();
+  //       const networkId = await web3.eth.net.getId();
+  //       const deployedNetwork = MedChainContract.networks[networkId];
+  //       const instance = new web3.eth.Contract(
+  //         MedChainContract.abi,
+  //         deployedNetwork && deployedNetwork.address
+  //       );
+  //       let data = {
+  //         accounts: accounts,
+  //         web3: web3,
+  //         contract: instance
+  //       };
+  //       setContract(data);
+  //       setSignedIn(true);
+  //       setReady(true);
+  //       return data;
+  //     } catch (error) {
+  //       setSignedIn(false);
+  //       setReady(false);
+  //       console.error(error);
+  //     }
+  //   }
 
-    connectMetamask().then((data) => {
-      setInterval(async () => {
-        const rn = await data.web3.eth.getAccounts();
-        if (rn[0] !== data.accounts[0]) {
-          setSignedIn(false);
-        } else if (rn[0] === data.accounts[0]) {
-          setSignedIn(true);
-        }
-      }, 100)
-    });
-  }, [signedIn]);
+  //   connectMetamask().then((data) => {
+  //     setInterval(async () => {
+  //       const rn = await data.web3.eth.getAccounts();
+  //       if (rn[0] !== data.accounts[0]) {
+  //         setSignedIn(false);
+  //       } else if (rn[0] === data.accounts[0]) {
+  //         setSignedIn(true);
+  //       }
+  //     }, 100)
+  //   });
+  // }, [signedIn]);
 
   const toggleTheme = () => {
     const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
@@ -91,7 +91,7 @@ function App() {
       <ThemeProvider theme={theme}>
       {ready ? (
         <Router>
-          <Navbar handleToggleTheme={() => toggleTheme()} />
+          <Navbar theme={theme} handleToggleTheme={() => toggleTheme()} />
           <div className="container">
             <Switch>
               <Route

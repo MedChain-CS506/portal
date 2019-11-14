@@ -14,7 +14,6 @@ import {
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
-import theme from '../../../utils/theme';
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Navbar = ({ handleToggleTheme }) => {
+const Navbar = ({ theme, handleToggleTheme }) => {
   const classes = useStyles();
 
   return (
