@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 
 //* React Router
@@ -7,6 +8,9 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './utils/theme';
 
 //* Components
 import Navbar from './components/layout/Navbar';
@@ -76,6 +80,12 @@ function App() {
   //   });
   // }, [signedIn]);
 
+  const toggleTheme = () => {
+    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
+    // console.log(newPaletteType)
+    changeTheme = newPaletteType;
+  };
+
   //! To explain this return...
   //! First, wrap our components with the provided PatientState (i.e. Model, which can be found in the context folder)
   //! Second, conditionally render with a ternary operator (i.e. condition ? expr1 : expr2 ), which states: if the
@@ -83,9 +93,10 @@ function App() {
   //! Otherwise, render expression 2, which is the just Loading component.
   return (
     <PatientState>
+      <ThemeProvider theme={theme}>
       {ready ? (
         <Router>
-          <Navbar />
+          <Navbar theme={theme} handleToggleTheme={() => toggleTheme()} />
           <div className="container">
             <Switch>
               <Route
@@ -119,6 +130,7 @@ function App() {
       ) : (
         <Loading />
       )}
+      </ThemeProvider>
     </PatientState>
   );
 }

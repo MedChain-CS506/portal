@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Navbar = () => {
+const Navbar = ({ theme, handleToggleTheme }) => {
   const classes = useStyles();
 
   // const [theme, setTheme] = useState({ palette: { type: 'dark' } });

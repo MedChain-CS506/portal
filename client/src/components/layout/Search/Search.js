@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useContext } from 'react';
 
 import { makeStyles, Paper, InputBase, Button } from '@material-ui/core';

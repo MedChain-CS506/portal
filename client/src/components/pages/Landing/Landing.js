@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
   patientFormIcon: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
+    backgroundColor: 'red',
+    color: 'white',
   },
 }));
 
@@ -40,11 +42,7 @@ const Landing = ({ signedIn = false }) => {
     return (
       <>
         <Link to="/patient-form">
-          <Fab
-            className={classes.patientFormIcon}
-            color="secondary"
-            variant="extended"
-          >
+          <Fab className={classes.patientFormIcon} variant="extended">
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
