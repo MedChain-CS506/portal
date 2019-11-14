@@ -82,8 +82,8 @@ function App() {
 
   const toggleTheme = () => {
     const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-    // console.log(newPaletteType)
-    changeTheme = newPaletteType;
+    console.log(newPaletteType)
+    //changeTheme = newPaletteType;
   };
 
   //! To explain this return...

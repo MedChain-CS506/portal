@@ -25,18 +25,6 @@ const useStyles = makeStyles({
 const Navbar = ({ theme, handleToggleTheme }) => {
   const classes = useStyles();
 
-  // const [theme, setTheme] = useState({ palette: { type: 'dark' } });
-
-  // const toggleTheme = () => {
-  //   const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-  //   setTheme({ palette: { type: newPaletteType } });
-
-  //   // theme.changeTheme(type)
-  //   // theme.changeTheme({ type: type })
-
-  //   console.log(theme);
-  // };
-
   return (
     <AppBar className={classes.root} position="static">
       <Toolbar variant="regular">
@@ -51,7 +39,7 @@ const Navbar = ({ theme, handleToggleTheme }) => {
         <IconButton
           id="theme-toggle"
           color="secondary"
-          // onClick={() => toggleTheme()}
+          onClick={handleToggleTheme}
         >
           {theme.palette.type === 'light' ? (
             <Brightness4Icon />
