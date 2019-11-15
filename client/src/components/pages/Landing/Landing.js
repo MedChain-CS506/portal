@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   patientFormIcon: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    backgroundColor: 'red',
+    background: 'red',
     color: 'white',
   },
 }));

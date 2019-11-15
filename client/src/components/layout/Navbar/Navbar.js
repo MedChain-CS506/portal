@@ -17,8 +17,11 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 
 const useStyles = makeStyles({
-  root: {
+  docNav: {
     background: 'linear-gradient(45deg, #F00000 30%, #DC281E 90%)',
+  },
+  pharmaNav: {
+    background: 'linear-gradient(45deg, #0575E6 30%, #021B79 90%)',
   },
 });
 
@@ -26,7 +29,7 @@ const Navbar = ({ theme, handleToggleTheme }) => {
   const classes = useStyles();
 
   return (
-    <AppBar className={classes.root} position="static">
+    <AppBar className={classes.docNav} position="static">
       <Toolbar variant="regular">
         <Box id="title-link" flexGrow={1}>
           <Link to="/">
