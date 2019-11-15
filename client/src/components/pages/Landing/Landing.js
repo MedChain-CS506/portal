@@ -42,7 +42,7 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
     return (
       <>
         <Link to="/patient-form">
-          <Fab className={classes.patientFormIcon} variant="extended">
+          <Fab data-testid="new-patient-button" className={classes.patientFormIcon} variant="extended">
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
@@ -61,10 +61,11 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
       <Typography color="textSecondary" variant="h3">
         {process.env.REACT_APP_NAME}
       </Typography>
-      <Typography color="textSecondary" variant="subtitle1">
+      <Typography data-testid="basic-desc" color="textSecondary" variant="subtitle1">
         The simplest decentralized medical-records application
       </Typography>
       <Fab
+        data-testid="github-link"
         className={classes.button}
         color="secondary"
         href="https://github.com/MedChain-CS506"

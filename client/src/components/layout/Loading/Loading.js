@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, CircularProgress } from '@material-ui/core/';
 
 const Loading = () => (
-  <Box position="absolute" top="50%" left="50%">
+  <Box data-testid="loading-box" position="absolute" top="50%" left="50%">
     <CircularProgress />
   </Box>
 );

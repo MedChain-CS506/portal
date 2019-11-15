@@ -27,14 +27,13 @@ const useStyles = makeStyles({
 
 const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
   const classes = useStyles();
-
   return (
     <AppBar
       className={isPharmacist ? classes.pharmaNav : classes.docNav}
       position="static"
     >
       <Toolbar variant="regular">
-        <Box id="title-link" flexGrow={1}>
+        <Box data-testid="title-link" flexGrow={1}>
           <Link to="/">
             <Typography color="inherit" variant="h4">
               {process.env.REACT_APP_NAME}
@@ -43,7 +42,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
         </Box>
 
         <IconButton
-          id="theme-toggle"
+          data-testid="theme-toggle"
           color="inherit"
           onClick={handleToggleTheme}
         >
@@ -55,7 +54,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
         </IconButton>
 
         <IconButton
-          id="git-hub-link"
+          data-testid="git-hub-link"
           color="inherit"
           href="https://github.com/MedChain-CS506"
           rel="noopener noreferrer"

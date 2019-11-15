@@ -7,6 +7,7 @@
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
+    "@testing-library/jest-dom": "^4.2.4",
     "cypress": "^3.6.1",
     "date-fns": "latest",
     "formik": "^2.0.4",
@@ -47,7 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/react": "^9.3.1",
+    "@testing-library/react": "^9.3.2",
     "babel-eslint": "^9.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
@@ -59,7 +60,6 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "jest-dom": "^4.0.0",
     "prettier": "^1.19.1",
     "react-test-render": "^1.1.2"
   }
