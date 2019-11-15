@@ -55,22 +55,6 @@ function App() {
   const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
-  const [testTheme, setTestTheme] = useState({
-    palette: {
-      primary: {
-        main: '#FF0000',
-        light: '#E7F6E7',
-        contrastText: '#FFFFFF',
-      },
-      secondary: {
-        main: '#FFFFFF',
-      },
-      type: 'dark',
-    }
-  })
-
-  const muiTheme = createMuiTheme(testTheme);
-
   useEffect(() => {
     async function connectMetamask() {
       try {
@@ -124,17 +108,28 @@ function App() {
     console.log("isPhar:" +  isPharmacist);
   }
 
-  // const toggleTheme = () => {
-  //   const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-  //   changeTheme(newPaletteType);
-  // };
+  const [theme, setTheme] = useState({
+    palette: {
+      primary: {
+        main: '#FF0000',
+        light: '#E7F6E7',
+        contrastText: '#FFFFFF',
+      },
+      secondary: {
+        main: '#FFFFFF',
+      },
+      type: 'light',
+    }
+  })
+
+  const muiTheme = createMuiTheme(theme);
 
   const toggleTheme = () => {
-    let newPaletteType = testTheme.palette.type === "light" ? "dark" : "light";
-    setTestTheme({
-      palette: {
-        type: newPaletteType
-      }
+    let newPaletteType = theme.palette.type === "light" ? "dark" : "light";
+    const newPalette = { ...theme.palette, type: newPaletteType };
+    setTheme({
+      ...theme,
+      palette: newPalette,
     });
   };
 
