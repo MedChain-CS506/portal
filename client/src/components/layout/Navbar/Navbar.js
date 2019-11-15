@@ -28,46 +28,11 @@ const useStyles = makeStyles({
 const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
   const classes = useStyles();
 
-  if (isPharmacist) {
-    return (
-      <AppBar className={classes.pharmaNav} position="static">
-        <Toolbar variant="regular">
-          <Box id="title-link" flexGrow={1}>
-            <Link to="/">
-              <Typography color="inherit" variant="h4">
-                {process.env.REACT_APP_NAME}
-              </Typography>
-            </Link>
-          </Box>
-
-          <IconButton
-            id="theme-toggle"
-            color="inherit"
-            onClick={handleToggleTheme}
-          >
-            {theme.palette.type === 'light' ? (
-              <Brightness4Icon />
-            ) : (
-              <Brightness7Icon />
-            )}
-          </IconButton>
-
-          <IconButton
-            id="git-hub-link"
-            color="inherit"
-            href="https://github.com/MedChain-CS506"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <GitHubIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    );
-  }
-
   return (
-    <AppBar className={classes.docNav} position="static">
+    <AppBar
+      className={isPharmacist ? classes.pharmaNav : classes.docNav}
+      position="static"
+    >
       <Toolbar variant="regular">
         <Box id="title-link" flexGrow={1}>
           <Link to="/">
@@ -106,6 +71,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
 Navbar.propTypes = {
   theme: PropTypes.object,
   handleToggleTheme: PropTypes.func.isRequired,
+  isPharmacist: PropTypes.bool,
 };
 
 export default Navbar;

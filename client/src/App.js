@@ -136,6 +136,7 @@ function App() {
 
   //! WHEN THE PERSON SIGNED IN IS A PHARMACIST!!!
   //! NOTE TO SELF... CAN WE DELETE {...PROPS}
+  //! Need a better way then this if statement...
   if (isPharmacist) {
     return (
       <PatientState>

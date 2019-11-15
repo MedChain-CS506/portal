@@ -19,14 +19,14 @@ const useStyles = makeStyles({
     color: 'white',
   },
 
-  pharmacistButton: {
+  pharmaButton: {
     background: 'linear-gradient(45deg, #0575E6 30%, #021B79 90%)',
     color: 'white',
   }
 
 });
 
-const Search = ({isPharmacist}) => {
+const Search = ({ isPharmacist }) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
@@ -42,36 +42,6 @@ const Search = ({isPharmacist}) => {
       setText('');
       return <Redirect to="/patient-form"/>
     }
-  }
-
-  if (isPharmacist) {
-    return (
-      <div>
-      <form onSubmit={onSubmit}>
-        <Paper className={classes.inputSeparator}>
-          <InputBase
-            type='text'
-            name='text'
-            className={classes.input}
-            fullWidth
-            placeholder="Search by Aadhar..."
-            autoFocus
-            value={text}
-            onChange={e => setText(e.target.value)}
-          />
-        </Paper>
-        <Paper>
-          <Button
-            className={classes.pharmacistButton}
-            fullWidth
-            type='submit'
-          >
-            Search
-          </Button>
-        </Paper>
-      </form>
-    </div>
-    )
   }
 
   return (
@@ -91,7 +61,7 @@ const Search = ({isPharmacist}) => {
         </Paper>
         <Paper>
           <Button
-            className={classes.docButton}
+            className={isPharmacist ? classes.pharmaButton : classes.docButton}
             fullWidth
             type='submit'
           >

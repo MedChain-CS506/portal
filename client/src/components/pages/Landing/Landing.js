@@ -46,7 +46,7 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
-        <Search />
+        <Search isPharmacist={isPharmacist} />
       </>
     );
   }
@@ -80,6 +80,7 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
 
 Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
+  isPharmacist: PropTypes.bool,
 };
 
 export default Landing;
