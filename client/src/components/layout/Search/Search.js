@@ -6,22 +6,27 @@ import { Redirect } from 'react-router-dom';
 import PatientContext from '../../../context/patient/PatientContext'
 
 const useStyles = makeStyles({
-  input: {
-    marginLeft: 5,
+  inputSeparator: {
+    marginBottom: '20px'
   },
 
-  button: {
+  input: {
+    marginLeft: 10,
+  },
+
+  docButton: {
     background: 'linear-gradient(45deg, #F00000 30%, #DC281E 90%)',
     color: 'white',
   },
 
-  paperButton: {
-    marginTop: '10px',
-    marginBottom: '30px',
-  },
+  pharmacistButton: {
+    background: 'linear-gradient(45deg, #0575E6 30%, #021B79 90%)',
+    color: 'white',
+  }
+
 });
 
-const Search = () => {
+const Search = ({isPharmacist}) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
@@ -39,10 +44,11 @@ const Search = () => {
     }
   }
 
-  return (
-    <div>
+  if (isPharmacist) {
+    return (
+      <div>
       <form onSubmit={onSubmit}>
-        <Paper>
+        <Paper className={classes.inputSeparator}>
           <InputBase
             type='text'
             name='text'
@@ -54,9 +60,38 @@ const Search = () => {
             onChange={e => setText(e.target.value)}
           />
         </Paper>
-        <Paper className={classes.paperButton}>
+        <Paper>
           <Button
-            className={classes.button}
+            className={classes.pharmacistButton}
+            fullWidth
+            type='submit'
+          >
+            Search
+          </Button>
+        </Paper>
+      </form>
+    </div>
+    )
+  }
+
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <Paper className={classes.inputSeparator}>
+          <InputBase
+            type='text'
+            name='text'
+            className={classes.input}
+            fullWidth
+            placeholder="Search by Aadhar..."
+            autoFocus
+            value={text}
+            onChange={e => setText(e.target.value)}
+          />
+        </Paper>
+        <Paper>
+          <Button
+            className={classes.docButton}
             fullWidth
             type='submit'
           >

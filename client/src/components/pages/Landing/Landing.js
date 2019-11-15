@@ -35,10 +35,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Landing = ({ signedIn = false }) => {
+const Landing = ({ signedIn = false, isPharmacist }) => {
   const classes = useStyles();
 
-  if (signedIn) {
+  if (signedIn && !isPharmacist) {
     return (
       <>
         <Link to="/patient-form">
@@ -49,6 +49,10 @@ const Landing = ({ signedIn = false }) => {
         <Search />
       </>
     );
+  }
+
+  if (isPharmacist) {
+    return <Search isPharmacist={isPharmacist} />;
   }
 
   return (

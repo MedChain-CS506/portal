@@ -26,8 +26,8 @@ import NotFound from './components/pages/NotFound';
 import PatientState from './context/patient/PatientState';
 
 //* Blockchain
-// import getWeb3 from './utils/getWeb3.js';
-// import MedChainContract from './contracts/med_chain.json';
+import getWeb3 from './utils/getWeb3.js';
+import MedChainContract from './contracts/med_chain.json';
 
 //* Styles
 import './index.css';
@@ -52,61 +52,62 @@ function App() {
     accounts: null,
     contract: null,
   });
+
   const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
-  // useEffect(() => {
-  //   async function connectMetamask() {
-  //     try {
-  //       const web3 = await getWeb3();
-  //       const accounts = await web3.eth.getAccounts();
-  //       const networkId = await web3.eth.net.getId();
-  //       const deployedNetwork = MedChainContract.networks[networkId];
-  //       const instance = new web3.eth.Contract(
-  //         MedChainContract.abi,
-  //         deployedNetwork && deployedNetwork.address
-  //       );
-  //       let data = {
-  //         accounts: accounts,
-  //         web3: web3,
-  //         contract: instance
-  //       };
-  //       console.log(accounts);
-  //       setContract(data);
-  //       setSignedIn(true);
-  //       setReady(true);
-  //       return data;
-  //     } catch (error) {
-  //       setSignedIn(false);
-  //       setReady(false);
-  //       console.error(error);
-  //     }
-  //   }
+  useEffect(() => {
+    async function connectMetamask() {
+      try {
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = MedChainContract.networks[networkId];
+        const instance = new web3.eth.Contract(
+          MedChainContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
+        };
+        console.log(accounts);
+        setContract(data);
+        setSignedIn(true);
+        setReady(true);
+        return data;
+      } catch (error) {
+        setSignedIn(false);
+        setReady(false);
+        console.error(error);
+      }
+    }
 
-  //   connectMetamask().then((data) => {
-  //     docCheck(data).then((res) => {
-  //       console.log("res: " + res);
-  //       if(res == 0){
-  //         setIsDoc(true);
-  //       } else if (res == 1) {
-  //         setIsPharmacist(true);
-  //       } 
-  //     })
-  //     setInterval(async () => {
-  //       const rn = await data.web3.eth.getAccounts();
-  //       if (rn[0] !== data.accounts[0]) {
-  //         setSignedIn(false);
-  //       } else if (rn[0] === data.accounts[0]) {
-  //         setSignedIn(true);
-  //       }
-  //     }, 100)
-  //   });
-  // }, [signedIn, isDoc, isPharmacist]);
+    connectMetamask().then((data) => {
+      docCheck(data).then((res) => {
+        console.log("res: " + res);
+        if(res == 0){
+          setIsDoc(true);
+        } else if (res == 1) {
+          setIsPharmacist(true);
+        } 
+      })
+      setInterval(async () => {
+        const rn = await data.web3.eth.getAccounts();
+        if (rn[0] !== data.accounts[0]) {
+          setSignedIn(false);
+        } else if (rn[0] === data.accounts[0]) {
+          setSignedIn(true);
+        }
+      }, 100)
+    });
+  }, [signedIn, isDoc, isPharmacist]);
 
-  // const log = () => {
-  //   console.log("isDoc:" +  isDoc);
-  //   console.log("isPhar:" +  isPharmacist);
-  // }
+  const log = () => {
+    console.log("isDoc:" +  isDoc);
+    console.log("isPhar:" +  isPharmacist);
+  }
 
   const [theme, setTheme] = useState({
     palette: {
@@ -132,6 +133,43 @@ function App() {
       palette: newPalette,
     });
   };
+
+  //! WHEN THE PERSON SIGNED IN IS A PHARMACIST!!!
+  //! NOTE TO SELF... CAN WE DELETE {...PROPS}
+  if (isPharmacist) {
+    return (
+      <PatientState>
+      <ThemeProvider theme={muiTheme}>
+      <CssBaseline />
+      {ready ? (
+        <Router>
+          <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
+          <div className="container">
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => <Landing {...props} signedIn={signedIn} isPharmacist={true} />}
+              />
+              <Route
+                exact
+                path="/profile/:id"
+                render={props => (
+                  <Profile {...props} signedIn={signedIn} contract={contract} isPharmacist={true} />
+                )}
+              />
+              <Route component={NotFound} />
+              <Redirect to="/not-found" />
+            </Switch>
+          </div>
+        </Router>
+      ) : (
+        <Loading />
+      )}
+      </ThemeProvider>
+    </PatientState>
+    )
+  }
 
   return (
     <PatientState>
