@@ -1,5 +1,6 @@
-/* eslint-disable */
 import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
@@ -59,6 +60,11 @@ const Navbar = ({ theme, handleToggleTheme }) => {
       </Toolbar>
     </AppBar>
   );
+};
+
+Navbar.propTypes = {
+  theme: PropTypes.object,
+  handleToggleTheme: PropTypes.func.isRequired,
 };
 
 export default Navbar;
