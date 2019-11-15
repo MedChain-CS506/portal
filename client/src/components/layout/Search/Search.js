@@ -1,56 +1,56 @@
 /* eslint-disable */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from "react";
 
-import { makeStyles, Paper, InputBase, Button } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
-import PatientContext from '../../../context/patient/PatientContext'
+import { makeStyles, Paper, InputBase, Button } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
+import PatientContext from "../../../context/patient/PatientContext";
 
 const useStyles = makeStyles({
   inputSeparator: {
-    marginBottom: '20px'
+    marginBottom: "20px"
   },
 
   input: {
-    marginLeft: 10,
+    marginLeft: 10
   },
 
   docButton: {
-    background: 'linear-gradient(45deg, #F00000 30%, #DC281E 90%)',
-    color: 'white',
+    background: "linear-gradient(45deg, #F00000 30%, #DC281E 90%)",
+    color: "white"
   },
 
   pharmaButton: {
-    background: 'linear-gradient(45deg, #0575E6 30%, #021B79 90%)',
-    color: 'white',
+    background: "linear-gradient(45deg, #0575E6 30%, #021B79 90%)",
+    color: "white"
   }
-
 });
 
 const Search = ({ isPharmacist }) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
-  const [text, setText] = useState('')
+  const [text, setText] = useState("");
 
   const onSubmit = e => {
-    e.preventDefault()
-    if (text === '') {
-      return console.log('Please enter something') //TODO: Should be visible to user
+    e.preventDefault();
+    if (text === "") {
+      return console.log("Please enter something"); //TODO: Should be visible to user
     } else {
-      console.log(text)
+      console.log(text);
       // patientContext.getPatient(contract, text)
-      setText('');
-      return <Redirect to="/patient-form"/>
+      setText("");
+      return <Redirect to="/patient-form" />;
     }
-  }
+  };
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <Paper className={classes.inputSeparator}>
           <InputBase
-            type='text'
-            name='text'
+            data-testid="search-textbox"
+            type="text"
+            name="text"
             className={classes.input}
             fullWidth
             placeholder="Search by Aadhar..."
@@ -61,9 +61,10 @@ const Search = ({ isPharmacist }) => {
         </Paper>
         <Paper>
           <Button
+            data-testid="search-button"
             className={isPharmacist ? classes.pharmaButton : classes.docButton}
             fullWidth
-            type='submit'
+            type="submit"
           >
             Search
           </Button>
