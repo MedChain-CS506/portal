@@ -12,18 +12,22 @@ contract Testmed_chain {
  
     //address private testAddress = 0x8881c6CFFDA34224E0B3cc62eaeeF56cCe28Aad7;
     
-    // patient's info for use with add_paitent
+    // patient's info for use with add_patient
     uint aadhaar = 1;
-    uint age = 100;
     string name = "name";
     string dob = "dob";
     uint weight = 150;
     string sex = "sex"; 
     string allergies = "allergies";
+    // patient's new info to update with
+    uint aadhaar2 = 2;
+    string name2 = "name2";
+    uint weight2 = 152;
+    string sex2 = "sex2"; 
+    string allergies2 = "allergies2";
     
     // resulted patient info after function call
     uint res_aadhaar;
-    uint res_age;
     string res_name;
     string res_dob;
     uint res_weight;
@@ -36,11 +40,11 @@ contract Testmed_chain {
     string disease = "disease";
     string symptoms = "symptoms";
     string medicine = "medicine";
-    string time = "time";
-    string timestamp_prescribed = "";
+    //string time = "time";
+    string timestamp_prescribed = "time";
     
     // resulted perscriptoin info after function call
-    string res_p_id;
+    uint res_p_id;
     string  res_medicine;
     string  res_symptoms;
     uint res_d_id;
@@ -64,20 +68,20 @@ contract Testmed_chain {
     string res_med_;
     string res_time_;
 
-    // creating a contract instance and calling add_paitent and add_prescription
+    // creating a contract instance and calling add_patient and add_prescription
     // also, forcing it to run before any tests (remix runs tests alphabatically)
     function beforeEach() external {
         testContract = new med_chain();
-        testContract.add_paitent(aadhaar, age, name, dob, weight, sex, allergies);
-        testContract.add_prescription(d_id, aadhaar, disease, symptoms, medicine, time);
+        testContract.add_patient(aadhaar, name, dob, weight, sex, allergies);
+        testContract.add_prescription(d_id, aadhaar, disease, symptoms, medicine, timestamp_prescribed);
     }
-    
-    // test lookup_paitent
-    function testLookUpPaitent() external {
+
+    // test lookup_patient
+    function testLookUppatient() external {
       //  testContract = new med_chain();
-        (res_aadhaar, res_age, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_paitent(aadhaar);
+        (res_aadhaar, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_patient(aadhaar);
         Assert.equal(aadhaar, res_aadhaar, "Pateint's aadhaar does not match");
-        Assert.equal(age, res_age, "Pateint's age does not match");
+        //Assert.equal(age, res_age, "Pateint's age does not match");
         Assert.equal(name, res_name, "Pateint's name does not match");
         Assert.equal(dob, res_dob, "Pateint's dob does not match");
         Assert.equal(weight, res_weight, "Pateint's weight does not match");
@@ -85,12 +89,29 @@ contract Testmed_chain {
         Assert.equal(allergies, res_allergies, "Pateint's allergies does not match");
     }
 
+    // //test it against editing the patient's info --- NOT WORKING <OUT OF GAS> 
+    // function testLookUppatient2() external {
+    //   //  testContract = new med_chain();
+    //     // call the edit_patient with new info
+    //     testContract.edit_patient(aadhaar, name2, weight2, sex2, allergies2);
+    //     (res_aadhaar, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_patient(aadhaar);
+    //     //Assert.equal(aadhaar2, res_aadhaar, "Pateint's aadhaar does not match");
+    //     //Assert.equal(age, res_age, "Pateint's age does not match");
+    //     Assert.equal(name2, res_name, "Pateint's name does not match");
+    //     Assert.equal(weight2, res_weight, "Pateint's weight does not match");
+    //     Assert.equal(sex2, res_sex, "Pateint's sex does not match");
+    //     Assert.equal(allergies2, res_allergies, "Pateint's allergies does not match");
+
+    //     //reset the info for the patient
+    //     testContract.edit_patient(aadhaar, name, weight, sex, allergies);
+    // }
+ 
     // test patient's last_prescription
     function testLast_prescription() external {
-        (res_medicine) = testContract.last_prescription(aadhaar);
-         Assert.equal(medicine, res_medicine, "Pateint's last perscriptoin does not match");
+        (res_p_id, res_medicine, res_timestamp_prescribed) = testContract.last_prescription(aadhaar);
+         Assert.equal(medicine, res_medicine, "Patient's last perscriptoin does not match");
     }
-    
+
     // test doctor_last_prescription
     function testDoctorLastPrescription() external{
       (res_per_ids, res_medicine, res_d_id, res_symptoms, res_time_) = testContract.doctor_last_prescription(aadhaar);
