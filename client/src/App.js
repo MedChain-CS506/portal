@@ -40,7 +40,6 @@ async function docCheck(contract) {
     from: contract.accounts[0]
   }).then((res) => {
     result = res;
-    console.log(res);
   })
   return result;
 }
@@ -73,7 +72,6 @@ function App() {
           web3: web3,
           contract: instance
         };
-        console.log(accounts);
         setContract(data);
         setSignedIn(true);
         setReady(true);
@@ -87,7 +85,6 @@ function App() {
 
     connectMetamask().then((data) => {
       docCheck(data).then((res) => {
-        console.log("res: " + res);
         if(res == 0){
           setIsDoc(true);
         } else if (res == 1) {
@@ -177,60 +174,85 @@ function App() {
     )
   }
 
+  
+
+  if(isDoc){
+    return (
+      <PatientState>
+        <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {ready ? (
+          <Router>
+            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+            <div className="container">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => <Landing {...props} signedIn={signedIn} />}
+                />
+                <Route
+                  exact
+                  path="/patient-form"
+                  render={props => (
+                    <PatientForm
+                      {...props}
+                      signedIn={signedIn}
+                      contract={contract}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/prescriptions"
+                  render={props => (
+                    <AddPrescription
+                      {...props}
+                      signedIn={signedIn}
+                      contract={contract}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/profile/:id"
+                  render={props => (
+                    <Profile {...props} signedIn={signedIn} contract={contract} />
+                  )}
+                />
+                <Route component={NotFound} />
+                <Redirect to="/not-found" />
+              </Switch>
+            </div>
+          </Router>
+        ) : (
+          <Loading />
+        )}
+        </ThemeProvider>
+      </PatientState>
+    );
+  }
+
   return (
     <PatientState>
-      <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      {ready ? (
-        <Router>
-          <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-          <div className="container">
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => <Landing {...props} signedIn={signedIn} />}
-              />
-              <Route
-                exact
-                path="/patient-form"
-                render={props => (
-                  <PatientForm
-                    {...props}
-                    signedIn={signedIn}
-                    contract={contract}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/prescriptions"
-                render={props => (
-                  <AddPrescription
-                    {...props}
-                    signedIn={signedIn}
-                    contract={contract}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/profile/:id"
-                render={props => (
-                  <Profile {...props} signedIn={signedIn} contract={contract} />
-                )}
-              />
-              <Route component={NotFound} />
-              <Redirect to="/not-found" />
-            </Switch>
-          </div>
-        </Router>
-      ) : (
-        <Loading />
-      )}
-      </ThemeProvider>
-    </PatientState>
-  );
+    <ThemeProvider theme={muiTheme}>
+    <CssBaseline />
+    {ready ? (
+      <Router>
+        <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+        <div className="container">
+          <Switch>
+            <Route component={NotFound} />
+            <Redirect to="/not-found" />
+          </Switch>
+        </div>
+      </Router>
+    ) : (
+      <Loading />
+    )}
+    </ThemeProvider>
+  </PatientState>
+  )
 }
 
 export default App;

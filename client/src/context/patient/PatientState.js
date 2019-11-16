@@ -138,6 +138,19 @@ const PatientState = props => {
       );
   };
 
+  const editPatient = async (contract, aadhaar, name, weight, sex, allergies ) => {
+    await contract.contract.methods
+      .edit_patient(aadhaar, name, weight, sex, allergies)
+      .send(
+        {
+          from: contract.accounts[0],
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  };
+
   return (
     <PatientContext.Provider
       value={{
@@ -146,6 +159,7 @@ const PatientState = props => {
         addPatient,
         addPrescription,
         lastPrescription,
+        editPatient,
       }}
     >
       {props.children}
