@@ -102,7 +102,7 @@ const AddPrescription = ({ signedIn = false, contract }) => {
         <>
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
-                    <Typography variant="h3" align='center' gutterBottom> New Patient </Typography>
+                    <Typography variant="h3" align='center' gutterBottom> New Prescription </Typography>
                     <Divider className={classes.divider} />
                     <Formik
                         initialValues={{ aadhar: '', d_id: '', symptoms: '', disease: '', medicine: [{  name: "", quantity: "", id: "" + Math.random() }] }}
