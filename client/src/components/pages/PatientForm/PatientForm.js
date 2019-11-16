@@ -12,7 +12,6 @@ import 'date-fns';
 import * as yup from "yup";
 import PatientContext from '../../../context/patient/PatientContext';
 
-
 const useStyles = makeStyles(theme => ({
     layout: {
         width: 'auto',

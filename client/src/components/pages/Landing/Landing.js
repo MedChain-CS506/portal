@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
-import { makeStyles, Fab, Typography } from '@material-ui/core';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import {
+  makeStyles,
+  Typography,
+  Paper,
+  InputBase,
+  Divider,
+  IconButton,
+  Tooltip,
+} from '@material-ui/core';
+
+import SearchIcon from '@material-ui/icons/Search';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import Search from '../../layout/Search';
+import AddIcon from '@material-ui/icons/Add';
+
+import PatientContext from '../../../context/patient/PatientContext';
 
 const useStyles = makeStyles(theme => ({
-  center: {
+  root: {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -19,70 +29,113 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
 
-  button: {
-    marginTop: theme.spacing(1),
+  inputRoot: {
+    padding: '2px 4px',
+    margin: '20px 0',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
   },
 
-  buttonIcon: {
-    marginRight: theme.spacing(1),
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
   },
 
-  patientFormIcon: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    background: 'red',
-    color: 'white',
+  iconButton: {
+    padding: 10,
+  },
+
+  divider: {
+    height: 28,
+    margin: 4,
   },
 }));
 
 const Landing = ({ signedIn = false, isPharmacist }) => {
   const classes = useStyles();
+  // const patientContext = useContext(PatientContext);
+
+  const [aadhaar, setAadhaar] = useState('');
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (aadhaar === '') {
+      return console.log('Please enter something');
+    }
+    console.log(aadhaar);
+    // patientContext.getPatient(contract, aadhaar)
+    setAadhaar('');
+    return <Redirect to="/not-found" />;
+  };
+
+  // make it so clicking 'enter' is also valid
 
   if (signedIn && !isPharmacist) {
     return (
-      <>
-        <Link to="/patient-form">
-          <Fab
-            data-testid="new-patient-button"
-            className={classes.patientFormIcon}
-            variant="extended"
-          >
-            <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
-          </Fab>
-        </Link>
-        <Search isPharmacist={isPharmacist} />
-      </>
+      <form className={classes.root} onSubmit={onSubmit}>
+        <Typography color="textSecondary" variant="h2">
+          {process.env.REACT_APP_NAME}
+        </Typography>
+        <Paper component="form" className={classes.inputRoot}>
+          <IconButton type="submit" className={classes.iconButton}>
+            <SearchIcon type="submit" />
+          </IconButton>
+          <InputBase
+            className={classes.input}
+            placeholder="Enter Aadhaar Number"
+            autoFocus
+            type="number"
+            name="aadhaar"
+            value={aadhaar}
+            onChange={e => setAadhaar(e.target.value)}
+          />
+          <Divider className={classes.divider} orientation="vertical" />
+          <Tooltip title="New Patient">
+            <Link to="/patient-form">
+              <IconButton color="primary" className={classes.iconButton}>
+                <AddIcon />
+              </IconButton>
+            </Link>
+          </Tooltip>
+        </Paper>
+      </form>
     );
   }
 
   if (isPharmacist) {
-    return <Search isPharmacist={isPharmacist} />;
+    return (
+      <form className={classes.root} onSubmit={onSubmit}>
+        <Typography color="textSecondary" variant="h2">
+          {process.env.REACT_APP_NAME}
+        </Typography>
+        <Paper component="form" className={classes.inputRoot}>
+          <IconButton type="submit" className={classes.iconButton}>
+            <SearchIcon />
+          </IconButton>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Aadhaars"
+            autoFocus
+            type="number"
+            name="aadhaar"
+            value={aadhaar}
+            onChange={e => setAadhaar(e.target.value)}
+          />
+        </Paper>
+      </form>
+    );
   }
 
   return (
-    <div className={classes.center}>
+    <div className={classes.root}>
       <FavoriteIcon color="action" />
       <Typography color="textSecondary" variant="h3">
         {process.env.REACT_APP_NAME}
       </Typography>
-      <Typography
-        data-testid="basic-desc"
-        color="textSecondary"
-        variant="subtitle1"
-      >
+      <Typography color="textSecondary" variant="subtitle1">
         The simplest decentralized medical-records application
       </Typography>
-      <Fab
-        data-testid="github-link"
-        className={classes.button}
-        color="secondary"
-        href="https://github.com/MedChain-CS506"
-        rel="noopener noreferrer"
-        target="_blank"
-        variant="extended"
-      >
-        <GitHubIcon className={classes.buttonIcon} /> Repo
-      </Fab>
     </div>
   );
 };

@@ -174,8 +174,6 @@ function App() {
     )
   }
 
-  
-
   if(isDoc){
     return (
       <PatientState>
