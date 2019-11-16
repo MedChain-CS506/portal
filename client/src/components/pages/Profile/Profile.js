@@ -24,9 +24,12 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core/';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import PatientContext from '../../../context/patient/PatientContext';
+import WcIcon from '@material-ui/icons/Wc';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -103,9 +106,9 @@ const Profile = ({ signedIn = false, contract, match }) => {
   const [patientData, setPatientData] = useState({
     aadhaar: '000011112222',
     name: 'Satoshi Nakamoto',
-    sex: '',
-    dob: '',
-    weight: '',
+    sex: 'Male',
+    dob: '10/10/10',
+    weight: '100',
     //allergies: '',
   });
 
@@ -141,7 +144,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
   const changeAadhaar = () => {
     if (initialAadhaar === patientData.aadhaar) return
     console.log(initialAadhaar)
-    setPatientData({...patientData, aadhar: initialAadhaar })
+    setPatientData({...patientData, aadhaar: initialAadhaar })
     console.log(patientData.aadhaar)
   }
 
@@ -165,7 +168,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
 
   const changeWeight = () => {
     if (initialWeight === patientData.weight) return
-    setPatientData({...patientData, weight: initialweight })
+    setPatientData({...patientData, weight: initialWeight })
     console.log(patientData.weight)
   }
 
@@ -197,21 +200,6 @@ const Profile = ({ signedIn = false, contract, match }) => {
     }
   };
 
-
-
-
-
-
-
-  //* handle...Change function will change the initial state
-  const handleAadhaarChange = (event) => {
-    if (!event) return;
-    const newAadhaar = event.target.value;
-    setInitialAadhaar(newAadhaar)
-  }
-
-  
-
   const handleKeyDown = (event, fieldId) => {
     if (!event || !fieldId) return;
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
@@ -223,13 +211,44 @@ const Profile = ({ signedIn = false, contract, match }) => {
       hideFields();
     } else if (key === 'Enter') {
       changeField(fieldId);
+      hideFields();
     }
   };
+
+  //* handleChange functions will change the initial state
+  const handleAadhaarChange = (event) => {
+    if (!event) return;
+    const newAadhaar = event.target.value;
+    setInitialAadhaar(newAadhaar)
+  }
+
+  const handleNameChange = (event) => {
+    if (!event) return;
+    const newName = event.target.value;
+    setInitialName(newName)
+  }
+
+  const handleSexChange = (event) => {
+    if (!event) return;
+    const newSex = event.target.value;
+    setInitialSex(newSex)
+  }
+
+  const handleDobChange = (event) => {
+    if (!event) return;
+    const newDob = event.target.value;
+    setInitialDob(newDob)
+  }
+
+  const handleWeightChange = (event) => {
+    if (!event) return;
+    const newWeight = event.target.value;
+    setInitialWeight(newWeight)
+  }
 
   return (
     <>
       <main className={classes.layout}>
-        {/* <Grid container spacing={1} alignItems="center" justify="center"> */}
           <Paper className={classes.basicInfo}>
             
             <Typography variant="h3" align="center" gutterBottom>
@@ -282,9 +301,142 @@ const Profile = ({ signedIn = false, contract, match }) => {
                   </ListItemSecondaryAction>
                 </>
                 }
+
+              </ListItem>
+
+              <ListItem>
+                <Hidden xsDown>
+                  <ListItemIcon>
+                    <WcIcon />
+                  </ListItemIcon>
+                </Hidden>
+
+                {showingField === 'sex' && 
+                  <TextField
+                    autoComplete="given-aadhaar"
+                    autoFocus
+                    fullWidth
+                    helperText={'Press Enter to change sex'}
+                    label="Sex"
+                    placeholder={patientData.sex}
+                    required
+                    //type="number"
+                    value={initialSex}
+                    variant="filled"
+                    onBlur={hideFields}
+                    // ^ when a user leaves the input field
+                    onKeyDown={(event) => handleKeyDown(event, 'sex')}
+                    onChange={handleSexChange}
+                  />
+                }
+
+                {showingField !== 'sex' && 
+                <>
+                  <ListItemText primary="Sex" secondary={patientData.sex} />
+                  <ListItemSecondaryAction>
+                    {patientData.sex && 
+                      <Tooltip title="Edit">
+                        <div>
+                          <IconButton onClick={() => showField('sex')}>
+                            <EditIcon />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                    }
+                  </ListItemSecondaryAction>
+                </>
+                }
               </ListItem>
 
 
+              <ListItem>
+                <Hidden xsDown>
+                  <ListItemIcon>
+                    <DateRangeIcon />
+                  </ListItemIcon>
+                </Hidden>
+
+                {showingField === 'dob' && 
+                  <TextField
+                    autoComplete="given-dob"
+                    autoFocus
+                    fullWidth
+                    helperText={'Press Enter to change date of birth'}
+                    label="Date of Birth"
+                    placeholder={patientData.dob}
+                    required
+                    //type="number"
+                    value={initialDob}
+                    variant="filled"
+                    onBlur={hideFields}
+                    // ^ when a user leaves the input field
+                    onKeyDown={(event) => handleKeyDown(event, 'dob')}
+                    onChange={handleDobChange}
+                  />
+                }
+
+                {showingField !== 'dob' && 
+                <>
+                  <ListItemText primary="Date of Birth" secondary={patientData.dob} />
+                  <ListItemSecondaryAction>
+                    {patientData.dob && 
+                      <Tooltip title="Edit">
+                        <div>
+                          <IconButton onClick={() => showField('dob')}>
+                            <EditIcon />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                    }
+                  </ListItemSecondaryAction>
+                </>
+                }
+              </ListItem>
+
+              <ListItem>
+                <Hidden xsDown>
+                  <ListItemIcon>
+                    <AccessibilityNewIcon />
+                  </ListItemIcon>
+                </Hidden>
+
+                {showingField === 'weight' && 
+                  <TextField
+                    autoComplete="given-weight"
+                    autoFocus
+                    fullWidth
+                    helperText={'Press Enter to change weight'}
+                    label="Weight"
+                    placeholder={patientData.weight}
+                    required
+                    //type="number"
+                    value={initialWeight}
+                    variant="filled"
+                    onBlur={hideFields}
+                    // ^ when a user leaves the input field
+                    onKeyDown={(event) => handleKeyDown(event, 'weight')}
+                    onChange={handleWeightChange}
+                  />
+                }
+
+                {showingField !== 'weight' && 
+                <>
+                  <ListItemText primary="Weight" secondary={patientData.weight} />
+                  <ListItemSecondaryAction>
+                    {patientData.weight && 
+                      <Tooltip title="Edit">
+                        <div>
+                          <IconButton onClick={() => showField('weight')}>
+                            <EditIcon />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                    }
+                  </ListItemSecondaryAction>
+                </>
+                }
+              </ListItem>
+              
 
             </List>
 

@@ -39,7 +39,7 @@ const Search = ({ isPharmacist }) => {
       console.log(text);
       // patientContext.getPatient(contract, text)
       setText("");
-      return <Redirect to="/patient-form" />;
+      return <Redirect to="/not-found" />;
     }
   };
 
