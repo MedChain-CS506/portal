@@ -11,6 +11,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
+import { Link, Redirect } from 'react-router-dom'
+
 import {
   makeStyles,
   Grid,
@@ -22,8 +24,8 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core/';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import { Redirect } from 'react-router-dom';
 import PatientContext from '../../../context/patient/PatientContext';
 
 const useStyles = makeStyles(theme => ({
@@ -58,6 +60,20 @@ const useStyles = makeStyles(theme => ({
   prescriptionsAndFiles: {
     marginBottom: theme.spacing(6),
     padding: theme.spacing(2),
+  },
+  button: {
+    marginTop: theme.spacing(1),
+  },
+
+  buttonIcon: {
+    marginRight: theme.spacing(1),
+  },
+
+  patientFormIcon: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    background: 'red',
+    color: 'white',
   },
 }));
 
@@ -306,6 +322,16 @@ const Profile = ({ signedIn = false, contract, match }) => {
             <Paper className={classes.prescriptionsAndFiles}>
               <Typography variant="h4">Prescriptions</Typography>
             </Paper>
+            <Link to="/prescriptions">
+              <Fab
+                data-testid="prescription-button"
+                className={classes.patientFormIcon}
+                variant="extended"
+              >
+                <AddCircleIcon className={classes.buttonIcon} /> New
+                Prescription Button
+              </Fab>
+            </Link>
           </Grid>
 
           <Grid id="medical-files" item xs={12} sm={6}>
