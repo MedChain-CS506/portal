@@ -9,7 +9,7 @@ before_script: cd client
 
 # if this works otherwise cd into client first
 script:
-  - cd client && npm run test 
+  - npm run test 
 
 notifications:
   email: false
