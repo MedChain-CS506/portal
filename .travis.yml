@@ -7,7 +7,7 @@ node_js:
 
 # if this works otherwise cd into client first
 script:
-  - npm run test 
+  - cd client && npm run test 
 
 notifications:
   email: false
