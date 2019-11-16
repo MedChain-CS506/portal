@@ -1,1 +1,13 @@
+sudo: false
+
 language: node_js
+
+node_js:
+  - node
+
+# if this works otherwise cd into client first
+script:
+  - npm run test 
+
+notifications:
+  email: false
