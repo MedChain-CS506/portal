@@ -32,6 +32,7 @@ import MedChainContract from './contracts/med_chain.json';
 //* Styles
 import './index.css';
 import { CssBaseline } from '@material-ui/core';
+import AddPrescription from './components/pages/AddPrescription';
 
 async function docCheck(contract) {
   let result = 10;
@@ -94,11 +95,15 @@ function App() {
         } 
       })
       setInterval(async () => {
-        const rn = await data.web3.eth.getAccounts();
-        if (rn[0] !== data.accounts[0]) {
-          setSignedIn(false);
-        } else if (rn[0] === data.accounts[0]) {
-          setSignedIn(true);
+        try{
+          const rn = await data.web3.eth.getAccounts();
+          if (rn[0] !== data.accounts[0]) {
+            setSignedIn(false);
+          } else if (rn[0] === data.accounts[0]) {
+            setSignedIn(true);
+          }
+        } catch (err) {
+          
         }
       }, 100)
     });
@@ -191,6 +196,17 @@ function App() {
                 path="/patient-form"
                 render={props => (
                   <PatientForm
+                    {...props}
+                    signedIn={signedIn}
+                    contract={contract}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/prescriptions"
+                render={props => (
+                  <AddPrescription
                     {...props}
                     signedIn={signedIn}
                     contract={contract}

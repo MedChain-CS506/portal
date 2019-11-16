@@ -42,7 +42,11 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
     return (
       <>
         <Link to="/patient-form">
-          <Fab data-testid="new-patient-button" className={classes.patientFormIcon} variant="extended">
+          <Fab
+            data-testid="new-patient-button"
+            className={classes.patientFormIcon}
+            variant="extended"
+          >
             <AddCircleIcon className={classes.buttonIcon} /> New Patient Form
           </Fab>
         </Link>
