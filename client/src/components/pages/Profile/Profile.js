@@ -143,33 +143,27 @@ const Profile = ({ signedIn = false, contract, match }) => {
   //* (i.e. patient's aadhar, name, sex, dob, weight)
   const changeAadhaar = () => {
     if (initialAadhaar === patientData.aadhaar) return
-    console.log(initialAadhaar)
     setPatientData({...patientData, aadhaar: initialAadhaar })
-    console.log(patientData.aadhaar)
   }
 
   const changeName = () => {
     if (initialName === patientData.name) return
     setPatientData({...patientData, name: initialName })
-    console.log(patientData.name)
   }
 
   const changeSex = () => {
     if (initialSex === patientData.sex) return
     setPatientData({...patientData, sex: initialSex })
-    console.log(patientData.sex)
   }
 
   const changeDob = () => {
     if (initialDob === patientData.dob) return
     setPatientData({...patientData, dob: initialDob })
-    console.log(patientData.dob)
   }
 
   const changeWeight = () => {
     if (initialWeight === patientData.weight) return
     setPatientData({...patientData, weight: initialWeight })
-    console.log(patientData.weight)
   }
 
   //* Depending on the fieldId, changeField will call the functions above
