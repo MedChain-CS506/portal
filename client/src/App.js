@@ -25,13 +25,13 @@ import NotFound from './components/pages/NotFound';
 //* Context
 import PatientState from './context/patient/PatientState';
 
-//* Blockchain
-import getWeb3 from './utils/getWeb3.js';
-import MedChainContract from './contracts/med_chain.json';
-
 //* Styles
 import './index.css';
 import { CssBaseline } from '@material-ui/core';
+
+//* Blockchain
+import getWeb3 from './utils/getWeb3.js';
+import MedChainContract from './contracts/med_chain.json';
 
 async function docCheck(contract) {
   let result = 10;
@@ -134,7 +134,7 @@ function App() {
     });
   };
 
-  //! WHEN THE PERSON SIGNED IN IS A PHARMACIST!!!
+  //! WHEN THE PERSON SIGNED IN IS A PHARMACIST
   //! NOTE TO SELF... CAN WE DELETE {...PROPS}
   //! Need a better way then this if statement...
   if (isPharmacist) {
