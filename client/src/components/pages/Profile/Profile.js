@@ -84,7 +84,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
   const classes = useStyles();
   if (!signedIn) return <Redirect to="/not-found" />;
 
-  // const patientContext = useContext(PatientContext);
+  const patientContext = useContext(PatientContext);
   // const [patientData, setPatientData] = useState({
   //   aadhaar: 0,
   //   name: '',
@@ -94,15 +94,6 @@ const Profile = ({ signedIn = false, contract, match }) => {
   //   allergies: '',
   // });
 
-  // useEffect(() => {
-  //   const asyncCallToGetPatient = async () => {
-  //     const data = await patientContext.getPatient(contract, match.params.id);
-  //     setPatientData(data);
-  //   };
-  //   asyncCallToGetPatient();
-  // }, [contract, match.params.id, patientContext, patientData]);
-
-  //! This will be for the data that is coming from the contract
   const [patientData, setPatientData] = useState({
     aadhaar: '000011112222',
     name: 'Satoshi Nakamoto',
@@ -111,6 +102,14 @@ const Profile = ({ signedIn = false, contract, match }) => {
     weight: '100',
     //allergies: '',
   });
+
+  useEffect(() => {
+    const asyncCallToGetPatient = async () => {
+      const data = await patientContext.getPatient(contract, match.params.id);
+      setPatientData(data);
+    };
+    asyncCallToGetPatient();
+  }, []);
 
   //! Use this varibale for setting values within the profile
   const [showingField, setShowingField] = useState('')
@@ -143,16 +142,23 @@ const Profile = ({ signedIn = false, contract, match }) => {
   //* (i.e. patient's aadhar, name, sex, dob, weight)
   const changeAadhaar = () => {
     if (initialAadhaar === patientData.aadhaar) return
-    setPatientData({...patientData, aadhaar: initialAadhaar })
+    console.log(initialAadhaar);
+    setPatientData({...patientData, aadhaar: initialAadhaar });
+
   }
 
   const changeName = () => {
     if (initialName === patientData.name) return
+
     setPatientData({...patientData, name: initialName })
   }
 
   const changeSex = () => {
     if (initialSex === patientData.sex) return
+    const asyncCallToEdit = (async () => {
+      await patientContext.editPatient(contract, patientData.aadhaar, patientData.name, patientData.weight, initialSex, patientData.allergies);
+    });
+    asyncCallToEdit();
     setPatientData({...patientData, sex: initialSex })
   }
 
