@@ -5,7 +5,7 @@ language: node_js
 node_js:
   - node
   
-before_script: cd project
+before_script: cd client
 
 # if this works otherwise cd into client first
 script:
