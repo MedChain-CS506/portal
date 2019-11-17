@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Landing = ({ signedIn = false, isPharmacist }) => {
+const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
   const classes = useStyles();
   // const patientContext = useContext(PatientContext);
 
@@ -68,8 +68,6 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
     setAadhaar('');
     return <Redirect to="/not-found" />;
   };
-
-  // make it so clicking 'enter' is also valid
 
   if (signedIn && !isPharmacist) {
     return (
@@ -92,8 +90,12 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
           />
           <Divider className={classes.divider} orientation="vertical" />
           <Tooltip title="New Patient">
-            <Link to="/patient-form">
-              <IconButton color="primary" className={classes.iconButton}>
+            <Link to="/profile/:id">
+              <IconButton
+                color="primary"
+                className={classes.iconButton}
+                onClick={onNewPatientClick}
+              >
                 <AddIcon />
               </IconButton>
             </Link>
@@ -143,6 +145,7 @@ const Landing = ({ signedIn = false, isPharmacist }) => {
 Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isPharmacist: PropTypes.bool,
+  onNewPatientClick: PropTypes.func.isRequired,
 };
 
 export default Landing;

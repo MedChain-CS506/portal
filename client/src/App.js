@@ -15,6 +15,7 @@ import { theme, changeTheme } from './utils/theme';
 //* Components
 import Navbar from './components/layout/Navbar';
 import Loading from './components/layout/Loading';
+import DialogHost from './components/layout/Dialog/DialogHost'
 
 //* Pages
 import Landing from './components/pages/Landing';
@@ -52,9 +53,13 @@ function App() {
     accounts: null,
     contract: null,
   });
-
-  const [isDoc, setIsDoc] = useState(false);
+  const [isDoc, setIsDoc] = useState(true);
   const [isPharmacist, setIsPharmacist] = useState(false);
+
+  //! New Patient Form Dialog
+  const [dialog, setDialog] = useState({
+    patientFormDialog: false
+  })
 
   useEffect(() => {
     async function connectMetamask() {
@@ -136,9 +141,78 @@ function App() {
     });
   };
 
-  //! WHEN THE PERSON SIGNED IN IS A PHARMACIST
-  //! NOTE TO SELF... CAN WE DELETE {...PROPS}
-  //! Need a better way then this if statement...
+  //! Ternary to replace if statement...?
+  if(isDoc){
+    return (
+      <PatientState>
+        <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {ready ? (
+          <Router>
+            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+            <div className="container">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
+                    setDialog({ ...dialog, patientFormDialog: true })} />}
+                />
+
+                <DialogHost 
+                  dialogs={{
+                    patientFormDialog: {
+                      dialogProps: {
+                        open: dialog.patientFormDialog,
+                        onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                      }
+                    }
+                  }}
+                />
+
+                {/* <Route
+                  exact
+                  path="/patient-form"
+                  render={props => (
+                    <PatientForm
+                      {...props}
+                      signedIn={signedIn}
+                      contract={contract}
+                    />
+                  )}
+                /> */}
+
+                <Route
+                  exact
+                  path="/prescriptions"
+                  render={props => (
+                    <AddPrescription
+                      {...props}
+                      signedIn={signedIn}
+                      contract={contract}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/profile/:id"
+                  render={props => (
+                    <Profile {...props} signedIn={signedIn} contract={contract} />
+                  )}
+                />
+                <Route component={NotFound} />
+                <Redirect to="/not-found" />
+              </Switch>
+            </div>
+          </Router>
+        ) : (
+          <Loading />
+        )}
+        </ThemeProvider>
+      </PatientState>
+    );
+  }
+
   if (isPharmacist) {
     return (
       <PatientState>
@@ -172,63 +246,6 @@ function App() {
       </ThemeProvider>
     </PatientState>
     )
-  }
-
-  if(isDoc){
-    return (
-      <PatientState>
-        <ThemeProvider theme={muiTheme}>
-        <CssBaseline />
-        {ready ? (
-          <Router>
-            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-            <div className="container">
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => <Landing {...props} signedIn={signedIn} />}
-                />
-                <Route
-                  exact
-                  path="/patient-form"
-                  render={props => (
-                    <PatientForm
-                      {...props}
-                      signedIn={signedIn}
-                      contract={contract}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/prescriptions"
-                  render={props => (
-                    <AddPrescription
-                      {...props}
-                      signedIn={signedIn}
-                      contract={contract}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/profile/:id"
-                  render={props => (
-                    <Profile {...props} signedIn={signedIn} contract={contract} />
-                  )}
-                />
-                <Route component={NotFound} />
-                <Redirect to="/not-found" />
-              </Switch>
-            </div>
-          </Router>
-        ) : (
-          <Loading />
-        )}
-        </ThemeProvider>
-      </PatientState>
-    );
   }
 
   return (

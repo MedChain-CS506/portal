@@ -21,6 +21,7 @@
     "reading-time": "latest",
     "truffle": "latest",
     "typeface-roboto": "latest",
+    "validate.js": "^0.13.1",
     "web3": "latest",
     "yup": "^0.27.0"
   },
