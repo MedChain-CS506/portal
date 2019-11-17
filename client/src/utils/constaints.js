@@ -10,6 +10,12 @@ const constraints = {
     },
 
     type: 'string',
+
+    format: {
+      pattern: '[a-z]',
+      flags: 'i', // allows for upper and lower case
+      message: 'first name can only contain letters',
+    },
   },
 
   lastName: {
@@ -18,6 +24,12 @@ const constraints = {
     },
 
     type: 'string',
+
+    format: {
+      pattern: '[a-z]',
+      flags: 'i', // allows for upper and lower case
+      message: 'last name can only contain letters',
+    },
   },
 
   aadhaar: {
@@ -33,25 +45,37 @@ const constraints = {
       allowEmpty: false,
     },
 
-    type: 'string',
+    type: 'number',
   },
 
-  aadharConfirmation: {
-    aadhar: {
-      message: '^Aadhar confirmation is invalid',
+  aadhaarConfirmation: {
+    aadhaar: {
+      message: '^Aadhaar confirmation is invalid',
     },
 
     equality: {
       attribute: 'aadhaar',
-      message: '^Aadhar Confirmation is not equal to Aadhar',
+      message: '^Aadhaar Confirmation is not equal to Aadhaar',
     },
 
     presence: {
       allowEmpty: false,
     },
 
-    type: 'string',
+    type: 'number',
   },
+
+  // dob: {
+  //   presence: true,
+  // },
+
+  // sex: {
+  //   presence: true,
+  // },
+
+  // weight: {
+  //   presence: true,
+  // },
 };
 
 export default constraints;

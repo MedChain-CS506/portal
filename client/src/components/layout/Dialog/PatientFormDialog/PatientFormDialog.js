@@ -17,11 +17,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     dialogContent: {
         overflowY: 'hidden',
       },
-  }));
+  });
 
 const PatientFormDialog = ({ dialogProps }) => {
     const classes = useStyles();
@@ -39,21 +39,22 @@ const PatientFormDialog = ({ dialogProps }) => {
       const newErrors = validate({
         firstName: firstName,
         lastName: lastName,
-        aadhar: aadhar,
-        aadhaarConfirmation: aadhaarConfirmation,
-        sex: sex,
-        weight: weight,
-        dob: dob
+        // aadhaar: aadhaar,
+        // aadhaarConfirmation: aadhaarConfirmation,
+        // sex: sex,
+        // weight: weight,
+        // dob: dob
       }, {
         firstName: constraints.firstName,
         lastName: constraints.lastName,
-        aadhaar: constraints.aadhaar,
-        aadhaarConfirmation: constraints.aadhaarConfirmation,
-        sex: constraints.sex,
-        weight: constraints.weight,
-        dob: constraints.dob
+        // aadhaar: constraints.aadhaar,
+        // aadhaarConfirmation: constraints.aadhaarConfirmation,
+        // sex: constraints.sex,
+        // weight: constraints.weight,
+        // dob: constraints.dob
       })
-      if (error) {
+
+      if (newErrors) {
         setErrors(newErrors)
       } else {
         setErrors(null)
@@ -68,7 +69,7 @@ const PatientFormDialog = ({ dialogProps }) => {
             case 'auth/invalid-email':
             case 'auth/operation-not-allowed':
             case 'auth/weak-password':
-              // maybe openSnackbar(message);?
+              // openSnackbar(message);?
               return;
 
             default:
@@ -80,7 +81,8 @@ const PatientFormDialog = ({ dialogProps }) => {
     }
 
     const handleKeyPress = event => {
-    if (!firstName ||!lastName ||!aadhaar ||!aadhaarConfirmation ||!sex ||!weight ||!dob) return
+    // if (!firstName ||!lastName ||!aadhaar ||!aadhaarConfirmation ||!sex ||!weight ||!dob) return
+    if (!firstName ||!lastName) return
         const { key } = event;
         if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
         if (key === 'Enter') console.log('register')
@@ -98,7 +100,7 @@ const PatientFormDialog = ({ dialogProps }) => {
 
     return (
         <Dialog fullWidth maxWidth="md" {...dialogProps} onKeyPress={handleKeyPress} onExited={handleExited}>
-            <DialogTitle>New Patient</DialogTitle>
+            <DialogTitle>New Entry</DialogTitle>
 
             <Hidden smDown>
                 <DialogContent className={classes.dialogContent}>
@@ -108,9 +110,9 @@ const PatientFormDialog = ({ dialogProps }) => {
                                 <Grid item xs>
                                     <TextField
                                         autoComplete="given-name"
-                                        //error={!!(errors && errors.firstName)}
+                                        error={!!(errors && errors.firstName)}
                                         fullWidth
-                                        //helperText={(errors && errors.firstName) ? errors.firstName[0] : ''}
+                                        helperText={(errors && errors.firstName) ? errors.firstName[0] : ''}
                                         label="First name"
                                         placeholder="Satoshi"
                                         required
@@ -123,9 +125,9 @@ const PatientFormDialog = ({ dialogProps }) => {
                                 <Grid item xs>
                                     <TextField
                                         autoComplete="family-name"
-                                        //error={!!(errors && errors.lastName)}
+                                        error={!!(errors && errors.lastName)}
                                         fullWidth
-                                        //helperText={(errors && errors.lastName) ? errors.lastName[0] : ''}
+                                        helperText={(errors && errors.lastName) ? errors.lastName[0] : ''}
                                         label="Last name"
                                         placeholder="Nakamoto"
                                         required
@@ -140,11 +142,11 @@ const PatientFormDialog = ({ dialogProps }) => {
                             <Grid container spacing={4}>
                                 <Grid item xs>
                                     <TextField
-                                        autoComplete="aadhar"
+                                        autoComplete="aadhaar"
                                         // error={!!(errors && errors.emailAddress)}
                                         fullWidth
                                         // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
-                                        label="Aadhar"
+                                        label="Aadhaar"
                                         placeholder="000011112222"
                                         required
                                         type="number"
@@ -156,11 +158,11 @@ const PatientFormDialog = ({ dialogProps }) => {
 
                                 <Grid item xs>
                                     <TextField
-                                        autoComplete="aadhar"
+                                        autoComplete="aadhaar"
                                         // error={!!(errors && errors.emailAddress)}
                                         fullWidth
                                         // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
-                                        label="Aadhar Confirmation"
+                                        label="Aadhaar Confirmation"
                                         placeholder="000011112222"
                                         required
                                         type="number"
@@ -231,9 +233,9 @@ const PatientFormDialog = ({ dialogProps }) => {
                         <Grid item xs>
                             <TextField
                                 autoComplete="given-name"
-                                // error={!!(errors && errors.firstName)}
+                                error={!!(errors && errors.firstName)}
                                 fullWidth
-                                // helperText={(errors && errors.firstName) ? errors.firstName[0] : ''}
+                                helperText={(errors && errors.firstName) ? errors.firstName[0] : ''}
                                 label="First name"
                                 placeholder="Satoshi"
                                 required
@@ -246,9 +248,9 @@ const PatientFormDialog = ({ dialogProps }) => {
                         <Grid item xs>
                             <TextField
                                 autoComplete="family-name"
-                                //error={!!(errors && errors.lastName)}
+                                error={!!(errors && errors.lastName)}
                                 fullWidth
-                                //helperText={(errors && errors.lastName) ? errors.lastName[0] : ''}
+                                helperText={(errors && errors.lastName) ? errors.lastName[0] : ''}
                                 label="Last name"
                                 placeholder="Nakamoto"
                                 required
@@ -261,11 +263,11 @@ const PatientFormDialog = ({ dialogProps }) => {
 
                         <Grid item xs>
                             <TextField
-                                autoComplete="aadhar"
+                                autoComplete="aadhaar"
                                 // error={!!(errors && errors.emailAddress)}
                                 fullWidth
                                 // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
-                                label="Aadhar"
+                                label="Aadhaar"
                                 placeholder="000011112222"
                                 required
                                 type="number"
@@ -277,11 +279,11 @@ const PatientFormDialog = ({ dialogProps }) => {
 
                         <Grid item xs>
                             <TextField
-                                autoComplete="aadhar"
+                                autoComplete="aadhaar"
                                 // error={!!(errors && errors.emailAddress)}
                                 fullWidth
                                 // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
-                                label="Aadhar Confirmation"
+                                label="Aadhaar Confirmation"
                                 placeholder="000011112222"
                                 required
                                 type="number"
@@ -350,15 +352,16 @@ const PatientFormDialog = ({ dialogProps }) => {
                     color="primary"
                     disabled={
                         !firstName ||
-                        !lastName ||
-                        !aadhaar ||
-                        !aadhaarConfirmation ||
-                        !sex ||
-                        !weight ||
-                        !dob 
+                        !lastName 
+                        // ||
+                        // !aadhaar ||
+                        // !aadhaarConfirmation ||
+                        // !sex ||
+                        // !weight ||
+                        // !dob 
                     }
                     variant="contained"
-                    onClick={console.log('register patinet')}
+                    onClick={register}
                 >
                     Register
                 </Button>
@@ -378,7 +381,7 @@ export default PatientFormDialog;
   <Paper className={classes.paper}>
     <Formik
       initialValues={{
-        aadhar: '',
+        aadhaar: '',
         firstName: '',
         lastName: '',
         sex: '',
@@ -399,10 +402,10 @@ export default PatientFormDialog;
       {({ values, errors, isSubmitting }) => (
         <Form id="patient-form">
           <Grid container spacing={3}>
-            <Grid id="aadhar" item xs={12}>
+            <Grid id="aadhaar" item xs={12}>
               <MyTextField
-                placeholder="Aadhar"
-                name="aadhar"
+                placeholder="Aadhaar"
+                name="aadhaar"
                 type="input"
                 as={TextField}
               />

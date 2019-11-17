@@ -139,7 +139,7 @@ const Profile = ({ signedIn = false, contract, match }) => {
   };
 
   //* change functions will change the contract state 
-  //* (i.e. patient's aadhar, name, sex, dob, weight)
+  //* (i.e. patient's aadhaar, name, sex, dob, weight)
   const changeAadhaar = () => {
     if (initialAadhaar === patientData.aadhaar) return
     console.log(initialAadhaar);

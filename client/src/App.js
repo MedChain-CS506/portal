@@ -5,17 +5,14 @@ import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
+  Route
 } from 'react-router-dom';
-
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { theme, changeTheme } from './utils/theme';
 
 //* Components
 import Navbar from './components/layout/Navbar';
 import Loading from './components/layout/Loading';
 import DialogHost from './components/layout/Dialog/DialogHost'
+import AddPrescription from './components/pages/AddPrescription';
 
 //* Pages
 import Landing from './components/pages/Landing';
@@ -26,10 +23,13 @@ import NotFound from './components/pages/NotFound';
 //* Context
 import PatientState from './context/patient/PatientState';
 
-//* Styles
+//* Styles / MUI
 import './index.css';
 import { CssBaseline } from '@material-ui/core';
-import AddPrescription from './components/pages/AddPrescription';
+import Snackbar from '@material-ui/core/Snackbar';
+import readingTime from 'reading-time';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { theme, changeTheme } from './utils/theme';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -53,13 +53,31 @@ function App() {
     accounts: null,
     contract: null,
   });
-  const [isDoc, setIsDoc] = useState(true);
+  const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   //! New Patient Form Dialog
   const [dialog, setDialog] = useState({
     patientFormDialog: false
   })
+  //! Use this for confirmation feedback
+  const [snackbar, setSnackbar] = useState({
+    autoHideDuration: 0,
+    message: '',
+    open: false
+  })
+
+  const openSnackbar = (message, autoHideDuration = 2) => {
+    setSnackbar({
+      autoHideDuration: readingTime(message).time * autoHideDuration,
+      message,
+      open: true
+    })
+  }
+    
+  const closeSnackbar = (clearMessage = false) => {
+    setSnackbar({ ...snackbar, message: clearMessage ? '' : snackbar.message,open: false })
+  }
 
   useEffect(() => {
     async function connectMetamask() {
@@ -147,64 +165,70 @@ function App() {
       <PatientState>
         <ThemeProvider theme={muiTheme}>
         <CssBaseline />
+
         {ready ? (
-          <Router>
-            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-            <div className="container">
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
-                    setDialog({ ...dialog, patientFormDialog: true })} />}
-                />
+          <>
+            <Router>
+              <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
+                      setDialog({ ...dialog, patientFormDialog: true })} />}
+                  />
 
-                <DialogHost 
-                  dialogs={{
-                    patientFormDialog: {
-                      dialogProps: {
-                        open: dialog.patientFormDialog,
-                        onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                  <DialogHost 
+                    dialogs={{
+                      patientFormDialog: {
+                        dialogProps: {
+                          open: dialog.patientFormDialog,
+                          onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                        }
                       }
-                    }
-                  }}
-                />
+                    }}
+                  />
 
-                {/* <Route
-                  exact
-                  path="/patient-form"
-                  render={props => (
-                    <PatientForm
-                      {...props}
-                      signedIn={signedIn}
-                      contract={contract}
-                    />
-                  )}
-                /> */}
+                  {/* <Route
+                    exact
+                    path="/patient-form"
+                    render={props => (
+                      <PatientForm
+                        {...props}
+                        signedIn={signedIn}
+                        contract={contract}
+                      />
+                    )}
+                  /> */}
 
-                <Route
-                  exact
-                  path="/prescriptions"
-                  render={props => (
-                    <AddPrescription
-                      {...props}
-                      signedIn={signedIn}
-                      contract={contract}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/profile/:id"
-                  render={props => (
-                    <Profile {...props} signedIn={signedIn} contract={contract} />
-                  )}
-                />
-                <Route component={NotFound} />
-                <Redirect to="/not-found" />
-              </Switch>
-            </div>
-          </Router>
+                  <Route
+                    exact
+                    path="/prescriptions"
+                    render={props => (
+                      <AddPrescription
+                        {...props}
+                        signedIn={signedIn}
+                        contract={contract}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/profile/:id"
+                    render={props => (
+                      <Profile {...props} signedIn={signedIn} contract={contract} />
+                    )}
+                  />
+                  <Route path='*' component={NotFound} />
+                </Switch>
+            </Router>
+            <Snackbar
+              autoHideDuration={snackbar.autoHideDuration}
+              message={snackbar.message}
+              open={snackbar.open}
+              onClose={() => setSnackbar({ ...snackbar, open: false })}
+            />
+          </>
         ) : (
           <Loading />
         )}
@@ -218,10 +242,10 @@ function App() {
       <PatientState>
       <ThemeProvider theme={muiTheme}>
       <CssBaseline />
+
       {ready ? (
         <Router>
           <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
-          <div className="container">
             <Switch>
               <Route
                 exact
@@ -235,10 +259,8 @@ function App() {
                   <Profile {...props} signedIn={signedIn} contract={contract} isPharmacist={true} />
                 )}
               />
-              <Route component={NotFound} />
-              <Redirect to="/not-found" />
+              <Route path='*' component={NotFound} />
             </Switch>
-          </div>
         </Router>
       ) : (
         <Loading />
@@ -255,12 +277,9 @@ function App() {
     {ready ? (
       <Router>
         <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-        <div className="container">
           <Switch>
-            <Route component={NotFound} />
-            <Redirect to="/not-found" />
+            <Route path='*' component={NotFound} />
           </Switch>
-        </div>
       </Router>
     ) : (
       <Loading />
