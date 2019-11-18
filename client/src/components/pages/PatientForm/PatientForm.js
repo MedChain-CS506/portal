@@ -88,8 +88,6 @@ const PatientForm = ({ signedIn = false, contract }) => {
         patientContext.addPatient(contract, data.aadhaar, fullName, data.dob, data.weight, data.sex, "a");
     }
 
-    if (!signedIn) return <Redirect to='/not-found' />
-
     return (
         <>
             <main className={classes.layout}>
