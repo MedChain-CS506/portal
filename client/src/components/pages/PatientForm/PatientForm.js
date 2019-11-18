@@ -56,7 +56,7 @@ const MyTextField = ({ placeholder, ...props }) => {
 const SexRadio = ({ label, ...props }) => {
     const [field] = useField(props)
     return (
-        <FormControlLabel {...field} control={< Radio color="primary" />} label={label} labelPlacement="bottom" />
+        <FormControlLabel {...field} control={<Radio color="primary" />} label={label} labelPlacement="bottom" />
     )
 }
 

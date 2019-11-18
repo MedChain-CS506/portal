@@ -17,6 +17,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from '@material-ui/pickers';
 import * as yup from "yup";
@@ -42,17 +46,18 @@ const AadhaarField = ({ placeholder, label,...props }) => {
 const WeightField = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : ""
+  return <TextField InputProps={{startAdornment: <InputAdornment position="start">Kg</InputAdornment>}} variant="outlined" label={label} fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+};
+
+const DobField = ({ placeholder, label, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : ""
   return <TextField variant="outlined" label={label} fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
 };
 
-// const DobField = ({ label, ...props }) => {
-//   const [field] = useField(props);
-//   return <FormControlLabel {...field} control={<Radio color="inherit" />} label={label} />;
-// };
-
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
-  return <FormControlLabel {...field} control={<Radio color="inherit" />} label={label} />;
+  return <FormControlLabel {...field} control={<Radio color="default" />} label={label} />;
 };
 
 const validationSchema = yup.object({
@@ -84,7 +89,7 @@ const PatientFormDialog = ({ dialogProps }) => {
 
   return (
     <Dialog fullWidth maxWidth="md" {...dialogProps}>
-      <DialogTitle>New Entry</DialogTitle>
+      <DialogTitle>New Patient</DialogTitle>
       <Formik
         validateOnChange={true}
         initialValues={{
@@ -111,7 +116,6 @@ const PatientFormDialog = ({ dialogProps }) => {
             <DialogContent className={classes.dialogContent}>
               <Grid container direction="row">
                 <Grid item xs={12}>
-
                   <Grid container spacing={4}>
                     <Grid item xs>
                       <NameTextField
@@ -128,51 +132,23 @@ const PatientFormDialog = ({ dialogProps }) => {
                       />
                     </Grid>
                   </Grid>
-
                   <Grid container spacing={4}>
                     <Grid item xs>
-                      <AadhaarField
-                        label="Aadhaar"
-                        placeholder="000011112222"
-                        name="aadhaar"
-                      />
+                      <AadhaarField label="Aadhaar" placeholder="000011112222" name="aadhaar" />
                     </Grid>
                     <Grid item xs>
-                      <AadhaarField
-                        label="Aadhaar Confirmation"
-                        placeholder="000011112222"
-                        name="aadhaarConfirmation"
-                      />
+                      <AadhaarField label="Aadhaar Confirmation" placeholder="000011112222" name="aadhaarConfirmation" />
                     </Grid>
                   </Grid>
 
                   <Grid container spacing={4}>
                     <Grid item xs>
-                      <WeightField
-                        label="Weight"
-                        placeholder="50"
-                        name="weight"
-                      />
+                      <WeightField label="Weight" placeholder="50" name="weight" />
                     </Grid>
 
-                    {/* <Grid item xs>
-                      <TextField
-                        autoComplete="dob"
-                        name="dob"
-                        component={DatePickerWrapper}
-                        // error={!!(errors && errors.emailAddress)}
-                        fullWidth
-                        // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
-                        label="Date of Birth"
-                        placeholder="1/1/2000"
-                        required
-                        margin="normal"
-                        type="string"
-                        value={dob}
-                        variant="outlined"
-                        onChange={e => setDob(e.target.value)}
-                      />
-                    </Grid> */}
+                    <Grid item xs>
+                      <DobField label="Date of Birth" placeholder="1/1/2000" name="dob" />
+                    </Grid>
                     
                     <Grid item xs>
                       <FormControl component="fieldset">
@@ -186,40 +162,208 @@ const PatientFormDialog = ({ dialogProps }) => {
                     </Grid>
                   </Grid>
 
-
-                  
+                  <Grid container spacing={4}>
+                      <Grid item xs>
+                        <FieldArray name="notes">
+                            {arrayHelpers => (
+                                <div>
+                                    <Button
+                                        onClick={() =>
+                                            arrayHelpers.push({
+                                                type: "allergy",
+                                                name: "",
+                                                id: "" + Math.random()
+                                            })
+                                        }
+                                        variant="contained"
+                                    >
+                                        Add Allergy
+                                    </Button>
+                                    {values.notes.map((note, index) => {
+                                        return (
+                                            <div key={note.id}>
+                                                <NameTextField placeholder="New Note" name={`notes.${index}.name`} />
+                                                <Field name={`notes.${index}.type`} type="select" as={Select} >
+                                                    <MenuItem value="allergy">Allergy</MenuItem>
+                                                </Field>
+                                                <Button className={classes.button} onClick={() => arrayHelpers.remove(index)}> X </Button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </FieldArray>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </DialogContent>
           </Hidden>
+
+          <Hidden mdUp>
+                <DialogContent>
+                    <Grid container direction="column" spacing={2}>
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="given-name"
+                                error={!!(errors && errors.firstName)}
+                                fullWidth
+                                helperText={(errors && errors.firstName) ? errors.firstName[0] : ''}
+                                label="First name"
+                                placeholder="Satoshi"
+                                required
+                                type="text"
+                                value={firstName}
+                                variant="outlined"
+                                onChange={e => setFirstName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="family-name"
+                                error={!!(errors && errors.lastName)}
+                                fullWidth
+                                helperText={(errors && errors.lastName) ? errors.lastName[0] : ''}
+                                label="Last name"
+                                placeholder="Nakamoto"
+                                required
+                                type="text"
+                                value={lastName}
+                                variant="outlined"
+                                onChange={e => setLastName(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="aadhaar"
+                                // error={!!(errors && errors.emailAddress)}
+                                fullWidth
+                                // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
+                                label="Aadhaar"
+                                placeholder="000011112222"
+                                required
+                                type="number"
+                                value={aadhaar}
+                                variant="outlined"
+                                onChange={e => setAadhaar(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="aadhaar"
+                                // error={!!(errors && errors.emailAddress)}
+                                fullWidth
+                                // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
+                                label="Aadhaar Confirmation"
+                                placeholder="000011112222"
+                                required
+                                type="number"
+                                value={aadhaarConfirmation}
+                                variant="outlined"
+                                onChange={e => setAadhaarConfirmation(e.target.value)}
+                            />
+                        </Grid>
+
+
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="weight"
+                                // error={!!(errors && errors.emailAddress)}
+                                fullWidth
+                                // helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
+                                label="Weight"
+                                placeholder="22"
+                                required
+                                type="number"
+                                value={weight}
+                                variant="outlined"
+                                onChange={e => setWeight(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs>
+                          <DobField label="Date of Birth" placeholder="1/1/2000" name="dob" />
+                        </Grid>
+                        
+                        <Grid item xs>
+                          <FormControl component="fieldset">
+                            <FormLabel component="legend">Sex</FormLabel>
+                            <RadioGroup row>
+                              <FormControlLabel value="female" label="Female" control={<Radio />} />
+                              <FormControlLabel value="male" label="Male" control={<Radio />} />
+                              <FormControlLabel value="other" label="Other" control={<Radio />} />
+                            </RadioGroup>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs>
+                          <FieldArray name="notes">
+                              {arrayHelpers => (
+                                  <div>
+                                      <Button
+                                          onClick={() =>
+                                              arrayHelpers.push({
+                                                  type: "allergy",
+                                                  name: "",
+                                                  id: "" + Math.random()
+                                              })
+                                          }
+                                          variant="contained"
+                                      >
+                                          Add Allergy
+                                      </Button>
+                                      {values.notes.map((note, index) => {
+                                          return (
+                                              <div key={note.id}>
+                                                  <NameTextField placeholder="New Note" name={`notes.${index}.name`} />
+                                                  <Field name={`notes.${index}.type`} type="select" as={Select} >
+                                                      <MenuItem value="allergy">Allergy</MenuItem>
+                                                  </Field>
+                                                  <Button className={classes.button} onClick={() => arrayHelpers.remove(index)}> X </Button>
+                                              </div>
+                                          );
+                                      })}
+                                  </div>
+                              )}
+                          </FieldArray>
+                        </Grid>
+
+
+
+                    </Grid>
+                </DialogContent>
+            </Hidden>
+
+
+
+          <DialogActions>
+              <Button color="primary" onClick={dialogProps.onClose}>Cancel</Button>
+              <Button color="primary" variant="contained" onClick={register}
+                disabled={
+                    !firstName ||
+                    !lastName 
+                    // ||
+                    // !aadhaar ||
+                    // !aadhaarConfirmation ||
+                    // !sex ||
+                    // !weight ||
+                    // !dob 
+                }
+              >
+                Register
+              </Button>
+            </DialogActions>
+
+
+
           <pre>{JSON.stringify(values, null, 2)}</pre>
           <pre>{JSON.stringify(errors, null, 2)}</pre>
         </Form>
       )}
       </Formik>
 
-      <DialogActions>
-          <Button color="primary" onClick={dialogProps.onClose}>
-              Cancel
-          </Button>
-          <Button
-              color="primary"
-              disabled={
-                  !firstName ||
-                  !lastName 
-                  // ||
-                  // !aadhaar ||
-                  // !aadhaarConfirmation ||
-                  // !sex ||
-                  // !weight ||
-                  // !dob 
-              }
-              variant="contained"
-              onClick={register}
-          >
-              Register
-          </Button>
-      </DialogActions>
+      
     </Dialog>
   )
 };
