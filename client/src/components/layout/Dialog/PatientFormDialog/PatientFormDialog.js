@@ -104,7 +104,7 @@ const PatientFormDialog = ({ dialogProps }) => {
           weight: "",
           dob: "",
           sex: "",
-          notes: [{ type: "allergy", name: "", id: "" + Math.random() }]
+          notes: [{ name: "", id: "" + Math.random() }]
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
@@ -165,7 +165,6 @@ const PatientFormDialog = ({ dialogProps }) => {
                           <>
                             <IconButton color="primary" onClick={() =>
                                 arrayHelpers.push({
-                                    type: "allergy",
                                     name: "",
                                     id: "" + Math.random()
                                 })
@@ -177,10 +176,7 @@ const PatientFormDialog = ({ dialogProps }) => {
                             {values.notes.map((note, index) => {
                               return (
                                 <div key={note.id}>
-                                  <NameTextField placeholder="New Note" name={`notes.${index}.name`} />
-                                  <Field name={`notes.${index}.type`} type="select" as={Select} >
-                                      <MenuItem value="allergy">Allergy</MenuItem>
-                                  </Field>
+                                  <NameTextField label="New Allergy" placeholder="Allergy" name={`notes.${index}.name`} />
                                   <IconButton className={classes.button} onClick={() => arrayHelpers.remove(index)}>
                                       <ClearIcon />
                                   </IconButton>
@@ -239,26 +235,23 @@ const PatientFormDialog = ({ dialogProps }) => {
                   <FieldArray name="notes">
                       {arrayHelpers => (
                           <div>
-                              <Button
-                                  onClick={() =>
-                                      arrayHelpers.push({
-                                          type: "allergy",
-                                          name: "",
-                                          id: "" + Math.random()
-                                      })
-                                  }
-                                  variant="contained"
-                              >
-                                  Add Allergy
-                              </Button>
+                              <IconButton color="primary" onClick={() =>
+                                arrayHelpers.push({
+                                    name: "",
+                                    id: "" + Math.random()
+                                })
+                            }
+                            >
+                              <AddIcon />
+                            </IconButton>
+                              <span><br/></span>
                               {values.notes.map((note, index) => {
                                   return (
                                       <div key={note.id}>
-                                          <NameTextField placeholder="New Note" name={`notes.${index}.name`} />
-                                          <Field name={`notes.${index}.type`} type="select" as={Select} >
-                                              <MenuItem value="allergy">Allergy</MenuItem>
-                                          </Field>
-                                          <Button className={classes.button} onClick={() => arrayHelpers.remove(index)}> X </Button>
+                                          <NameTextField label="New Allergy" placeholder="Allergy" name={`notes.${index}.name`} />
+                                          <IconButton className={classes.button} onClick={() => arrayHelpers.remove(index)}>
+                                      <ClearIcon />
+                                  </IconButton>
                                       </div>
                                   );
                               })}
