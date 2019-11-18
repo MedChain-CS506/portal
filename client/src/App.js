@@ -58,8 +58,10 @@ function App() {
 
   //! New Patient Form Dialog
   const [dialog, setDialog] = useState({
-    patientFormDialog: false
+    patientFormDialog: false,
+    prescriptionFormDialog: false
   })
+
   //! Use this for confirmation feedback
   const [snackbar, setSnackbar] = useState({
     autoHideDuration: 0,
@@ -178,7 +180,7 @@ function App() {
                       setDialog({ ...dialog, patientFormDialog: true })} />}
                   />
 
-                  <Route
+                  {/* <Route
                     exact
                     path="/prescriptions"
                     render={props => (
@@ -188,12 +190,13 @@ function App() {
                         contract={contract}
                       />
                     )}
-                  />
+                  /> */}
                   <Route
                     exact
                     path="/profile/:id"
                     render={props => (
-                      <Profile {...props} signedIn={signedIn} contract={contract} />
+                      <Profile {...props} signedIn={signedIn} contract={contract} onNewPrescriptionClick={() =>
+                        setDialog({ ...dialog, prescriptionFormDialog: true })} />
                     )}
                   />
                   <Route component={NotFound} />
@@ -207,7 +210,13 @@ function App() {
                     open: dialog.patientFormDialog,
                     onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
                   }
-                }
+                },
+                // prescriptionFormDialog: {
+                //   dialogProps: {
+                //     open: dialog.prescriptionFormDialog,
+                //     onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
+                //   }
+                // }
               }}
               />
             </Router>

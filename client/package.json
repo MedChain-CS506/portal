@@ -8,6 +8,7 @@
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
     "@testing-library/jest-dom": "^4.2.4",
+    "clsx": "^1.0.4",
     "cypress": "^3.6.1",
     "date-fns": "latest",
     "final-form": "^4.18.6",
