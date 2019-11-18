@@ -32,8 +32,8 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { theme, changeTheme } from './utils/theme';
 
 //* Blockchain
-// import getWeb3 from './utils/getWeb3.js';
-// import MedChainContract from './contracts/med_chain.json';
+import getWeb3 from './utils/getWeb3.js';
+import MedChainContract from './contracts/med_chain.json';
 
 async function docCheck(contract) {
   let result = 10;
@@ -79,55 +79,55 @@ function App() {
     setSnackbar({ ...snackbar, message: clearMessage ? '' : snackbar.message,open: false })
   }
 
-  // useEffect(() => {
-  //   async function connectMetamask() {
-  //     try {
-  //       const web3 = await getWeb3();
-  //       const accounts = await web3.eth.getAccounts();
-  //       const networkId = await web3.eth.net.getId();
-  //       const deployedNetwork = MedChainContract.networks[networkId];
-  //       const instance = new web3.eth.Contract(
-  //         MedChainContract.abi,
-  //         deployedNetwork && deployedNetwork.address
-  //       );
-  //       let data = {
-  //         accounts: accounts,
-  //         web3: web3,
-  //         contract: instance
-  //       };
-  //       setContract(data);
-  //       setSignedIn(true);
-  //       setReady(true);
-  //       return data;
-  //     } catch (error) {
-  //       setSignedIn(false);
-  //       setReady(false);
-  //       console.error(error);
-  //     }
-  //   }
+  useEffect(() => {
+    async function connectMetamask() {
+      try {
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = MedChainContract.networks[networkId];
+        const instance = new web3.eth.Contract(
+          MedChainContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
+        };
+        setContract(data);
+        setSignedIn(true);
+        setReady(true);
+        return data;
+      } catch (error) {
+        setSignedIn(false);
+        setReady(false);
+        console.error(error);
+      }
+    }
 
-  //   connectMetamask().then((data) => {
-  //     docCheck(data).then((res) => {
-  //       if(res == 0){
-  //         setIsDoc(true);
-  //       } else if (res == 1) {
-  //         setIsPharmacist(true);
-  //       } 
-  //     })
-  //     setInterval(async () => {
-  //       try{
-  //         const rn = await data.web3.eth.getAccounts();
-  //         if (rn[0] !== data.accounts[0]) {
-  //           setSignedIn(false);
-  //         } else if (rn[0] === data.accounts[0]) {
-  //           setSignedIn(true);
-  //         }
-  //       } catch (err) {
+    connectMetamask().then((data) => {
+      docCheck(data).then((res) => {
+        if(res == 0){
+          setIsDoc(true);
+        } else if (res == 1) {
+          setIsPharmacist(true);
+        } 
+      })
+      setInterval(async () => {
+        try{
+          const rn = await data.web3.eth.getAccounts();
+          if (rn[0] !== data.accounts[0]) {
+            setSignedIn(false);
+          } else if (rn[0] === data.accounts[0]) {
+            setSignedIn(true);
+          }
+        } catch (err) {
           
-  //       }
-  //     }, 100)
-  //   });
-  // }, [signedIn, isDoc, isPharmacist]);
+        }
+      }, 100)
+    });
+  }, [signedIn, isDoc, isPharmacist]);
 
   const log = () => {
     console.log("isDoc:" +  isDoc);
@@ -178,29 +178,6 @@ function App() {
                       setDialog({ ...dialog, patientFormDialog: true })} />}
                   />
 
-                  <DialogHost 
-                    dialogs={{
-                      patientFormDialog: {
-                        dialogProps: {
-                          open: dialog.patientFormDialog,
-                          onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
-                        }
-                      }
-                    }}
-                  />
-
-                  {/* <Route
-                    exact
-                    path="/patient-form"
-                    render={props => (
-                      <PatientForm
-                        {...props}
-                        signedIn={signedIn}
-                        contract={contract}
-                      />
-                    )}
-                  /> */}
-
                   <Route
                     exact
                     path="/prescriptions"
@@ -221,7 +198,20 @@ function App() {
                   />
                   <Route component={NotFound} />
                 </Switch>
+
+
+            <DialogHost 
+              dialogs={{
+                patientFormDialog: {
+                  dialogProps: {
+                    open: dialog.patientFormDialog,
+                    onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                  }
+                }
+              }}
+              />
             </Router>
+
             <Snackbar
               autoHideDuration={snackbar.autoHideDuration}
               message={snackbar.message}

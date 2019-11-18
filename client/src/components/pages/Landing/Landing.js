@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -90,15 +90,13 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
           />
           <Divider className={classes.divider} orientation="vertical" />
           <Tooltip title="New Patient">
-            <Link to="/profile/:id">
-              <IconButton
-                color="primary"
-                className={classes.iconButton}
-                onClick={onNewPatientClick}
-              >
-                <AddIcon />
-              </IconButton>
-            </Link>
+            <IconButton
+              color="primary"
+              className={classes.iconButton}
+              onClick={onNewPatientClick}
+            >
+              <AddIcon />
+            </IconButton>
           </Tooltip>
         </Paper>
       </form>
