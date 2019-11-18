@@ -16,9 +16,9 @@ const DialogHost = ({ dialogs }) => {
       <Hidden xsDown>
         <PatientFormDialog dialogProps={patientFormDialog.dialogProps} />
 
-        {/* <PrescriptionFormDialog
+        <PrescriptionFormDialog
           dialogProps={prescriptionFormDialog.dialogProps}
-        /> */}
+        />
       </Hidden>
 
       <Hidden smUp>
@@ -29,12 +29,12 @@ const DialogHost = ({ dialogs }) => {
           }}
         />
 
-        {/* <PrescriptionFormDialog
+        <PrescriptionFormDialog
           dialogProps={{
             fullScreen: true,
             ...prescriptionFormDialog.dialogProps,
           }}
-        /> */}
+        />
       </Hidden>
     </>
   );

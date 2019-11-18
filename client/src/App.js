@@ -162,7 +162,7 @@ function App() {
   };
 
   //! Ternary to replace if statement...?
-  if(isDoc){
+  if (isDoc) {
     return (
       <PatientState>
         <ThemeProvider theme={muiTheme}>
@@ -179,45 +179,31 @@ function App() {
                     render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
                       setDialog({ ...dialog, patientFormDialog: true })} />}
                   />
-
-                  {/* <Route
-                    exact
-                    path="/prescriptions"
-                    render={props => (
-                      <AddPrescription
-                        {...props}
-                        signedIn={signedIn}
-                        contract={contract}
-                      />
-                    )}
-                  /> */}
                   <Route
                     exact
                     path="/profile/:id"
-                    render={props => (
-                      <Profile {...props} signedIn={signedIn} contract={contract} onNewPrescriptionClick={() =>
-                        setDialog({ ...dialog, prescriptionFormDialog: true })} />
-                    )}
+                    render={props => <Profile {...props} signedIn={signedIn} contract={contract} onNewPrescriptionClick={() =>
+                      setDialog({ ...dialog, prescriptionFormDialog: true })} />}
                   />
                   <Route component={NotFound} />
                 </Switch>
 
+                <DialogHost 
+                dialogs={{
+                  patientFormDialog: {
+                    dialogProps: {
+                      open: dialog.patientFormDialog,
+                      onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                    }
+                  },
 
-            <DialogHost 
-              dialogs={{
-                patientFormDialog: {
-                  dialogProps: {
-                    open: dialog.patientFormDialog,
-                    onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                  prescriptionFormDialog: {
+                    dialogProps: {
+                      open: dialog.prescriptionFormDialog,
+                      onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
+                    }
                   }
-                },
-                // prescriptionFormDialog: {
-                //   dialogProps: {
-                //     open: dialog.prescriptionFormDialog,
-                //     onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
-                //   }
-                // }
-              }}
+                }}
               />
             </Router>
 

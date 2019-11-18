@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 
+import PropTypes from 'prop-types';
+
 // TODO: ADD AND EDIT PRESCRIPTIONS
 import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
@@ -71,7 +73,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Prescriptions() {
+export default function Prescriptions({ onNewPrescriptionClick }) {
   const classes = useStyles();
   return (
     <>
@@ -81,7 +83,7 @@ export default function Prescriptions() {
         </Typography>
         <span className={classes.toolbarButtons}>
           <IconButton color="primary">
-            <AddIcon />
+            <AddIcon onClick={onNewPrescriptionClick} />
           </IconButton>
           <IconButton color="primary">
             <CreateIcon />
@@ -119,3 +121,8 @@ export default function Prescriptions() {
     </>
   );
 }
+
+Prescriptions.propTypes = {
+  // signedIn: PropTypes.bool.isRequired,
+  onNewPrescriptionClick: PropTypes.func.isRequired,
+};

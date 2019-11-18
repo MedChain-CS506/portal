@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -39,7 +41,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Profile = () => {
+const Profile = ({
+  // signedIn = false,
+  onNewPrescriptionClick,
+  // contract,
+  // match,
+}) => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -61,7 +68,9 @@ const Profile = () => {
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Prescriptions />
+                <Prescriptions
+                  onNewPrescriptionClick={() => onNewPrescriptionClick}
+                />
               </Paper>
             </Grid>
           </Grid>
@@ -69,6 +78,11 @@ const Profile = () => {
       </main>
     </div>
   );
+};
+
+Profile.propTypes = {
+  // signedIn: PropTypes.bool.isRequired,
+  onNewPrescriptionClick: PropTypes.func.isRequired,
 };
 
 export default Profile;
