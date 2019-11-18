@@ -53,7 +53,7 @@ function App() {
     accounts: null,
     contract: null,
   });
-  const [isDoc, setIsDoc] = useState(true);
+  const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   //! New Patient Form Dialog
