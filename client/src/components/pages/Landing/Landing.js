@@ -72,14 +72,15 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
   if (signedIn && !isPharmacist) {
     return (
       <form className={classes.root} onSubmit={onSubmit}>
-        <Typography color="textSecondary" variant="h2">
+        <Typography data-testid="app-name" color="textSecondary" variant="h2">
           {process.env.REACT_APP_NAME}
         </Typography>
-        <Paper component="form" className={classes.inputRoot}>
+        <Paper data-testid="search-patient-form" component="form" className={classes.inputRoot}>
           <IconButton type="submit" className={classes.iconButton}>
             <SearchIcon type="submit" />
           </IconButton>
           <InputBase
+            data-testid="search-bar"
             className={classes.input}
             placeholder="Enter Aadhaar Number"
             autoFocus
@@ -91,6 +92,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
           <Divider className={classes.divider} orientation="vertical" />
           <Tooltip title="New Patient">
             <IconButton
+              data-testid="add-patient-button" 
               color="primary"
               className={classes.iconButton}
               onClick={onNewPatientClick}
@@ -133,7 +135,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
       <Typography color="textSecondary" variant="h3">
         {process.env.REACT_APP_NAME}
       </Typography>
-      <Typography color="textSecondary" variant="subtitle1">
+      <Typography data-testid="basic-desc" color="textSecondary" variant="subtitle1">
         The simplest decentralized medical-records application
       </Typography>
     </div>
