@@ -1,12 +1,29 @@
 /* eslint-disable */
-import React, { useContext } from 'react';
-import { Formik, Field, Form, useField, FieldArray } from 'formik';
-import {
-    makeStyles, Paper, Divider, Grid, Typography, FormLabel, TextField,
-    Button, Radio, FormControlLabel, Select, MenuItem, InputAdornment, FormGroup
-} from '@material-ui/core';
+import React, { useState, useContext } from 'react';
 
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Hidden from '@material-ui/core/Hidden';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+
+import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
+
+import { Formik, Field, Form, useField, FieldArray } from 'formik';
 
 import 'date-fns';
 import * as yup from "yup";
@@ -25,19 +42,8 @@ const useStyles = makeStyles(theme => ({
         },
     },
 
-    paper: {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3),
-        padding: theme.spacing(2),
-        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(6),
-            marginBottom: theme.spacing(6),
-            padding: theme.spacing(3),
-        },
-    },
-
-    divider: {
-        marginBottom: theme.spacing(3)
+    dialogContent: {
+        overflowY: 'hidden',
     },
 
     button: {
@@ -46,6 +52,14 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+
+const NameTextField = ({ placeholder, label,...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+    return <TextField variant="outlined" label={label} fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+};
+
+  //! from prescriptionpage 
 const MyTextField = ({ placeholder, ...props }) => {
     const [field, meta] = useField(props)
     const errorText = meta.error && meta.touched ? meta.error : ''
@@ -53,7 +67,31 @@ const MyTextField = ({ placeholder, ...props }) => {
         <TextField fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
     )
 }
+  
+const AadhaarField = ({ placeholder, label,...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+    return <TextField variant="outlined" label={label} fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+};
+  
+const WeightField = ({ placeholder, label, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : ""
+    return <TextField InputProps={{startAdornment: <InputAdornment position="start">Kg</InputAdornment>}} variant="outlined" label={label} fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+};
+  
+const DobField = ({ placeholder, label, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : ""
+    return <TextField variant="outlined" label={label} fullWidth placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+};
+  
+//   const SexRadio = ({ placeholder, label, ...props }) => {
+//     const [field, meta] = useField(props);
+//     return <FormControlLabel {...field} control={<Radio color="default" />} label={label} />;
+//   };
 
+  //! from prescriptionpage 
 const SexRadio = ({ label, ...props }) => {
     const [field] = useField(props)
     return (
@@ -74,7 +112,7 @@ const validationSchema = yup.object({
     )
 })
 
-const PrescriptionFormDialog = ({ signedIn = false, contract }) => {
+const PrescriptionFormDialog = ({ dialogProps }) => {
     const classes = useStyles();
     const patientContext = useContext(PatientContext);
 
@@ -82,12 +120,13 @@ const PrescriptionFormDialog = ({ signedIn = false, contract }) => {
         let medicine = "";
         for (var med in data.medicine) {
             medicine = medicine + "-" + med ;
-            for(var values in data.medicine[med]){
-                if(values !== 'id'){
+            for (var values in data.medicine[med]) {
+                if (values !== 'id') {
                    medicine = medicine + "-" + data.medicine[med][values];
                 }
             }
         }
+
         medicine = medicine.substr(1);
         console.log(medicine);
         let dt = new Date();
@@ -96,82 +135,175 @@ const PrescriptionFormDialog = ({ signedIn = false, contract }) => {
         patientContext.addPrescription(contract, data.d_id, data.aadhaar, data.disease, data.symptoms, medicine, utcDate);
     }
 
-    //if (!signedIn) return <Redirect to='/not-found' />
-
     return (
-        <>
-            <main className={classes.layout}>
-                <Paper className={classes.paper}>
-                    <Typography variant="h3" align='center' gutterBottom> New Prescription </Typography>
-                    <Divider className={classes.divider} />
-                    <Formik
-                        initialValues={{ aadhaar: '', d_id: '', symptoms: '', disease: '', medicine: [{  name: "", quantity: "", id: "" + Math.random() }] }}
-                        validationSchema={validationSchema}
-                        onSubmit={(data, { setSubmitting }) => {
-                            setSubmitting(true);
+        <Dialog fullWidth maxWidth="md" {...dialogProps}>
 
-                            console.log("submit: ", data);
-                            onSubmit(data);
-                            setSubmitting(false);
-                            //may want to reset form here
-                        }}>
-                        {({ values, errors, isSubmitting }) => (
-                            <Form id="patient-form">
-                                <Grid container spacing={3}>
-                                    <Grid id="aadhaar" item xs={12}>
-                                        <MyTextField placeholder='Aadhaar' name='aadhaar' type='input' as={TextField} />
+            <DialogTitle>New Prescription</DialogTitle>
+
+            <Formik
+                validateOnChange={true}
+                initialValues={{
+                    aadhaar: "",
+                    d_id: "",
+                    symptoms: "",
+                    disease: "",
+                    sex: "",
+                    medicine: [{  name: "", quantity: "", id: "" + Math.random() }]
+                }}
+                validationSchema={validationSchema}
+                onSubmit={(data, { setSubmitting }) => {
+                    setSubmitting(true);
+                    // make async call
+                    console.log("submit: ", data);
+                    setSubmitting(false);
+                }}
+            >
+            {({ values, errors, isSubmitting }) => (
+                <Form>
+                    <Hidden smDown>
+                        <DialogContent className={classes.dialogContent}>
+                            <Grid container direction="row">
+                                <Grid item xs={12}>
+
+                                    <Grid container spacing={4}>
+                                        <Grid item xs>
+                                            {/* <NameTextField label="Aadhaar" placeholder="000011112222" name="aadhaar" /> */}
+                                            <MyTextField placeholder='Aadhaar' name='aadhaar' type='input' as={TextField} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid id="d_id" item xs={12}>
-                                        <MyTextField placeholder='Doctor ID' name='d_id' type='input' as={TextField} />
+
+                                    <Grid container spacing={4}>
+                                        <Grid item xs>
+                                            {/* <AadhaarField label="Aadhaar" placeholder="000011112222" name="aadhaar" /> */}
+                                            <MyTextField placeholder='Doctor ID' name='d_id' type='input' as={TextField} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid id="symptoms" item xs={12}>
-                                        <MyTextField placeholder='Symptoms' name='symptoms' type='input' as={TextField} />
+
+                                    <Grid container spacing={4}>
+                                        <Grid item xs>
+                                            {/* <WeightField label="Weight" placeholder="50" name="weight" /> */}
+                                            <MyTextField placeholder='Disease' name='disease' type='input' as={TextField} />
+                                        </Grid>
+                                        <Grid item xs>
+                                            {/* <DobField label="Date of Birth" placeholder="1/1/2000" name="dob" /> */}
+                                            <MyTextField placeholder='Symptoms' name='symptoms' type='input' as={TextField} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid id="disease" item xs={12}>
-                                        <MyTextField placeholder='Disease' name='disease' type='input' as={TextField} />
-                                    </Grid>
-                                    <Grid id="medicine" item xs={12}>
-                                        <FieldArray name="medicine">
-                                            {arrayHelpers => (
-                                                <div>
-                                                    <Button
-                                                        onClick={() =>
+
+                                    <Grid container spacing={4}>
+                                        <Grid item xs>
+                                            <FieldArray name="medicine">
+                                                {arrayHelpers => (
+                                                    <>
+                                                        <IconButton color="primary" onClick={() =>
                                                             arrayHelpers.push({
                                                                 name: "",
                                                                 quantity: "",
                                                                 id: "" + Math.random()
                                                             })
                                                         }
-                                                        variant="contained"
-                                                    >
-                                                        add medicine
-                                                    </Button>
-                                                    {values.medicine.map((note, index) => {
+                                                        >
+                                                            <AddIcon />
+                                                        </IconButton>
+
+                                                        {values.medicine.map((note, index) => {
                                                         return (
                                                             <div key={note.id}>
-                                                                <MyTextField placeholder="Medicine Name" name={`medicine.${index}.name`} />
+                                                                <MyTextField label="Medicine Name" placeholder="Medicine" name={`medicine.${index}.name`} />
                                                                 <MyTextField placeholder="Medicine Quantity" name={`medicine.${index}.quantity`} />
-                                                                <Button className={classes.button} onClick={() => arrayHelpers.remove(index)}> x </Button>
+                                                                <IconButton className={classes.button} onClick={() => arrayHelpers.remove(index)}>
+                                                                    <ClearIcon />
+                                                                </IconButton>
                                                             </div>
                                                         );
-                                                    })}
-                                                </div>
-                                            )}
-                                        </FieldArray>
+                                                        })}
+                                                    </>
+                                                )}
+                                            </FieldArray>
+                                        </Grid>
                                     </Grid>
-                                    <>
-                                        <Button className={classes.button} disabled={isSubmitting} type="submit" variant="contained">Submit</Button>
-                                    </>
+
                                 </Grid>
-                                <pre>{JSON.stringify(values, null, 2)}</pre>
-                                <pre>{JSON.stringify(errors, null, 2)}</pre>
-                            </Form>
-                        )}
-                    </Formik>
-                </Paper>
-            </main>
-        </>
+                            </Grid>
+                        </DialogContent>
+                    </Hidden>
+
+                    <Hidden mdUp>
+                        <DialogContent>
+                            <Grid container direction="column" spacing={2}>
+                                <Grid item xs>
+                                    {/* <NameTextField label="First Name" placeholder="Satoshi" name="firstName" /> */}
+                                    <MyTextField placeholder='Aadhaar' name='aadhaar' type='input' as={TextField} />
+                                </Grid>
+
+                                <Grid item xs>
+                                    {/* <AadhaarField label="Aadhaar Confirmation" placeholder="000011112222" name="aadhaarConfirmation" /> */}
+                                    <MyTextField placeholder='Doctor ID' name='d_id' type='input' as={TextField} />
+                                </Grid>
+
+                                <Grid item xs>
+                                    {/* <WeightField label="Weight" placeholder="50" name="weight" /> */}
+                                    <MyTextField placeholder='Disease' name='disease' type='input' as={TextField} />
+                                </Grid>
+
+                                <Grid item xs>
+                                    {/* <DobField label="Date of Birth" placeholder="1/1/2000" name="dob" /> */}
+                                    <MyTextField placeholder='Symptoms' name='symptoms' type='input' as={TextField} />
+                                </Grid>
+
+                                <Grid item xs>
+                                    <FieldArray name="medicine">
+                                        {arrayHelpers => (
+                                            <>
+                                                <IconButton color="primary" onClick={() =>
+                                                    arrayHelpers.push({
+                                                        name: "",
+                                                        quantity: "",
+                                                        id: "" + Math.random()
+                                                    })
+                                                }
+                                                >
+                                                    <AddIcon />
+                                                </IconButton>
+
+                                                {values.medicine.map((note, index) => {
+                                                    return (
+                                                        <div key={note.id}>
+                                                            <MyTextField label="Medicine Name" placeholder="Medicine" name={`medicine.${index}.name`} />
+                                                            <MyTextField placeholder="Medicine Quantity" name={`medicine.${index}.quantity`} />
+                                                            <IconButton className={classes.button} onClick={() => arrayHelpers.remove(index)}>
+                                                                <ClearIcon />
+                                                            </IconButton>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </>
+                                        )}
+                                    </FieldArray>
+                                </Grid>
+                            </Grid>
+                        </DialogContent>
+                    </Hidden>
+                    
+                    <DialogActions>
+                        <Button color="primary" onClick={dialogProps.onClose}>Cancel</Button>
+                        <Button color="primary" variant="contained" onClick={onSubmit}
+                        //   disabled={} type="submit" className={classes.button} disabled={isSubmitting}
+                        >Prescribe
+                        </Button>
+                    </DialogActions>
+
+                    <pre>{JSON.stringify(values, null, 2)}</pre>
+                    <pre>{JSON.stringify(errors, null, 2)}</pre>
+                </Form>
+            )}
+            </Formik>
+        </Dialog>
     )
 }
+
+PrescriptionFormDialog.propTypes = {
+    dialogProps: PropTypes.object.isRequired,
+};
 
 export default PrescriptionFormDialog

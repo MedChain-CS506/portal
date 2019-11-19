@@ -87,11 +87,11 @@ export default function Prescriptions({
             Prescriptions
           </Typography>
           <span className={classes.toolbarButtons}>
-            <IconButton color="primary">
-              <AddIcon onClick={onNewPrescriptionClick} />
-            </IconButton>
-            <IconButton color="primary">
+            <IconButton>
               <CreateIcon />
+            </IconButton>
+            <IconButton onClick={onNewPrescriptionClick}>
+              <AddIcon />
             </IconButton>
           </span>
         </Toolbar>

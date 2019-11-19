@@ -188,6 +188,7 @@ function App() {
                   />
                   <Route component={NotFound} />
                 </Switch>
+                </Router>
 
                 <DialogHost 
                 dialogs={{
@@ -198,15 +199,14 @@ function App() {
                     }
                   },
 
-                  // prescriptionFormDialog: {
-                  //   dialogProps: {
-                  //     open: dialog.prescriptionFormDialog,
-                  //     onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
-                  //   }
-                  // }
+                  prescriptionFormDialog: {
+                    dialogProps: {
+                      open: dialog.prescriptionFormDialog,
+                      onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
+                    }
+                  }
                 }}
               />
-            </Router>
 
             <Snackbar
               autoHideDuration={snackbar.autoHideDuration}
