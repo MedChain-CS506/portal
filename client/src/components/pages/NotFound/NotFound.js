@@ -53,7 +53,7 @@ const NotFound = () => {
       <Fab
         data-testid="home-button"
         className={classes.button}
-        color="secondary"
+        color="primary"
         component={Link}
         to="/"
         variant="extended"

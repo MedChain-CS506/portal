@@ -12,12 +12,10 @@ import {
 import Navbar from './components/layout/Navbar';
 import Loading from './components/layout/Loading';
 import DialogHost from './components/layout/Dialog/DialogHost'
-import AddPrescription from './components/pages/AddPrescription';
 
 //* Pages
 import Landing from './components/pages/Landing';
 import Profile from './components/pages/Profile';
-import PatientForm from './components/pages/PatientForm';
 import NotFound from './components/pages/NotFound';
 
 //* Context
@@ -173,40 +171,41 @@ function App() {
           <>
             <Router>
               <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
-                      setDialog({ ...dialog, patientFormDialog: true })} />}
-                  />
-                  <Route
-                    exact
-                    path="/profile/:id"
-                    render={props => <Profile {...props} signedIn={signedIn} contract={contract} onNewPrescriptionClick={() =>
-                      setDialog({ ...dialog, prescriptionFormDialog: true })} />}
-                  />
-                  <Route component={NotFound} />
-                </Switch>
-                </Router>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
+                    setDialog({ ...dialog, patientFormDialog: true })} />}
+                />
 
-                <DialogHost 
-                dialogs={{
-                  patientFormDialog: {
-                    dialogProps: {
-                      open: dialog.patientFormDialog,
-                      onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
-                    }
-                  },
+                <Route
+                  exact
+                  path="/profile/:id"
+                  render={props => <Profile {...props} signedIn={signedIn} contract={contract} onNewPrescriptionClick={() =>
+                    setDialog({ ...dialog, prescriptionFormDialog: true })} />}
+                />
+                <Route component={NotFound} />
+              </Switch>
+            </Router>
 
-                  prescriptionFormDialog: {
-                    dialogProps: {
-                      open: dialog.prescriptionFormDialog,
-                      onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
-                    }
+            <DialogHost 
+              dialogs={{
+                patientFormDialog: {
+                  dialogProps: {
+                    open: dialog.patientFormDialog,
+                    onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
                   }
-                }}
-              />
+                },
+
+                prescriptionFormDialog: {
+                  dialogProps: {
+                    open: dialog.prescriptionFormDialog,
+                    onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
+                  }
+                }
+              }}
+            />
 
             <Snackbar
               autoHideDuration={snackbar.autoHideDuration}
@@ -232,21 +231,22 @@ function App() {
       {ready ? (
         <Router>
           <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => <Landing {...props} signedIn={signedIn} isPharmacist={true} />}
-              />
-              <Route
-                exact
-                path="/profile/:id"
-                render={props => (
-                  <Profile {...props} signedIn={signedIn} contract={contract} isPharmacist={true} />
-                )}
-              />
-              <Route component={NotFound} />
-            </Switch>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props => <Landing {...props} signedIn={signedIn} isPharmacist={true} />}
+            />
+
+            <Route
+              exact
+              path="/profile/:id"
+              render={props => (
+                <Profile {...props} signedIn={signedIn} contract={contract} isPharmacist={true} />
+              )}
+            />
+            <Route component={NotFound} />
+          </Switch>
         </Router>
       ) : (
         <Loading />
@@ -263,9 +263,9 @@ function App() {
     {ready ? (
       <Router>
         <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-          <Switch>
-            <Route component={NotFound} />
-          </Switch>
+        <Switch>
+          <Route component={NotFound} />
+        </Switch>
       </Router>
     ) : (
       <Loading />
