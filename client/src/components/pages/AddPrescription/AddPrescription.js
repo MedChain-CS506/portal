@@ -62,7 +62,7 @@ const SexRadio = ({ label, ...props }) => {
 }
 
 const validationSchema = yup.object({
-    aadhar: yup
+    aadhaar: yup
         .string()
         .required()
         .min(12)
@@ -93,7 +93,7 @@ const AddPrescription = ({ signedIn = false, contract }) => {
         let dt = new Date();
         let utcDate = dt.toUTCString();
         console.log(utcDate);
-        patientContext.addPrescription(contract, data.d_id, data.aadhar, data.disease, data.symptoms, medicine, utcDate);
+        patientContext.addPrescription(contract, data.d_id, data.aadhaar, data.disease, data.symptoms, medicine, utcDate);
     }
 
     if (!signedIn) return <Redirect to='/not-found' />
@@ -105,7 +105,7 @@ const AddPrescription = ({ signedIn = false, contract }) => {
                     <Typography variant="h3" align='center' gutterBottom> New Prescription </Typography>
                     <Divider className={classes.divider} />
                     <Formik
-                        initialValues={{ aadhar: '', d_id: '', symptoms: '', disease: '', medicine: [{  name: "", quantity: "", id: "" + Math.random() }] }}
+                        initialValues={{ aadhaar: '', d_id: '', symptoms: '', disease: '', medicine: [{  name: "", quantity: "", id: "" + Math.random() }] }}
                         validationSchema={validationSchema}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
@@ -118,8 +118,8 @@ const AddPrescription = ({ signedIn = false, contract }) => {
                         {({ values, errors, isSubmitting }) => (
                             <Form id="patient-form">
                                 <Grid container spacing={3}>
-                                    <Grid id="aadhar" item xs={12}>
-                                        <MyTextField placeholder='Aadhar' name='aadhar' type='input' as={TextField} />
+                                    <Grid id="aadhaar" item xs={12}>
+                                        <MyTextField placeholder='Aadhaar' name='aadhaar' type='input' as={TextField} />
                                     </Grid>
                                     <Grid id="d_id" item xs={12}>
                                         <MyTextField placeholder='Doctor ID' name='d_id' type='input' as={TextField} />

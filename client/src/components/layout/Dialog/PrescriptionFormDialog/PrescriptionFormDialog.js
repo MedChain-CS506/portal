@@ -10,7 +10,8 @@ import { Redirect } from 'react-router-dom';
 
 import 'date-fns';
 import * as yup from "yup";
-import PatientContext from '../../../context/patient/PatientContext';
+import PatientContext from '../../../../context/patient/PatientContext';
+
 
 const useStyles = makeStyles(theme => ({
     layout: {
@@ -56,7 +57,7 @@ const MyTextField = ({ placeholder, ...props }) => {
 const SexRadio = ({ label, ...props }) => {
     const [field] = useField(props)
     return (
-        <FormControlLabel {...field} control={<Radio color="primary" />} label={label} labelPlacement="bottom" />
+        <FormControlLabel {...field} control={< Radio color="primary" />} label={label} labelPlacement="bottom" />
     )
 }
 
@@ -66,36 +67,45 @@ const validationSchema = yup.object({
         .required()
         .min(12)
         .max(12),
-    firstName: yup
-        .string()
-        .required(),
-    lastName: yup
-        .string()
-        .required(),
-    notes: yup.array().of(
+    medicine: yup.array().of(
         yup.object({
             name: yup.string().required()
         })
     )
 })
 
-const PatientForm = ({ signedIn = false, contract }) => {
+const PrescriptionFormDialog = ({ signedIn = false, contract }) => {
     const classes = useStyles();
     const patientContext = useContext(PatientContext);
 
     const onSubmit = (data) => {
-        let fullName = data.firstName + " " + data.lastName;
-        patientContext.addPatient(contract, data.aadhaar, fullName, data.dob, data.weight, data.sex, "a");
+        let medicine = "";
+        for (var med in data.medicine) {
+            medicine = medicine + "-" + med ;
+            for(var values in data.medicine[med]){
+                if(values !== 'id'){
+                   medicine = medicine + "-" + data.medicine[med][values];
+                }
+            }
+        }
+        medicine = medicine.substr(1);
+        console.log(medicine);
+        let dt = new Date();
+        let utcDate = dt.toUTCString();
+        console.log(utcDate);
+        patientContext.addPrescription(contract, data.d_id, data.aadhaar, data.disease, data.symptoms, medicine, utcDate);
     }
+
+    //if (!signedIn) return <Redirect to='/not-found' />
 
     return (
         <>
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
-                    <Typography variant="h3" align='center' gutterBottom> New Patient </Typography>
+                    <Typography variant="h3" align='center' gutterBottom> New Prescription </Typography>
                     <Divider className={classes.divider} />
                     <Formik
-                        initialValues={{ aadhaar: '', firstName: '', lastName: '', sex: '', weight: '', dob: '', notes: [{ type: "allergy", name: "hay fever", id: "" + Math.random() }] }}
+                        initialValues={{ aadhaar: '', d_id: '', symptoms: '', disease: '', medicine: [{  name: "", quantity: "", id: "" + Math.random() }] }}
                         validationSchema={validationSchema}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
@@ -111,53 +121,36 @@ const PatientForm = ({ signedIn = false, contract }) => {
                                     <Grid id="aadhaar" item xs={12}>
                                         <MyTextField placeholder='Aadhaar' name='aadhaar' type='input' as={TextField} />
                                     </Grid>
-                                    <Grid id="first-name" item xs={12} sm={6}>
-                                        <Field placeholder='First name' name='firstName' type='input' fullWidth as={TextField} />
+                                    <Grid id="d_id" item xs={12}>
+                                        <MyTextField placeholder='Doctor ID' name='d_id' type='input' as={TextField} />
                                     </Grid>
-                                    <Grid id="last-name" item xs={12} sm={6}>
-                                        <Field placeholder='Last name' name='lastName' type='input' fullWidth as={TextField} />
+                                    <Grid id="symptoms" item xs={12}>
+                                        <MyTextField placeholder='Symptoms' name='symptoms' type='input' as={TextField} />
                                     </Grid>
-                                    <Grid id="sex" item xs={12} md={4}>
-                                        <FormLabel fullWidth>Sex</FormLabel>
-                                        <FormGroup id="sex-choices" row='true'>
-                                            <SexRadio name="sex" type="radio" value="male" label="male" />
-                                            <SexRadio name="sex" type="radio" value="female" label="female" />
-                                        </FormGroup>
+                                    <Grid id="disease" item xs={12}>
+                                        <MyTextField placeholder='Disease' name='disease' type='input' as={TextField} />
                                     </Grid>
-                                    <Grid id="weight" item xs={12} md={4}>
-                                        <Field name='weight' margin="normal" label="Weight" type="number"
-                                            InputProps={{ startAdornment: <InputAdornment position="start">Kg</InputAdornment> }}
-                                            InputLabelProps={{ shrink: true }}
-                                            as={TextField}
-                                        />
-                                    </Grid>
-                                    <Grid id="date-of-birth" item xs={12} md={4}>
-                                        <Field name="dob" margin="normal" label="Birthday" type="date" defaultValue="2000-01-01" InputLabelProps={{ shrink: true }} as={TextField} />
-                                    </Grid>
-                                    <Grid id="notes" item xs={12}>
-                                        <FieldArray name="notes">
+                                    <Grid id="medicine" item xs={12}>
+                                        <FieldArray name="medicine">
                                             {arrayHelpers => (
                                                 <div>
                                                     <Button
                                                         onClick={() =>
                                                             arrayHelpers.push({
-                                                                type: "allergy",
                                                                 name: "",
+                                                                quantity: "",
                                                                 id: "" + Math.random()
                                                             })
                                                         }
                                                         variant="contained"
                                                     >
-                                                        add note
+                                                        add medicine
                                                     </Button>
-                                                    {values.notes.map((note, index) => {
+                                                    {values.medicine.map((note, index) => {
                                                         return (
                                                             <div key={note.id}>
-                                                                <MyTextField placeholder="New Note" name={`notes.${index}.name`} />
-                                                                <Field name={`notes.${index}.type`} type="select" as={Select} >
-                                                                    <MenuItem value="allergy">Allergy</MenuItem>
-                                                                    <MenuItem value="disease">Disease</MenuItem>
-                                                                </Field>
+                                                                <MyTextField placeholder="Medicine Name" name={`medicine.${index}.name`} />
+                                                                <MyTextField placeholder="Medicine Quantity" name={`medicine.${index}.quantity`} />
                                                                 <Button className={classes.button} onClick={() => arrayHelpers.remove(index)}> x </Button>
                                                             </div>
                                                         );
@@ -181,4 +174,4 @@ const PatientForm = ({ signedIn = false, contract }) => {
     )
 }
 
-export default PatientForm
+export default PrescriptionFormDialog

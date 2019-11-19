@@ -30,16 +30,18 @@ it("renders correctly with signedIn being false", () => {
   expect(getByTestId("basic-desc")).toHaveTextContent(
     "The simplest decentralized medical-records application"
   );
-  expect(getByTestId("github-link")).toBeTruthy();
 });
 
-it("renders correctly with signedIn being true", () => {
+it("renders correctly with signedIn being true, as a doctor", () => {
   const { getByTestId } = render(
     <Router>
-      <Landing signedIn={true} />
+      <Landing signedIn={true} isPharmacist={false} />
     </Router>
   );
-  expect(getByTestId("new-patient-button")).toHaveTextContent(
-    "New Patient Form"
-  );
+  // expect(getByTestId("search-bar")).toHaveTextContent(
+  //   process.env.REACT_APP_NAME
+  // );
+  expect(getByTestId("add-patient-button")).toBeTruthy();
+  expect(getByTestId("search-bar")).toBeTruthy();
+  expect(getByTestId("search-patient-form")).toBeTruthy();
 });

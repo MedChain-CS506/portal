@@ -5,16 +5,14 @@ import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
+  Route
 } from 'react-router-dom';
-
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { theme, changeTheme } from './utils/theme';
 
 //* Components
 import Navbar from './components/layout/Navbar';
 import Loading from './components/layout/Loading';
+import DialogHost from './components/layout/Dialog/DialogHost'
+import AddPrescription from './components/pages/AddPrescription';
 
 //* Pages
 import Landing from './components/pages/Landing';
@@ -25,10 +23,13 @@ import NotFound from './components/pages/NotFound';
 //* Context
 import PatientState from './context/patient/PatientState';
 
-//* Styles
+//* Styles / MUI
 import './index.css';
 import { CssBaseline } from '@material-ui/core';
-import AddPrescription from './components/pages/AddPrescription';
+import Snackbar from '@material-ui/core/Snackbar';
+import readingTime from 'reading-time';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { theme, changeTheme } from './utils/theme';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -55,6 +56,31 @@ function App() {
 
   const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
+
+  //! New Patient Form Dialog
+  const [dialog, setDialog] = useState({
+    patientFormDialog: false,
+    prescriptionFormDialog: false
+  })
+
+  //! Use this for confirmation feedback
+  const [snackbar, setSnackbar] = useState({
+    autoHideDuration: 0,
+    message: '',
+    open: false
+  })
+
+  const openSnackbar = (message, autoHideDuration = 2) => {
+    setSnackbar({
+      autoHideDuration: readingTime(message).time * autoHideDuration,
+      message,
+      open: true
+    })
+  }
+    
+  const closeSnackbar = (clearMessage = false) => {
+    setSnackbar({ ...snackbar, message: clearMessage ? '' : snackbar.message,open: false })
+  }
 
   useEffect(() => {
     async function connectMetamask() {
@@ -115,11 +141,11 @@ function App() {
     palette: {
       primary: {
         main: '#FF0000',
-        light: '#E7F6E7',
-        contrastText: '#FFFFFF',
+        // light: '#E7F6E7',
+        // contrastText: '#FFFFFF',
       },
       secondary: {
-        main: '#FFFFFF',
+        main: '#0000FF',
       },
       type: 'light',
     }
@@ -136,18 +162,76 @@ function App() {
     });
   };
 
-  //! WHEN THE PERSON SIGNED IN IS A PHARMACIST
-  //! NOTE TO SELF... CAN WE DELETE {...PROPS}
-  //! Need a better way then this if statement...
+  //! Ternary to replace if statement...?
+  if (isDoc) {
+    return (
+      <PatientState>
+        <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+
+        {ready ? (
+          <>
+            <Router>
+              <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
+                      setDialog({ ...dialog, patientFormDialog: true })} />}
+                  />
+                  <Route
+                    exact
+                    path="/profile/:id"
+                    render={props => <Profile {...props} signedIn={signedIn} contract={contract} onNewPrescriptionClick={() =>
+                      setDialog({ ...dialog, prescriptionFormDialog: true })} />}
+                  />
+                  <Route component={NotFound} />
+                </Switch>
+
+                <DialogHost 
+                dialogs={{
+                  patientFormDialog: {
+                    dialogProps: {
+                      open: dialog.patientFormDialog,
+                      onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
+                    }
+                  },
+
+                  // prescriptionFormDialog: {
+                  //   dialogProps: {
+                  //     open: dialog.prescriptionFormDialog,
+                  //     onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
+                  //   }
+                  // }
+                }}
+              />
+            </Router>
+
+            <Snackbar
+              autoHideDuration={snackbar.autoHideDuration}
+              message={snackbar.message}
+              open={snackbar.open}
+              onClose={() => setSnackbar({ ...snackbar, open: false })}
+            />
+          </>
+        ) : (
+          <Loading />
+        )}
+        </ThemeProvider>
+      </PatientState>
+    );
+  }
+
   if (isPharmacist) {
     return (
       <PatientState>
       <ThemeProvider theme={muiTheme}>
       <CssBaseline />
+
       {ready ? (
         <Router>
           <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
-          <div className="container">
             <Switch>
               <Route
                 exact
@@ -162,9 +246,7 @@ function App() {
                 )}
               />
               <Route component={NotFound} />
-              <Redirect to="/not-found" />
             </Switch>
-          </div>
         </Router>
       ) : (
         <Loading />
@@ -174,65 +256,6 @@ function App() {
     )
   }
 
-  
-
-  if(isDoc){
-    return (
-      <PatientState>
-        <ThemeProvider theme={muiTheme}>
-        <CssBaseline />
-        {ready ? (
-          <Router>
-            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-            <div className="container">
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => <Landing {...props} signedIn={signedIn} />}
-                />
-                <Route
-                  exact
-                  path="/patient-form"
-                  render={props => (
-                    <PatientForm
-                      {...props}
-                      signedIn={signedIn}
-                      contract={contract}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/prescriptions"
-                  render={props => (
-                    <AddPrescription
-                      {...props}
-                      signedIn={signedIn}
-                      contract={contract}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/profile/:id"
-                  render={props => (
-                    <Profile {...props} signedIn={signedIn} contract={contract} />
-                  )}
-                />
-                <Route component={NotFound} />
-                <Redirect to="/not-found" />
-              </Switch>
-            </div>
-          </Router>
-        ) : (
-          <Loading />
-        )}
-        </ThemeProvider>
-      </PatientState>
-    );
-  }
-
   return (
     <PatientState>
     <ThemeProvider theme={muiTheme}>
@@ -240,12 +263,9 @@ function App() {
     {ready ? (
       <Router>
         <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-        <div className="container">
           <Switch>
             <Route component={NotFound} />
-            <Redirect to="/not-found" />
           </Switch>
-        </div>
       </Router>
     ) : (
       <Loading />
