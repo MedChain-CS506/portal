@@ -52,7 +52,7 @@ function App() {
     contract: null,
   });
 
-  const [isDoc, setIsDoc] = useState(false);
+  const [isDoc, setIsDoc] = useState(true);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   //! New Patient Form Dialog
@@ -80,7 +80,7 @@ function App() {
     setSnackbar({ ...snackbar, message: clearMessage ? '' : snackbar.message,open: false })
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     async function connectMetamask() {
       try {
         const web3 = await getWeb3();
@@ -129,7 +129,7 @@ function App() {
       }, 100)
     });
   }, [signedIn, isDoc, isPharmacist]);
-
+*/
   const log = () => {
     console.log("isDoc:" +  isDoc);
     console.log("isPhar:" +  isPharmacist);

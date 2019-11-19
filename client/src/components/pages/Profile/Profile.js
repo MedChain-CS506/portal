@@ -51,6 +51,7 @@ const Profile = ({
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  //IF its a doctor render page for doctors
   if (!isPharmacist) {
     return (
       <div className={classes.root}>
