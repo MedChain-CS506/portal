@@ -26,8 +26,8 @@ import NotFound from './components/pages/NotFound';
 import Profile from './components/pages/Profile';
 
 //* Blockchain
-// import getWeb3 from './utils/getWeb3.js';
-// import MedChainContract from './contracts/med_chain.json';
+import getWeb3 from './utils/getWeb3.js';
+import MedChainContract from './contracts/med_chain.json';
 
 async function docCheck(contract) {
   let result = 10;
