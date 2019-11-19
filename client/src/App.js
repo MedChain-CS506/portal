@@ -53,6 +53,7 @@ function App() {
     accounts: null,
     contract: null,
   });
+
   const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
@@ -140,11 +141,11 @@ function App() {
     palette: {
       primary: {
         main: '#FF0000',
-        light: '#E7F6E7',
-        contrastText: '#FFFFFF',
+        // light: '#E7F6E7',
+        // contrastText: '#FFFFFF',
       },
       secondary: {
-        main: '#FFFFFF',
+        main: '#0000FF',
       },
       type: 'light',
     }
@@ -197,12 +198,12 @@ function App() {
                     }
                   },
 
-                  prescriptionFormDialog: {
-                    dialogProps: {
-                      open: dialog.prescriptionFormDialog,
-                      onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
-                    }
-                  }
+                  // prescriptionFormDialog: {
+                  //   dialogProps: {
+                  //     open: dialog.prescriptionFormDialog,
+                  //     onClose: () => setDialog({ ...dialog, prescriptionFormDialog: false }),
+                  //   }
+                  // }
                 }}
               />
             </Router>

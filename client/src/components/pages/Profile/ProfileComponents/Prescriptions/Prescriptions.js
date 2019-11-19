@@ -73,56 +73,108 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Prescriptions({ onNewPrescriptionClick }) {
+export default function Prescriptions({
+  onNewPrescriptionClick,
+  isPharmacist,
+}) {
   const classes = useStyles();
-  return (
-    <>
-      <Toolbar>
-        <Typography component="h2" variant="h5" color="primary" gutterBottom>
-          Prescriptions
-        </Typography>
-        <span className={classes.toolbarButtons}>
-          <IconButton color="primary">
-            <AddIcon onClick={onNewPrescriptionClick} />
-          </IconButton>
-          <IconButton color="primary">
-            <CreateIcon />
-          </IconButton>
-        </span>
-      </Toolbar>
 
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Dosage</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>Status</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.dosage}</TableCell>
-              <TableCell>{row.quantity}</TableCell>
-              <TableCell>{row.status}</TableCell>
+  if (!isPharmacist) {
+    return (
+      <>
+        <Toolbar>
+          <Typography component="h2" variant="h5" color="primary" gutterBottom>
+            Prescriptions
+          </Typography>
+          <span className={classes.toolbarButtons}>
+            <IconButton color="primary">
+              <AddIcon onClick={onNewPrescriptionClick} />
+            </IconButton>
+            <IconButton color="primary">
+              <CreateIcon />
+            </IconButton>
+          </span>
+        </Toolbar>
+
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Dosage</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#">
-          See more
-        </Link>
-      </div>
-    </>
-  );
+          </TableHead>
+          <TableBody>
+            {rows.map(row => (
+              <TableRow key={row.id}>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.dosage}</TableCell>
+                <TableCell>{row.quantity}</TableCell>
+                <TableCell>{row.status}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className={classes.seeMore}>
+          <Link color="primary" href="#">
+            See more
+          </Link>
+        </div>
+      </>
+    );
+  }
+
+  if (isPharmacist) {
+    return (
+      <>
+        <Toolbar>
+          <Typography
+            component="h2"
+            variant="h5"
+            color="secondary"
+            gutterBottom
+          >
+            Prescriptions
+          </Typography>
+        </Toolbar>
+
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Dosage</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map(row => (
+              <TableRow key={row.id}>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.dosage}</TableCell>
+                <TableCell>{row.quantity}</TableCell>
+                <TableCell>{row.status}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className={classes.seeMore}>
+          <Link color="secondary" href="#">
+            See more
+          </Link>
+        </div>
+      </>
+    );
+  }
 }
 
 Prescriptions.propTypes = {
   // signedIn: PropTypes.bool.isRequired,
   onNewPrescriptionClick: PropTypes.func.isRequired,
+  isPharmacist: PropTypes.bool,
 };

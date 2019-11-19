@@ -93,6 +93,7 @@ const Profile = ({
                 <Paper className={classes.paper}>
                   <Prescriptions
                     onNewPrescriptionClick={() => onNewPrescriptionClick}
+                    isPharmacist={isPharmacist}
                   />
                 </Paper>
               </Grid>
