@@ -6,7 +6,7 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 
 
-contract Testmed_chain {
+contract TestPrescriptionAndHistory {
     
     med_chain private testContract;
  
@@ -25,6 +25,7 @@ contract Testmed_chain {
     uint weight2 = 152;
     string sex2 = "sex2"; 
     string allergies2 = "allergies2";
+    string allAllergies = "allergies-allergies2";
     
     // resulted patient info after function call
     uint res_aadhaar;
@@ -70,41 +71,11 @@ contract Testmed_chain {
 
     // creating a contract instance and calling add_patient and add_prescription
     // also, forcing it to run before any tests (remix runs tests alphabatically)
-    function beforeEach() external {
+    function beforeAll() external {
         testContract = new med_chain();
         testContract.add_patient(aadhaar, name, dob, weight, sex, allergies);
         testContract.add_prescription(d_id, aadhaar, disease, symptoms, medicine, timestamp_prescribed);
     }
-
-    // test lookup_patient
-    function testLookUppatient() external {
-      //  testContract = new med_chain();
-        (res_aadhaar, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_patient(aadhaar);
-        Assert.equal(aadhaar, res_aadhaar, "Pateint's aadhaar does not match");
-        //Assert.equal(age, res_age, "Pateint's age does not match");
-        Assert.equal(name, res_name, "Pateint's name does not match");
-        Assert.equal(dob, res_dob, "Pateint's dob does not match");
-        Assert.equal(weight, res_weight, "Pateint's weight does not match");
-        Assert.equal(sex, res_sex, "Pateint's sex does not match");
-        Assert.equal(allergies, res_allergies, "Pateint's allergies does not match");
-    }
-
-    // //test it against editing the patient's info --- NOT WORKING <OUT OF GAS> 
-    // function testLookUppatient2() external {
-    //   //  testContract = new med_chain();
-    //     // call the edit_patient with new info
-    //     testContract.edit_patient(aadhaar, name2, weight2, sex2, allergies2);
-    //     (res_aadhaar, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_patient(aadhaar);
-    //     //Assert.equal(aadhaar2, res_aadhaar, "Pateint's aadhaar does not match");
-    //     //Assert.equal(age, res_age, "Pateint's age does not match");
-    //     Assert.equal(name2, res_name, "Pateint's name does not match");
-    //     Assert.equal(weight2, res_weight, "Pateint's weight does not match");
-    //     Assert.equal(sex2, res_sex, "Pateint's sex does not match");
-    //     Assert.equal(allergies2, res_allergies, "Pateint's allergies does not match");
-
-    //     //reset the info for the patient
-    //     testContract.edit_patient(aadhaar, name, weight, sex, allergies);
-    // }
  
     // test patient's last_prescription
     function testLast_prescription() external {
@@ -130,11 +101,11 @@ contract Testmed_chain {
         Assert.equal(symptoms_, res_symptoms, "Patient's sysmptoms in medical history conflict");
     }
     
-    // test mdeical history part 1
+    // test mdeical history part 2
     function testMedicalHistory() external{
         (res_dis_, res_med_, res_time_) = testContract.medical_history(aadhaar);
-        Assert.equal(res_dis_, dis_, "Patient's dis in medical history conflict");
-        Assert.equal(res_med_, med_, "Patient's med in medical history conflict");
+        Assert.equal(res_dis_, dis_, "Patient's disease in medical history conflict");
+        Assert.equal(res_med_, med_, "Patient's medicine in medical history conflict");
         Assert.equal(res_time_, time_, "Patient's time in medical history conflict");
     }
 }
