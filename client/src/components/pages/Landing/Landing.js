@@ -129,12 +129,20 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
 
   if (isPharmacist) {
     return (
-      <form className={classes.root} onSubmit={onSubmit}>
+      <form className={classes.root} onSubmit={redirectToPatient}>
         <Typography color="textSecondary" variant="h2">
           {process.env.REACT_APP_NAME}
         </Typography>
-        <Paper component="form" className={classes.inputRoot}>
-          <IconButton type="submit" className={classes.iconButton}>
+        <Paper
+          component="form"
+          className={classes.inputRoot}
+          onSubmit={setReady}
+        >
+          <IconButton
+            type="submit"
+            className={classes.iconButton}
+            onSubmit={setReady}
+          >
             <SearchIcon />
           </IconButton>
           <InputBase
@@ -145,8 +153,10 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
             name="aadhaar"
             value={aadhaar}
             onChange={e => setAadhaar(e.target.value)}
+            onSubmit={setReady}
           />
         </Paper>
+        {redirectToPatient()}
       </form>
     );
   }
