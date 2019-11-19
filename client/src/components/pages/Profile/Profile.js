@@ -8,7 +8,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 import BasicInfo from './ProfileComponents/BasicInfo';
 import Files from './ProfileComponents/Files';
@@ -104,6 +103,35 @@ const Profile = ({
       </div>
     );
   }
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <main className={classes.content}>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={8} lg={8}>
+              <Paper className={fixedHeightPaper}>
+                <BasicInfo />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper}>
+                <Files />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Prescriptions
+                  onNewPrescriptionClick={onNewPrescriptionClick}
+                />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Container>
+      </main>
+    </div>
+  );
 };
 
 Profile.propTypes = {

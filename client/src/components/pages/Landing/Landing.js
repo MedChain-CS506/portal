@@ -107,7 +107,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
           <Divider className={classes.divider} orientation="vertical" />
           <Tooltip title="New Patient">
             <IconButton
-              data-testid="add-patient-button" 
+              data-testid="add-patient-button"
               color="primary"
               className={classes.iconButton}
               onClick={onNewPatientClick}
@@ -153,7 +153,11 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
       <Typography color="textSecondary" variant="h3">
         {process.env.REACT_APP_NAME}
       </Typography>
-      <Typography data-testid="basic-desc" color="textSecondary" variant="subtitle1">
+      <Typography
+        data-testid="basic-desc"
+        color="textSecondary"
+        variant="subtitle1"
+      >
         The simplest decentralized medical-records application
       </Typography>
     </div>
