@@ -166,7 +166,7 @@ function App() {
       <PatientState>
         <ThemeProvider theme={muiTheme}>
         <CssBaseline />
-
+  
         {ready ? (
           <>
             <Router>
@@ -178,7 +178,7 @@ function App() {
                   render={props => <Landing {...props} signedIn={signedIn} onNewPatientClick={() =>
                     setDialog({ ...dialog, patientFormDialog: true })} />}
                 />
-
+  
                 <Route
                   exact
                   path="/profile/:id"
@@ -188,7 +188,7 @@ function App() {
                 <Route component={NotFound} />
               </Switch>
             </Router>
-
+  
             <DialogHost 
               dialogs={{
                 patientFormDialog: {
@@ -197,7 +197,7 @@ function App() {
                     onClose: () => setDialog({ ...dialog, patientFormDialog: false }),
                   }
                 },
-
+  
                 prescriptionFormDialog: {
                   dialogProps: {
                     open: dialog.prescriptionFormDialog,
@@ -206,7 +206,7 @@ function App() {
                 }
               }}
             />
-
+  
             <Snackbar
               autoHideDuration={snackbar.autoHideDuration}
               message={snackbar.message}
@@ -220,59 +220,57 @@ function App() {
         </ThemeProvider>
       </PatientState>
     );
-  }
-
-  if (isPharmacist) {
+  } else if (isPharmacist) {
+      return (
+        <PatientState>
+        <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+  
+        {ready ? (
+          <Router>
+            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => <Landing {...props} signedIn={signedIn} isPharmacist={true} />}
+              />
+  
+              <Route
+                exact
+                path="/profile/:id"
+                render={props => (
+                  <Profile {...props} signedIn={signedIn} contract={contract} isPharmacist={true} />
+                )}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </Router>
+        ) : (
+          <Loading />
+        )}
+        </ThemeProvider>
+      </PatientState>
+      )
+  } else {
     return (
       <PatientState>
-      <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-
-      {ready ? (
-        <Router>
-          <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={props => <Landing {...props} signedIn={signedIn} isPharmacist={true} />}
-            />
-
-            <Route
-              exact
-              path="/profile/:id"
-              render={props => (
-                <Profile {...props} signedIn={signedIn} contract={contract} isPharmacist={true} />
-              )}
-            />
-            <Route component={NotFound} />
-          </Switch>
-        </Router>
-      ) : (
-        <Loading />
-      )}
-      </ThemeProvider>
-    </PatientState>
+        <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {ready ? (
+          <Router>
+            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+            <Switch>
+              <Route component={NotFound} />
+            </Switch>
+          </Router>
+        ) : (
+          <Loading />
+        )}
+        </ThemeProvider>
+      </PatientState>
     )
   }
-
-  return (
-    <PatientState>
-    <ThemeProvider theme={muiTheme}>
-    <CssBaseline />
-    {ready ? (
-      <Router>
-        <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
-        <Switch>
-          <Route component={NotFound} />
-        </Switch>
-      </Router>
-    ) : (
-      <Loading />
-    )}
-    </ThemeProvider>
-  </PatientState>
-  )
 }
 
 export default App;
