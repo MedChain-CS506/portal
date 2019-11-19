@@ -50,6 +50,38 @@ const Profile = ({
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  //IF its a doctor render page for doctors
+  if (!isPharmacist) {
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <main className={classes.content}>
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={8} lg={8}>
+                <Paper className={fixedHeightPaper}>
+                  <BasicInfo />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={4} lg={4}>
+                <Paper className={fixedHeightPaper}>
+                  <Files />
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Prescriptions
+                    onNewPrescriptionClick={onNewPrescriptionClick}
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Container>
+        </main>
+      </div>
+    );
+  }
+
   if (isPharmacist) {
     return (
       <div className={classes.root}>

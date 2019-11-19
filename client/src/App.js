@@ -71,64 +71,61 @@ function App() {
       autoHideDuration: readingTime(message).time * autoHideDuration,
       message,
       open: true,
+  })
+    
+  const closeSnackbar = (clearMessage = false) => {
+    setSnackbar({ ...snackbar, message: clearMessage ? '' : snackbar.message,open: false })
+  }
+
+  useEffect(() => {
+    async function connectMetamask() {
+      try {
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = MedChainContract.networks[networkId];
+        const instance = new web3.eth.Contract(
+          MedChainContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
+        };
+        setContract(data);
+        setSignedIn(true);
+        setReady(true);
+        return data;
+      } catch (error) {
+        setSignedIn(false);
+        setReady(false);
+        console.error(error);
+      }
+    }
+
+    connectMetamask().then((data) => {
+      docCheck(data).then((res) => {
+        if(res == 0){
+          setIsDoc(true);
+        } else if (res == 1) {
+          setIsPharmacist(true);
+        }
+      })
+      setInterval(async () => {
+        try{
+          const rn = await data.web3.eth.getAccounts();
+          if (rn[0] !== data.accounts[0]) {
+            setSignedIn(false);
+          } else if (rn[0] === data.accounts[0]) {
+            setSignedIn(true);
+          }
+        } catch (err) {
+
+        }
+      }, 100)
     });
-
-  const closeSnackbar = (clearMessage = false) =>
-    setSnackbar({
-      ...snackbar,
-      message: clearMessage ? '' : snackbar.message,
-      open: false,
-    });
-
-  // useEffect(() => {
-  //   async function connectMetamask() {
-  //     try {
-  //       const web3 = await getWeb3();
-  //       const accounts = await web3.eth.getAccounts();
-  //       const networkId = await web3.eth.net.getId();
-  //       const deployedNetwork = MedChainContract.networks[networkId];
-  //       const instance = new web3.eth.Contract(
-  //         MedChainContract.abi,
-  //         deployedNetwork && deployedNetwork.address
-  //       );
-  //       let data = {
-  //         accounts: accounts,
-  //         web3: web3,
-  //         contract: instance
-  //       };
-  //       setContract(data);
-  //       setSignedIn(true);
-  //       setReady(true);
-  //       return data;
-  //     } catch (error) {
-  //       setSignedIn(false);
-  //       setReady(false);
-  //       console.error(error);
-  //     }
-  //   }
-
-  //   connectMetamask().then((data) => {
-  //     docCheck(data).then((res) => {
-  //       if(res == 0){
-  //         setIsDoc(true);
-  //       } else if (res == 1) {
-  //         setIsPharmacist(true);
-  //       }
-  //     })
-  //     setInterval(async () => {
-  //       try{
-  //         const rn = await data.web3.eth.getAccounts();
-  //         if (rn[0] !== data.accounts[0]) {
-  //           setSignedIn(false);
-  //         } else if (rn[0] === data.accounts[0]) {
-  //           setSignedIn(true);
-  //         }
-  //       } catch (err) {
-
-  //       }
-  //     }, 100)
-  //   });
-  // }, [signedIn, isDoc, isPharmacist]);
+  }, [signedIn, isDoc, isPharmacist]);
 
   const log = () => {
     console.log(`isDoc:${isDoc}`);

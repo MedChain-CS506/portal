@@ -56,6 +56,8 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
   const classes = useStyles();
   // const patientContext = useContext(PatientContext);
 
+  const [send, setSend] = useState(false);
+
   const [aadhaar, setAadhaar] = useState('');
 
   const onSubmit = e => {
@@ -69,9 +71,21 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
     return <Redirect to="/not-found" />;
   };
 
+  const setReady = () => {
+    setSend(true);
+  };
+  const redirectToPatient = () => {
+    const pageID = `/profile/${aadhaar}`;
+    console.log(pageID);
+    console.log(send);
+    if (send === true) {
+      return <Redirect to={pageID}></Redirect>;
+    }
+  };
+
   if (signedIn && !isPharmacist) {
     return (
-      <form className={classes.root} onSubmit={onSubmit}>
+      <form className={classes.root} onSubmit={redirectToPatient}>
         <Typography data-testid="app-name" color="textSecondary" variant="h2">
           {process.env.REACT_APP_NAME}
         </Typography>
@@ -79,9 +93,10 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
           data-testid="search-patient-form"
           component="form"
           className={classes.inputRoot}
+          onSubmit={setReady}
         >
           <IconButton type="submit" className={classes.iconButton}>
-            <SearchIcon type="submit" />
+            <SearchIcon type="submit" onSubmit={setReady} />
           </IconButton>
           <InputBase
             data-testid="search-bar"
@@ -92,6 +107,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
             name="aadhaar"
             value={aadhaar}
             onChange={e => setAadhaar(e.target.value)}
+            onSubmit={setReady}
           />
           <Divider className={classes.divider} orientation="vertical" />
           <Tooltip title="New Patient">
@@ -105,6 +121,8 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
             </IconButton>
           </Tooltip>
         </Paper>
+
+        {redirectToPatient()}
       </form>
     );
   }
