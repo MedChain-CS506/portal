@@ -139,8 +139,6 @@ function App() {
     palette: {
       primary: {
         main: '#FF0000',
-        // light: '#E7F6E7',
-        // contrastText: '#FFFFFF',
       },
       secondary: {
         main: '#0000FF',
@@ -160,13 +158,11 @@ function App() {
     });
   };
 
-  //! Ternary to replace if statement...?
   if (isDoc) {
     return (
       <PatientState>
         <ThemeProvider theme={muiTheme}>
         <CssBaseline />
-  
         {ready ? (
           <>
             <Router>
@@ -225,7 +221,6 @@ function App() {
         <PatientState>
         <ThemeProvider theme={muiTheme}>
         <CssBaseline />
-  
         {ready ? (
           <Router>
             <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} isPharmacist={true} />
