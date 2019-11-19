@@ -83,7 +83,40 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
     }
   };
 
-  if (signedIn && !isPharmacist) {
+  if (isPharmacist) {
+    return (
+      <form className={classes.root} onSubmit={redirectToPatient}>
+        <Typography color="textSecondary" variant="h2">
+          {process.env.REACT_APP_NAME}
+        </Typography>
+        <Paper
+          component="form"
+          className={classes.inputRoot}
+          onSubmit={setReady}
+        >
+          <IconButton
+            type="submit"
+            className={classes.iconButton}
+            onSubmit={setReady}
+          >
+            <SearchIcon />
+          </IconButton>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Aadhaars"
+            autoFocus
+            type="number"
+            name="aadhaar"
+            value={aadhaar}
+            onChange={e => setAadhaar(e.target.value)}
+            onSubmit={setReady}
+          />
+        </Paper>
+        {redirectToPatient()}
+      </form>
+    );
+  }
+  if (!isPharmacist && signedIn) {
     return (
       <form className={classes.root} onSubmit={redirectToPatient}>
         <Typography data-testid="app-name" color="textSecondary" variant="h2">
@@ -120,41 +153,6 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
               <AddIcon />
             </IconButton>
           </Tooltip>
-        </Paper>
-
-        {redirectToPatient()}
-      </form>
-    );
-  }
-
-  if (isPharmacist) {
-    return (
-      <form className={classes.root} onSubmit={redirectToPatient}>
-        <Typography color="textSecondary" variant="h2">
-          {process.env.REACT_APP_NAME}
-        </Typography>
-        <Paper
-          component="form"
-          className={classes.inputRoot}
-          onSubmit={setReady}
-        >
-          <IconButton
-            type="submit"
-            className={classes.iconButton}
-            onSubmit={setReady}
-          >
-            <SearchIcon />
-          </IconButton>
-          <InputBase
-            className={classes.input}
-            placeholder="Search Aadhaars"
-            autoFocus
-            type="number"
-            name="aadhaar"
-            value={aadhaar}
-            onChange={e => setAadhaar(e.target.value)}
-            onSubmit={setReady}
-          />
         </Paper>
         {redirectToPatient()}
       </form>
