@@ -52,8 +52,8 @@ function App() {
     contract: null,
   });
 
-  const [isDoc, setIsDoc] = useState(true);
-  const [isPharmacist, setIsPharmacist] = useState(false);
+  const [isDoc, setIsDoc] = useState(false);
+  const [isPharmacist, setIsPharmacist] = useState(true);
 
   //! New Patient Form Dialog
   const [dialog, setDialog] = useState({
