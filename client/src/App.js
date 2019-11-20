@@ -7,13 +7,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 //* Context
 import PatientState from './context/patient/PatientState';
 
-//* Styles / MUI
-import './index.css';
-import { CssBaseline } from '@material-ui/core';
-import Snackbar from '@material-ui/core/Snackbar';
+//* MUI / Styles
+import { CssBaseline, Snackbar, ThemeProvider } from '@material-ui/core';
 import readingTime from 'reading-time';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { theme, changeTheme } from './utils/theme';
+import { lightTheme, darkTheme } from "./utils/theme";
+import './index.css';
 
 //* Layout
 import Loading from './components/layout/Loading';
@@ -51,7 +49,7 @@ function App() {
     contract: null,
   });
 
-  const [isDoc, setIsDoc] = useState(false);
+  const [isDoc, setIsDoc] = useState(true);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   const [dialog, setDialog] = useState({
@@ -132,39 +130,22 @@ function App() {
     console.log(`isPhar:${isPharmacist}`);
   };
 
-  const [theme, setTheme] = useState({
-    palette: {
-      primary: {
-        main: '#FF0000',
-      },
-      secondary: {
-        main: '#0000FF',
-      },
-      type: 'light',
-    },
-  });
-
-  const muiTheme = createMuiTheme(theme);
+  const [isLightTheme, setIsLightTheme] = useState(true);
 
   const toggleTheme = () => {
-    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-    const newPalette = { ...theme.palette, type: newPaletteType };
-    setTheme({
-      ...theme,
-      palette: newPalette,
-    });
+    setIsLightTheme(!isLightTheme);
   };
 
   if (isDoc) {
     return (
       <PatientState>
-        <ThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
           <CssBaseline />
           {ready ? (
             <>
               <Router>
                 <Navbar
-                  theme={muiTheme}
+                  theme={isLightTheme ? lightTheme : darkTheme} 
                   handleToggleTheme={() => toggleTheme()}
                 />
                 <Switch>
@@ -237,15 +218,15 @@ function App() {
   if (isPharmacist) {
     return (
       <PatientState>
-        <ThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
           <CssBaseline />
           {ready ? (
             <Router>
               <Navbar
-                theme={muiTheme}
-                handleToggleTheme={() => toggleTheme()}
-                isPharmacist
-              />
+                  theme={isLightTheme ? lightTheme : darkTheme} 
+                  handleToggleTheme={() => toggleTheme()}
+                  isPharmacist
+                />
               <Switch>
                 <Route
                   exact
@@ -279,11 +260,11 @@ function App() {
   }
   return (
     <PatientState>
-      <ThemeProvider theme={muiTheme}>
+      <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
         <CssBaseline />
         {ready ? (
           <Router>
-            <Navbar theme={muiTheme} handleToggleTheme={() => toggleTheme()} />
+            <Navbar theme={isLightTheme ? lightTheme : darkTheme} handleToggleTheme={() => toggleTheme()} />
             <Switch>
               <Route component={NotFound} />
             </Switch>
