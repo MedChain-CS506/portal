@@ -49,7 +49,7 @@ function App() {
     contract: null,
   });
 
-  const [isDoc, setIsDoc] = useState(true);
+  const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   const [dialog, setDialog] = useState({
