@@ -49,7 +49,7 @@ function App() {
     contract: null,
   });
 
-  const [isDoc, setIsDoc] = useState(false);
+  const [isDoc, setIsDoc] = useState(true);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   const [dialog, setDialog] = useState({
@@ -187,6 +187,7 @@ function App() {
                   patientFormDialog: {
                     dialogProps: {
                       open: dialog.patientFormDialog,
+                      contract: contract,
                       onClose: () =>
                         setDialog({ ...dialog, patientFormDialog: false }),
                     },

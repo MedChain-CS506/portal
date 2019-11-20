@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -27,21 +27,24 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 
-import {
-  MuiPickersUtilsProvider,
-  TimePicker,
-  DatePicker,
-} from '@material-ui/pickers';
+// import {
+//   MuiPickersUtilsProvider,
+//   TimePicker,
+//   DatePicker,
+// } from '@material-ui/pickers';
+
 import {
   Formik,
-  Field,
+  // Field,
   Form,
   useField,
-  FieldAttributes,
+  // FieldAttributes,
   FieldArray,
 } from 'formik';
+
 import * as yup from 'yup';
-import DateFnsUtils from '@date-io/date-fns';
+// import DateFnsUtils from '@date-io/date-fns';
+import PatientContext from '../../../../context/patient/PatientContext';
 
 const useStyles = makeStyles({
   dialogContent: {
@@ -151,19 +154,28 @@ const validationSchema = yup.object().shape({
 
 const PatientFormDialog = ({ dialogProps, ...props }) => {
   const classes = useStyles();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [aadhaar, setAadhaar] = useState('');
-  const [aadhaarConfirmation, setAadhaarConfirmation] = useState('');
-  const [weight, setWeight] = useState('');
-  const [dob, setDob] = useState('');
-  const [sex, setSex] = useState('');
-
-  const register = () => {
+  // const [firstName, setFirstName] = useState('');
+  // const [lastName, setLastName] = useState('');
+  // const [aadhaar, setAadhaar] = useState('');
+  // const [aadhaarConfirmation, setAadhaarConfirmation] = useState('');
+  // const [weight, setWeight] = useState('');
+  // const [dob, setDob] = useState('');
+  // const [sex, setSex] = useState('');
+  const patientContext = useContext(PatientContext);
+  const register = async (data) => {
     console.log('call to register patient');
     // combine first and last names
+    const fullName = data.firstName + " " + data.lastName;
+    let allergies = '';
+    for(var allergy in data.notes){
+      allergies =  allergies + "-" + data.notes[allergy].name;
+    };
+    console.log(allergies);
     // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
-    props.openSnackbar(`Patient Successfully Created`);
+    patientContext.addPatient(dialogProps.contract, data.aadhaar, fullName, data.dob, data.weight, data.sex, allergies).then(() => {
+      props.openSnackbar(`Patient Successfully Created`);
+      dialogProps.onClose();
+    });
   };
 
   return (
@@ -184,9 +196,11 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
           setSubmitting(true);
-          // make async call
           console.log('submit: ', data);
-          setSubmitting(false);
+          //* make async call
+          register(data).then(() => {
+            setSubmitting(false);
+          });
         }}
       >
         {({ values, errors, isSubmitting }) => (
@@ -431,7 +445,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={register}
+                type="submit"
                 // disabled={
                 //   !firstName ||
                 //   !lastName ||
@@ -446,8 +460,8 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
               </Button>
             </DialogActions>
 
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre> */}
           </Form>
         )}
       </Formik>
