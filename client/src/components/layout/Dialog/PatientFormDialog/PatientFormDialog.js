@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/* eslint-disable */
 import React, { useState, useContext } from 'react';
 
 import PropTypes from 'prop-types';
@@ -121,20 +121,17 @@ const DobField = ({ placeholder, label, ...props }) => {
 
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
-  return (
-    <FormControlLabel
-      {...field}
-      control={<Radio />}
-      label={label}
-    />
-  );
+  return <FormControlLabel {...field} control={<Radio />} label={label} />;
 };
 
 //! Added .shape({})
 const validationSchema = yup.object().shape({
   firstName: yup.string().required('First Name is required'),
   lastName: yup.string().required('Last Name is required'),
-  aadhaar: yup.string().matches(/^[0-9]{12}$/, 'Must be exactly 12 digits').required('Aadhaar is required'),
+  aadhaar: yup
+    .string()
+    .matches(/^[0-9]{12}$/, 'Must be exactly 12 digits')
+    .required('Aadhaar is required'),
   aadhaarConfirmation: yup
     .string()
     .matches(/^[0-9]{12}$/, 'Must be exactly 12 digits')
@@ -142,7 +139,10 @@ const validationSchema = yup.object().shape({
     .test('aadhaar-match', 'Aadhaars must match', function(value) {
       return this.parent.aadhaar === value;
     }),
-  weight: yup.number('Weight must be a number').positive('Weight must be postitive').required('Weight is required'),
+  weight: yup
+    .number('Weight must be a number')
+    .positive('Weight must be postitive')
+    .required('Weight is required'),
   // dob: yup.date(),
   // sex: yup.boolean(),
   notes: yup.array().of(
@@ -162,20 +162,30 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   // const [dob, setDob] = useState('');
   // const [sex, setSex] = useState('');
   const patientContext = useContext(PatientContext);
-  const register = async (data) => {
+  const register = async data => {
     console.log('call to register patient');
     // combine first and last names
-    const fullName = data.firstName + " " + data.lastName;
+    const fullName = `${data.firstName} ${data.lastName}`;
     let allergies = '';
-    for(var allergy in data.notes){
-      allergies =  allergies + "-" + data.notes[allergy].name;
-    };
+    for (const allergy in data.notes) {
+      allergies = `${allergies}-${data.notes[allergy].name}`;
+    }
     console.log(allergies);
     // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
-    patientContext.addPatient(dialogProps.contract, data.aadhaar, fullName, data.dob, data.weight, data.sex, allergies).then(() => {
-      props.openSnackbar(`Patient Successfully Created`);
-      dialogProps.onClose();
-    });
+    patientContext
+      .addPatient(
+        dialogProps.contract,
+        data.aadhaar,
+        fullName,
+        data.dob,
+        data.weight,
+        data.sex,
+        allergies
+      )
+      .then(() => {
+        props.openSnackbar(`Patient Successfully Created`);
+        dialogProps.onClose();
+      });
   };
 
   return (
@@ -450,7 +460,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                 //   !firstName ||
                 //   !lastName ||
                 //   !aadhaar ||
-                //   !aadhaarConfirmation 
+                //   !aadhaarConfirmation
                 //   // !sex ||
                 //   // !weight ||
                 //   // !dob
@@ -471,7 +481,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
 
 PatientFormDialog.propTypes = {
   dialogProps: PropTypes.object.isRequired,
-  openSnackbar: PropTypes.func.isRequired
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default PatientFormDialog;

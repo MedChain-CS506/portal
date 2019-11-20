@@ -1,4 +1,3 @@
-/* eslint-disable */
 //* permutation table d
 const d = [
   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -25,20 +24,6 @@ const p = [
   [7, 0, 4, 6, 9, 1, 3, 2, 5, 8],
 ];
 
-//* validates checksum
-function validate(array) {
-  let c = 0;
-  const invertedArray = invArray(array);
-  const has_only_numbers = !invertedArray.some(isNaN);
-  if (has_only_numbers == false) {
-    return false;
-  }
-  for (let i = 0; i < invertedArray.length; i++) {
-    c = d[c][p[i % 8][invertedArray[i]]];
-  }
-  return c === 0;
-}
-
 //* converts string or number to an array and inverts it
 function invArray(array) {
   if (Object.prototype.toString.call(array) === '[object Number]') {
@@ -51,13 +36,27 @@ function invArray(array) {
   return array.reverse();
 }
 
-function isValidNumber(aadhaar_no) {
+//* validates checksum
+function validate(array) {
+  let c = 0;
+  const invertedArray = invArray(array);
+  const hasOnlyNumbers = !invertedArray.some(isNaN);
+  if (hasOnlyNumbers === false) {
+    return false;
+  }
+  for (let i = 0; i < invertedArray.length; i += 1) {
+    c = d[c][p[i % 8][invertedArray[i]]];
+  }
+  return c === 0;
+}
+
+function isValidNumber(aadhaarNumber) {
   if (
-    aadhaar_no.length !== 12 ||
-    aadhaar_no.startsWith('0') ||
-    aadhaar_no.startsWith('1')
+    aadhaarNumber.length !== 12 ||
+    aadhaarNumber.startsWith('0') ||
+    aadhaarNumber.startsWith('1')
   ) {
     return false;
   }
-  return validate(aadhaar_no);
+  return validate(aadhaarNumber);
 }

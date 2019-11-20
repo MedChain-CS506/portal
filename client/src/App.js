@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 //* MUI / Styles
 import { CssBaseline, Snackbar, ThemeProvider } from '@material-ui/core';
 import readingTime from 'reading-time';
-import { lightTheme, darkTheme } from "./utils/theme";
+import { lightTheme, darkTheme } from './utils/theme';
 import './index.css';
 
 //* Context
@@ -49,7 +49,7 @@ function App() {
     contract: null,
   });
 
-  const [isDoc, setIsDoc] = useState(true);
+  const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
 
   const [dialog, setDialog] = useState({
@@ -64,17 +64,21 @@ function App() {
     open: false,
   });
 
-  //? Need a callback??
+  // ? Need a callback??
   const openSnackbar = (message, autoHideDuration = 2) =>
     setSnackbar({
       autoHideDuration: readingTime(message).time * autoHideDuration,
       message,
       open: true,
-  })
-    
+    });
+
   const closeSnackbar = (clearMessage = false) => {
-    setSnackbar({ ...snackbar, message: clearMessage ? '' : snackbar.message,open: false })
-  }
+    setSnackbar({
+      ...snackbar,
+      message: clearMessage ? '' : snackbar.message,
+      open: false,
+    });
+  };
 
   useEffect(() => {
     async function connectMetamask() {
@@ -146,7 +150,7 @@ function App() {
             <>
               <Router>
                 <Navbar
-                  theme={isLightTheme ? lightTheme : darkTheme} 
+                  theme={isLightTheme ? lightTheme : darkTheme}
                   handleToggleTheme={() => toggleTheme()}
                 />
                 <Switch>
@@ -187,13 +191,13 @@ function App() {
                   patientFormDialog: {
                     dialogProps: {
                       open: dialog.patientFormDialog,
-                      contract: contract,
+                      contract,
                       onClose: () =>
                         setDialog({ ...dialog, patientFormDialog: false }),
                     },
                     props: {
-                      openSnackbar: openSnackbar
-                    }
+                      openSnackbar,
+                    },
                   },
 
                   prescriptionFormDialog: {
@@ -203,8 +207,8 @@ function App() {
                         setDialog({ ...dialog, prescriptionFormDialog: false }),
                     },
                     props: {
-                      openSnackbar: openSnackbar
-                    }
+                      openSnackbar,
+                    },
                   },
                 }}
               />
@@ -231,10 +235,10 @@ function App() {
           {ready ? (
             <Router>
               <Navbar
-                  theme={isLightTheme ? lightTheme : darkTheme} 
-                  handleToggleTheme={() => toggleTheme()}
-                  isPharmacist
-                />
+                theme={isLightTheme ? lightTheme : darkTheme}
+                handleToggleTheme={() => toggleTheme()}
+                isPharmacist
+              />
               <Switch>
                 <Route
                   exact
@@ -272,7 +276,10 @@ function App() {
         <CssBaseline />
         {ready ? (
           <Router>
-            <Navbar theme={isLightTheme ? lightTheme : darkTheme} handleToggleTheme={() => toggleTheme()} />
+            <Navbar
+              theme={isLightTheme ? lightTheme : darkTheme}
+              handleToggleTheme={() => toggleTheme()}
+            />
             <Switch>
               <Route component={NotFound} />
             </Switch>
