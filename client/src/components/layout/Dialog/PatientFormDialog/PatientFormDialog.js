@@ -172,10 +172,15 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
     };
     console.log(allergies);
     // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
-    patientContext.addPatient(dialogProps.contract, data.aadhaar, fullName, data.dob, data.weight, data.sex, allergies).then(() => {
-      props.openSnackbar(`Patient Successfully Created`);
-      dialogProps.onClose();
-    });
+    try{
+      patientContext.addPatient(dialogProps.contract, data.aadhaar, fullName, data.dob, data.weight, data.sex, allergies).then(() => {
+        props.openSnackbar(`Patient Successfully Created`);
+        dialogProps.onClose();
+      });
+    } catch (err) {
+      props.openSnackbar(`Patient Already exists in the system`);
+
+    };
   };
 
   return (

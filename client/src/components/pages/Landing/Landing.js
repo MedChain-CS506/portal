@@ -61,24 +61,11 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
 
   const [aadhaar, setAadhaar] = useState('');
 
-  const onSubmit = e => {
-    e.preventDefault();
-    if (aadhaar === '') {
-      return console.log('Please enter something');
-    }
-    console.log(aadhaar);
-    // patientContext.getPatient(contract, aadhaar)
-    setAadhaar('');
-    return <Redirect to="/not-found" />;
-  };
-
   const setReady = () => {
     setSend(true);
   };
   const redirectToPatient = () => {
     const pageID = `/profile/${aadhaar}`;
-    console.log(pageID);
-    console.log(send);
     if (send === true) {
       return <Redirect to={pageID}></Redirect>;
     }

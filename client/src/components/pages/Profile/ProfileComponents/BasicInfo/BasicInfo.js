@@ -30,7 +30,7 @@ import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 
-// import PatientContext from '../../../context/patient/PatientContext';
+import PatientContext from '../../../../../context/patient/PatientContext';
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -89,18 +89,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const BasicInfo = () => {
+const BasicInfo = ({contract, aadhaar}) => {
   const classes = useStyles();
+  const patientContext = useContext(PatientContext);
 
-  // const patientContext = useContext(PatientContext);
   const [patientData, setPatientData] = useState({
     aadhaar: '000011112222',
     name: 'Satoshi Nakamoto',
     sex: 'Male',
     dob: '10/10/10',
     weight: '100',
-    // allergies: '',
+    allergies: '',
   });
+
+
+  const asyncCallToGetPatient = async () => {
+    const data = await patientContext.getPatient(contract, aadhaar);
+    console.log(data);
+    //setPatientData(data);
+  };
+
+  useEffect(() => {
+    asyncCallToGetPatient();
+  }, []);
 
   //! NEW
   const [showingFields, setShowingFields] = useState({

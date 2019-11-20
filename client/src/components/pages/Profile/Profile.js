@@ -46,8 +46,8 @@ const useStyles = makeStyles(theme => ({
 const Profile = ({
   // signedIn = false,
   onNewPrescriptionClick,
-  // contract,
-  // match,
+  contract,
+  match,
   isPharmacist,
 }) => {
   const classes = useStyles();
@@ -82,7 +82,7 @@ const Profile = ({
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-                <BasicInfo />
+                <BasicInfo aadhaar={match.params.id} contract={contract}/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
