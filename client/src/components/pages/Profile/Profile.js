@@ -3,11 +3,13 @@ import clsx from 'clsx';
 
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import {
+  makeStyles,
+  CssBaseline,
+  Container,
+  Grid,
+  Paper,
+} from '@material-ui/core';
 
 import BasicInfo from './ProfileComponents/BasicInfo';
 import Files from './ProfileComponents/Files';

@@ -1,13 +1,5 @@
+/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
-
-import EditIcon from '@material-ui/icons/Edit';
-import ContactsIcon from '@material-ui/icons/Contacts';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 // import { Link, Redirect } from 'react-router-dom'
 
@@ -21,13 +13,24 @@ import {
   TextField,
   Tooltip,
   IconButton,
-} from '@material-ui/core/';
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  Toolbar,
+} from '@material-ui/core';
 
+import EditIcon from '@material-ui/icons/Edit';
+import ContactsIcon from '@material-ui/icons/Contacts';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-// import PatientContext from '../../../context/patient/PatientContext';
 import WcIcon from '@material-ui/icons/Wc';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import CreateIcon from '@material-ui/icons/Create';
+
+// import PatientContext from '../../../context/patient/PatientContext';
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -76,6 +79,13 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2),
     background: 'red',
     color: 'white',
+  },
+
+  margin: {
+    margin: theme.spacing(1),
+  },
+  toolbarButtons: {
+    marginLeft: 'auto',
   },
 }));
 
@@ -167,9 +177,7 @@ const BasicInfo = () => {
         return;
       case 'weight':
         changeWeight();
-        
       default:
-        
     }
   };
 
@@ -220,56 +228,78 @@ const BasicInfo = () => {
 
   return (
     <>
-      <Typography component="h2" variant="h5" color="primary" gutterBottom>
-        [Patient Name]
-      </Typography>
+      <Toolbar>
+        <Typography component="h2" variant="h5" color="primary" gutterBottom>
+          [Patient Name]
+        </Typography>
+          <span className={classes.toolbarButtons}>
+          <Tooltip title="Edit">
+            <IconButton>
+              <CreateIcon />
+            </IconButton>
+            </Tooltip>
+          </span>
+        </Toolbar>
 
       <List disablePadding>
         <ListItem>
-          <Hidden xsDown>
-            <ListItemIcon>
-              <ContactsIcon />
-            </ListItemIcon>
-          </Hidden>
+        <Hidden xsDown>
+          <ListItemIcon>
+            <ContactsIcon />
+          </ListItemIcon>
+        </Hidden>
 
-          {showingField === 'aadhaar' && (
-            <TextField
-              autoComplete="given-aadhaar"
-              autoFocus
-              fullWidth
-              helperText="Press Enter to change aadhaar"
+      {/* <div className={classes.margin}>
+        <Grid container spacing={1} alignItems="flex-end">
+          <Grid item>
+            <AccountCircle />
+          </Grid>
+          <Grid item>
+            <TextField 
               label="Aadhaar"
-              placeholder={patientData.aadhaar}
-              required
-              // type="number"
-              value={initialAadhaar}
-              variant="filled"
-              onBlur={hideFields}
-              // ^ when a user leaves the input field
-              onKeyDown={event => handleKeyDown(event, 'aadhaar')}
-              onChange={handleAadhaarChange}
+              margin="normal" 
             />
-          )}
+          </Grid>
+        </Grid>
+      </div> */}
 
-          {showingField !== 'aadhaar' && (
-            <>
-              <ListItemText primary="Aadhaar" secondary={patientData.aadhaar} />
-              <ListItemSecondaryAction>
-                {patientData.aadhaar && (
-                  <Tooltip title="Edit">
-                    <div>
-                      <IconButton onClick={() => showField('aadhaar')}>
-                        <EditIcon />
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                )}
-              </ListItemSecondaryAction>
-            </>
-          )}
-        </ListItem>
+      {showingField === 'aadhaar' && (
+        <TextField
+          autoComplete="given-aadhaar"
+          autoFocus
+          fullWidth
+          helperText="Press Enter to change aadhaar"
+          label="Aadhaar"
+          placeholder={patientData.aadhaar}
+          type="number"
+          value={initialAadhaar}
+          onBlur={hideFields}
+          variant="filled"
+          // ^ when a user leaves the input field
+          onKeyDown={event => handleKeyDown(event, 'aadhaar')}
+          onChange={handleAadhaarChange}
+        />
+      )}
 
-        <ListItem>
+      {showingField !== 'aadhaar' && (
+        <>
+          <ListItemText primary="Aadhaar" secondary={patientData.aadhaar} />
+          <ListItemSecondaryAction>
+            {patientData.aadhaar && (
+              <Tooltip title="Edit">
+                <div>
+                  <IconButton onClick={() => showField('aadhaar')}>
+                    <EditIcon />
+                  </IconButton>
+                </div>
+              </Tooltip>
+            )}
+          </ListItemSecondaryAction>
+        </>
+      )}
+      </ListItem>
+
+      <ListItem>
           <Hidden xsDown>
             <ListItemIcon>
               <WcIcon />
@@ -284,7 +314,6 @@ const BasicInfo = () => {
               helperText="Press Enter to change sex"
               label="Sex"
               placeholder={patientData.sex}
-              required
               // type="number"
               value={initialSex}
               variant="filled"
@@ -328,7 +357,6 @@ const BasicInfo = () => {
               helperText="Press Enter to change date of birth"
               label="Date of Birth"
               placeholder={patientData.dob}
-              required
               // type="number"
               value={initialDob}
               variant="filled"
@@ -375,8 +403,7 @@ const BasicInfo = () => {
               helperText="Press Enter to change weight"
               label="Weight"
               placeholder={patientData.weight}
-              required
-              // type="number"
+              type="number"
               value={initialWeight}
               variant="filled"
               onBlur={hideFields}

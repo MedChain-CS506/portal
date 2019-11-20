@@ -21,6 +21,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@material-ui/core';
+
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -152,11 +153,7 @@ const SexRadio = ({ label, ...props }) => {
 };
 
 const validationSchema = yup.object({
-  aadhaar: yup
-    .string()
-    .required()
-    .min(12)
-    .max(12),
+  aadhaar: yup.string().matches(/^[0-9]{12}$/, 'Must be exactly 12 digits').required('Aadhaar is required'),
   medicine: yup.array().of(
     yup.object({
       name: yup.string().required(),

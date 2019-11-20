@@ -121,7 +121,7 @@ const SexRadio = ({ placeholder, label, ...props }) => {
   return (
     <FormControlLabel
       {...field}
-      control={<Radio color="default" />}
+      control={<Radio />}
       label={label}
     />
   );

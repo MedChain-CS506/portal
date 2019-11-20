@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { makeStyles, Typography, Fab } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Fab from '@material-ui/core/Fab';
 import FindIcon from '@material-ui/icons/FindInPage';
 import HomeIcon from '@material-ui/icons/Home';
+
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   center: {
