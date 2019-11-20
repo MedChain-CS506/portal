@@ -127,14 +127,21 @@ const SexRadio = ({ placeholder, label, ...props }) => {
   );
 };
 
-const validationSchema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  aadhaar: yup
+//! Added .shape({})
+const validationSchema = yup.object().shape({
+  firstName: yup.string().required('First Name is required'),
+  lastName: yup.string().required('Last Name is required'),
+  aadhaar: yup.string().matches(/^[0-9]{12}$/, 'Must be exactly 12 digits').required('Aadhaar is required'),
+  aadhaarConfirmation: yup
     .string()
-    .required()
-    .min(12)
-    .max(12),
+    .matches(/^[0-9]{12}$/, 'Must be exactly 12 digits')
+    .required('Aadhaar Confirmation is required')
+    .test('aadhaar-match', 'Aadhaars must match', function(value) {
+      return this.parent.aadhaar === value;
+    }),
+  weight: yup.number('Weight must be a number').positive('Weight must be postitive').required('Weight is required'),
+  // dob: yup.date(),
+  // sex: yup.boolean(),
   notes: yup.array().of(
     yup.object({
       name: yup.string().required(),
@@ -241,13 +248,13 @@ const PatientFormDialog = ({ dialogProps }) => {
                           <FormLabel component="legend">Sex</FormLabel>
                           <RadioGroup row>
                             <FormControlLabel
-                              value="female"
-                              label="Female"
+                              value="male"
+                              label="Male"
                               control={<Radio />}
                             />
                             <FormControlLabel
-                              value="male"
-                              label="Male"
+                              value="female"
+                              label="Female"
                               control={<Radio />}
                             />
                             <FormControlLabel
@@ -357,13 +364,13 @@ const PatientFormDialog = ({ dialogProps }) => {
                       <FormLabel component="legend">Sex</FormLabel>
                       <RadioGroup row>
                         <FormControlLabel
-                          value="female"
-                          label="Female"
+                          value="male"
+                          label="Male"
                           control={<Radio />}
                         />
                         <FormControlLabel
-                          value="male"
-                          label="Male"
+                          value="female"
+                          label="Female"
                           control={<Radio />}
                         />
                         <FormControlLabel
@@ -428,10 +435,10 @@ const PatientFormDialog = ({ dialogProps }) => {
                   !firstName ||
                   !lastName ||
                   !aadhaar ||
-                  !aadhaarConfirmation ||
-                  !sex ||
-                  !weight ||
-                  !dob
+                  !aadhaarConfirmation 
+                  // !sex ||
+                  // !weight ||
+                  // !dob
                 }
               >
                 Register
