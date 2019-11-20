@@ -32,7 +32,7 @@ const rows = [
     'Vicodin',
     '300 mg',
     '30 pills',
-    'Complete'
+    'Filled'
   ),
   createPrescription(
     1,
@@ -40,7 +40,7 @@ const rows = [
     'Simvastatin',
     '300 mg',
     '30 pills',
-    'Complete'
+    'Filled'
   ),
   createPrescription(
     2,
@@ -48,7 +48,7 @@ const rows = [
     'Azithromycin',
     '300 mg',
     '30 pills',
-    'Complete'
+    'Filled'
   ),
   createPrescription(
     3,

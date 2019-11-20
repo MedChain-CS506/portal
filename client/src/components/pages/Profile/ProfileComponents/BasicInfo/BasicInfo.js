@@ -102,6 +102,15 @@ const BasicInfo = () => {
     // allergies: '',
   });
 
+  //! NEW
+  const [showingFields, setShowingFields] = useState({
+    name: false,
+    aadhaar: false,
+    sex: false,
+    dob: false,
+    weight: false
+  });
+
   const [showingField, setShowingField] = useState('');
   const [initialAadhaar, setInitialAadhaar] = useState('');
   const [initialName, setInitialName] = useState('');
@@ -115,6 +124,17 @@ const BasicInfo = () => {
     setShowingField(fieldId);
   };
 
+  //!NEW
+  const showFields = () => {
+    setShowingFields({
+      name: true,
+      aadhaar: true,
+      sex: true,
+      dob: true,
+      weight: true
+    });
+  };
+
   const hideFields = callback => {
     // setShowingField(''),
     // setInitialAadhaar(''),
@@ -126,6 +146,17 @@ const BasicInfo = () => {
     // if (callback && typeof callback === 'function') {
     //   callback();
     // }
+  };
+
+  //!NEW
+  const newHideFields = callback => {
+    setShowingFields({
+      name: false,
+      aadhaar: false,
+      sex: false,
+      dob: false,
+      weight: false
+    });
   };
 
   //* change functions will change the contract state
@@ -230,16 +261,16 @@ const BasicInfo = () => {
     <>
       <Toolbar>
         <Typography component="h2" variant="h5" color="primary" gutterBottom>
-          [Patient Name]
+          {patientData.name}
         </Typography>
           <span className={classes.toolbarButtons}>
           <Tooltip title="Edit">
-            <IconButton>
+            <IconButton onClick={() => showFields()}>
               <CreateIcon />
             </IconButton>
             </Tooltip>
           </span>
-        </Toolbar>
+      </Toolbar>
 
       <List disablePadding>
         <ListItem>
@@ -286,13 +317,11 @@ const BasicInfo = () => {
           <ListItemText primary="Aadhaar" secondary={patientData.aadhaar} />
           <ListItemSecondaryAction>
             {patientData.aadhaar && (
-              <Tooltip title="Edit">
                 <div>
                   <IconButton onClick={() => showField('aadhaar')}>
                     <EditIcon />
                   </IconButton>
                 </div>
-              </Tooltip>
             )}
           </ListItemSecondaryAction>
         </>

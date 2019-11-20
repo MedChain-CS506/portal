@@ -14,6 +14,7 @@ import {
 import BasicInfo from './ProfileComponents/BasicInfo';
 import Files from './ProfileComponents/Files';
 import Prescriptions from './ProfileComponents/Prescriptions';
+import NewPrescriptionsTable from './ProfileComponents/NewPrescriptionsTable';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -91,9 +92,10 @@ const Profile = ({
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Prescriptions
+                {/* <Prescriptions
                   onNewPrescriptionClick={onNewPrescriptionClick}
-                />
+                /> */}
+                <NewPrescriptionsTable />
               </Paper>
             </Grid>
           </Grid>
