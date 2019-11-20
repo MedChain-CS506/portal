@@ -4,14 +4,14 @@ import React, { useState, useEffect } from 'react';
 //* React Router
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-//* Context
-import PatientState from './context/patient/PatientState';
-
 //* MUI / Styles
 import { CssBaseline, Snackbar, ThemeProvider } from '@material-ui/core';
 import readingTime from 'reading-time';
 import { lightTheme, darkTheme } from "./utils/theme";
 import './index.css';
+
+//* Context
+import PatientState from './context/patient/PatientState';
 
 //* Layout
 import Loading from './components/layout/Loading';
@@ -64,6 +64,7 @@ function App() {
     open: false,
   });
 
+  //? Need a callback??
   const openSnackbar = (message, autoHideDuration = 2) =>
     setSnackbar({
       autoHideDuration: readingTime(message).time * autoHideDuration,
@@ -189,6 +190,9 @@ function App() {
                       onClose: () =>
                         setDialog({ ...dialog, patientFormDialog: false }),
                     },
+                    props: {
+                      openSnackbar: openSnackbar
+                    }
                   },
 
                   prescriptionFormDialog: {
@@ -197,6 +201,9 @@ function App() {
                       onClose: () =>
                         setDialog({ ...dialog, prescriptionFormDialog: false }),
                     },
+                    props: {
+                      openSnackbar: openSnackbar
+                    }
                   },
                 }}
               />

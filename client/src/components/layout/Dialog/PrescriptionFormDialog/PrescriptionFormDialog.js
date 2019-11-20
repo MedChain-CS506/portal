@@ -164,7 +164,7 @@ const validationSchema = yup.object({
   ),
 });
 
-const PrescriptionFormDialog = ({ dialogProps }) => {
+const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
@@ -193,6 +193,9 @@ const PrescriptionFormDialog = ({ dialogProps }) => {
       medicine,
       utcDate
     );
+
+    //make sure to do some error checking here aswell
+    props.openSnackbar(`Prescription Successfully Prescribed`);
   };
 
   return (

@@ -149,7 +149,7 @@ const validationSchema = yup.object().shape({
   ),
 });
 
-const PatientFormDialog = ({ dialogProps }) => {
+const PatientFormDialog = ({ dialogProps, ...props }) => {
   const classes = useStyles();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -162,7 +162,8 @@ const PatientFormDialog = ({ dialogProps }) => {
   const register = () => {
     console.log('call to register patient');
     // combine first and last names
-    // then openSnackbar
+    // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
+    props.openSnackbar(`Patient Successfully Created`);
   };
 
   return (
@@ -431,15 +432,15 @@ const PatientFormDialog = ({ dialogProps }) => {
                 color="primary"
                 variant="contained"
                 onClick={register}
-                disabled={
-                  !firstName ||
-                  !lastName ||
-                  !aadhaar ||
-                  !aadhaarConfirmation 
-                  // !sex ||
-                  // !weight ||
-                  // !dob
-                }
+                // disabled={
+                //   !firstName ||
+                //   !lastName ||
+                //   !aadhaar ||
+                //   !aadhaarConfirmation 
+                //   // !sex ||
+                //   // !weight ||
+                //   // !dob
+                // }
               >
                 Register
               </Button>
@@ -456,6 +457,7 @@ const PatientFormDialog = ({ dialogProps }) => {
 
 PatientFormDialog.propTypes = {
   dialogProps: PropTypes.object.isRequired,
+  openSnackbar: PropTypes.func.isRequired
 };
 
 export default PatientFormDialog;
