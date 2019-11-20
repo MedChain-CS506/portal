@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PatientContext from './PatientContext';
 
@@ -138,7 +137,14 @@ const PatientState = props => {
       );
   };
 
-  const editPatient = async (contract, aadhaar, name, weight, sex, allergies ) => {
+  const editPatient = async (
+    contract,
+    aadhaar,
+    name,
+    weight,
+    sex,
+    allergies
+  ) => {
     await contract.contract.methods
       .edit_patient(aadhaar, name, weight, sex, allergies)
       .send(
