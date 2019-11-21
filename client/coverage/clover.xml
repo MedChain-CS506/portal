@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1574377150544" clover="3.2.0">
-  <project timestamp="1574377150544" name="All files">
-    <metrics statements="447" coveredstatements="114" conditionals="165" coveredconditionals="30" methods="148" coveredmethods="19" elements="760" coveredelements="163" complexity="0" loc="447" ncloc="447" packages="14" files="16" classes="16"/>
+<coverage generated="1574377762995" clover="3.2.0">
+  <project timestamp="1574377762995" name="All files">
+    <metrics statements="447" coveredstatements="116" conditionals="165" coveredconditionals="30" methods="148" coveredmethods="19" elements="760" coveredelements="165" complexity="0" loc="447" ncloc="447" packages="14" files="16" classes="16"/>
     <package name="src">
       <metrics statements="66" coveredstatements="0" conditionals="36" coveredconditionals="0" methods="24" coveredmethods="0"/>
       <file name="App.js" path="/Users/ryanmartinez/Desktop/CS506/portal/client/src/App.js">
@@ -75,13 +75,13 @@
       </file>
     </package>
     <package name="src.components.layout.Dialog.DialogHost">
-      <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="DialogHost.js" path="/Users/ryanmartinez/Desktop/CS506/portal/client/src/components/layout/Dialog/DialogHost/DialogHost.js">
-        <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="10" count="1" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
       </file>
     </package>
