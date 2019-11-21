@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">80% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/20</span>
+        <span class='fraction'>16/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/9</span>
+        <span class='fraction'>7/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
@@ -35,16 +35,16 @@
         <span class='fraction'>3/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.68% </span>
+        <span class="strong">78.95% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/19</span>
+        <span class='fraction'>15/19</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -219,7 +219,9 @@
 <a name='L171'></a><a href='#L171'>171</a>
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,7 +244,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -275,25 +277,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -393,11 +397,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from "react";
 &nbsp;
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 &nbsp;
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 &nbsp;
 import {
   makeStyles,
@@ -406,45 +410,45 @@ import {
   InputBase,
   Divider,
   IconButton,
-  Tooltip,
-} from '@material-ui/core';
+  Tooltip
+} from "@material-ui/core";
 &nbsp;
-import SearchIcon from '@material-ui/icons/Search';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from "@material-ui/icons/Search";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import AddIcon from "@material-ui/icons/Add";
 &nbsp;
-import PatientContext from '../../../context/patient/PatientContext';
+import PatientContext from "../../../context/patient/PatientContext";
 &nbsp;
 const useStyles = makeStyles(theme =&gt; ({
   root: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    textAlign: 'center',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    textAlign: "center"
   },
 &nbsp;
   inputRoot: {
-    padding: '2px 4px',
-    margin: '20px 0',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
+    padding: "2px 4px",
+    margin: "20px 0",
+    display: "flex",
+    alignItems: "center",
+    width: 400
   },
 &nbsp;
   input: {
     marginLeft: theme.spacing(1),
-    flex: 1,
+    flex: 1
   },
 &nbsp;
   iconButton: {
-    padding: 10,
+    padding: 10
   },
 &nbsp;
   divider: {
     height: 28,
-    margin: 4,
-  },
+    margin: 4
+  }
 }));
 &nbsp;
 const Landing = ({ signedIn = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span> isPharmacist, onNewPatientClick }) =&gt; {
@@ -453,7 +457,7 @@ const Landing = ({ signedIn = <span class="branch-0 cbranch-no" title="branch no
 &nbsp;
   const [send, setSend] = useState(false);
 &nbsp;
-  const [aadhaar, setAadhaar] = useState('');
+  const [aadhaar, setAadhaar] = useState("");
 &nbsp;
   const setReady = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >    setSend(true);</span>
@@ -465,13 +469,14 @@ const Landing = ({ signedIn = <span class="branch-0 cbranch-no" title="branch no
     }
   };
 &nbsp;
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (isPharmacist) {
-<span class="cstat-no" title="statement not covered" >    return (</span>
+  if (isPharmacist) {
+    return (
       &lt;form className={classes.root} onSubmit={redirectToPatient}&gt;
-        &lt;Typography color="textSecondary" variant="h2"&gt;
+        &lt;Typography data-testid="app-name" color="textSecondary" variant="h2"&gt;
           {process.env.REACT_APP_NAME}
         &lt;/Typography&gt;
         &lt;Paper
+          data-testid="search-patient-form"
           component="form"
           className={classes.inputRoot}
           onSubmit={setReady}
@@ -484,6 +489,7 @@ const Landing = ({ signedIn = <span class="branch-0 cbranch-no" title="branch no
             &lt;SearchIcon /&gt;
           &lt;/IconButton&gt;
           &lt;InputBase
+            data-testid="search-bar"
             className={classes.input}
             placeholder="Search Aadhaars"
             autoFocus
@@ -561,7 +567,7 @@ const Landing = ({ signedIn = <span class="branch-0 cbranch-no" title="branch no
 Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isPharmacist: PropTypes.bool,
-  onNewPatientClick: PropTypes.func.isRequired,
+  onNewPatientClick: PropTypes.func.isRequired
 };
 &nbsp;
 export default Landing;
@@ -571,7 +577,7 @@ export default Landing;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 21 2019 14:53:08 GMT-0600 (Central Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 21 2019 16:59:10 GMT-0600 (Central Standard Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
