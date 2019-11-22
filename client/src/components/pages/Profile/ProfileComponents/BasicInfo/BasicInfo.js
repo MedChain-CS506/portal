@@ -106,8 +106,7 @@ const BasicInfo = ({ contract, aadhaar }) => {
 
   const asyncCallToGetPatient = async () => {
     const data = await patientContext.getPatient(contract, aadhaar);
-    console.log(data);
-    // setPatientData(data);
+    setPatientData(data);
   };
 
   useEffect(() => {

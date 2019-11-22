@@ -142,7 +142,7 @@ const validationSchema = yup.object().shape({
     .number('Weight must be a number')
     .positive('Weight must be postitive')
     .required('Weight is required'),
-  sex: yup.boolean(),
+  // sex: yup.boolean(),
   notes: yup.array().of(
     yup.object({
       name: yup.string().required(),
@@ -206,6 +206,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
+          console.log("inside on submit");
           setSubmitting(true);
           console.log('submit: ', data);
           //* make async call
@@ -459,8 +460,8 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
               </Button>
             </DialogActions>
 
-            {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre> */}
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
           </MuiPickersUtilsProvider>
         )}
