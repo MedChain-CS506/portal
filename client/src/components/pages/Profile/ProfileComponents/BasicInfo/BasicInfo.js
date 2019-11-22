@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
 
 // import { Link, Redirect } from 'react-router-dom'
@@ -282,7 +283,6 @@ const BasicInfo = ({ contract, aadhaar }) => {
             <TextField
               autoFocus
               fullWidth
-              autoComplete="given-aadhaar"
               helperText="Change patient's aadhaar number"
               label="Aadhaar"
               type="number"
@@ -299,29 +299,26 @@ const BasicInfo = ({ contract, aadhaar }) => {
           )}
         </ListItem>
 
-        {/* <ListItem>
+        <ListItem>
           <Hidden xsDown>
             <ListItemIcon>
               <WcIcon />
             </ListItemIcon>
           </Hidden>
 
-          {fields.sex === true && (
+          {fields.sex === true &&
             <TextField
-              autoFocus
               fullWidth
               helperText="Change patient's sex"
-              autoComplete="given-aadhaar"
               label="Sex"
               type="string"
               placeholder={patientData.sex}
               value={initialSex}
-              onBlur={hideFields}
-              onKeyDown={event => handleKeyDown(event, 'sex')}
+              // onBlur={hideFields}
+              // onKeyDown={event => handleKeyDown(event, 'sex')}
               onChange={handleSexChange}
             />
-          )}
-
+          }
           {fields.sex === false && (
             <ListItemText primary="Sex" secondary={patientData.sex} />
           )}
@@ -336,16 +333,14 @@ const BasicInfo = ({ contract, aadhaar }) => {
 
           {fields.dob === true && (
             <TextField
-              autoComplete="given-dob"
-              autoFocus
               fullWidth
               helperText="Press Enter to change date of birth"
               label="Date of Birth"
               placeholder={patientData.dob}
               // type="number"
               value={initialDob}
-              onBlur={hideFields}
-              onKeyDown={event => handleKeyDown(event, 'dob')}
+              // onBlur={hideFields}
+              // onKeyDown={event => handleKeyDown(event, 'dob')}
               onChange={handleDobChange}
             />
           )}
@@ -364,16 +359,14 @@ const BasicInfo = ({ contract, aadhaar }) => {
 
           {fields.weight === true && (
             <TextField
-              autoComplete="given-weight"
-              autoFocus
               fullWidth
               helperText="Press Enter to change weight"
               label="Weight"
               placeholder={patientData.weight}
               type="number"
               value={initialWeight}
-              onBlur={hideFields}
-              onKeyDown={event => handleKeyDown(event, 'weight')}
+              // onBlur={hideFields}
+              // onKeyDown={event => handleKeyDown(event, 'weight')}
               onChange={handleWeightChange}
             />
           )}
@@ -381,7 +374,7 @@ const BasicInfo = ({ contract, aadhaar }) => {
           {fields.weight === false && (
             <ListItemText primary="Weight" secondary={patientData.weight} />
           )}
-        </ListItem> */}
+        </ListItem>
       </List>
     </>
   );

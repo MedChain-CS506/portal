@@ -91,12 +91,12 @@ const Profile = ({
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              {/* <Paper className={classes.paper}>
+              <Paper className={classes.paper}>
                 <Prescriptions
                   onNewPrescriptionClick={onNewPrescriptionClick}
-                /> */}
-              <NewPrescriptionsTable />
-              {/* </Paper> */}
+                />
+                {/* <NewPrescriptionsTable /> */}
+              </Paper>
             </Grid>
           </Grid>
         </Container>
