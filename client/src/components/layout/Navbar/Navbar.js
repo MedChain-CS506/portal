@@ -11,11 +11,13 @@ import {
   Typography,
   Box,
   IconButton,
+  Badge,
 } from '@material-ui/core';
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const useStyles = makeStyles({
   docNav: {
@@ -62,6 +64,11 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
           target="_blank"
         >
           <GitHubIcon />
+        </IconButton>
+        <IconButton color="inherit">
+          <Badge badgeContent={1} color="secondary">
+            <NotificationsIcon />
+          </Badge>
         </IconButton>
       </Toolbar>
     </AppBar>

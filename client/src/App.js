@@ -48,16 +48,12 @@ function App() {
     accounts: null,
     contract: null,
   });
-
   const [isDoc, setIsDoc] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
-
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
     prescriptionFormDialog: false,
   });
-
-  //! For confirmation feedback
   const [snackbar, setSnackbar] = useState({
     autoHideDuration: 0,
     message: '',
