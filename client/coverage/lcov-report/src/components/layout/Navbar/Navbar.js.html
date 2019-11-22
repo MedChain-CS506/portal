@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>0/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/4</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>0/5</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -142,7 +142,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,18 +151,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,7 +184,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -219,7 +219,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 &nbsp;
-const useStyles = makeStyles({
+const useStyles = <span class="cstat-no" title="statement not covered" >makeStyles({</span>
   docNav: {
     background: 'linear-gradient(45deg, #F00000 30%, #DC281E 90%)',
   },
@@ -228,11 +228,11 @@ const useStyles = makeStyles({
   },
 });
 &nbsp;
-const Navbar = ({ theme, handleToggleTheme, isPharmacist }) =&gt; {
-  const classes = useStyles();
-  return (
+const Navbar = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> theme, handleToggleTheme, isPharmacist }) =&gt; {</span>
+  const classes = <span class="cstat-no" title="statement not covered" >useStyles();</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;AppBar
-      className={isPharmacist ? <span class="branch-0 cbranch-no" title="branch not covered" >classes.pharmaNav </span>: classes.docNav}
+      className={isPharmacist ? classes.pharmaNav : classes.docNav}
       position="static"
     &gt;
       &lt;Toolbar variant="regular"&gt;
@@ -252,7 +252,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) =&gt; {
           {theme.palette.type === 'light' ? (
             &lt;Brightness4Icon /&gt;
           ) : (
-<span class="branch-1 cbranch-no" title="branch not covered" >            &lt;Brightness7Icon /&gt;</span>
+            &lt;Brightness7Icon /&gt;
           )}
         &lt;/IconButton&gt;
 &nbsp;
@@ -270,7 +270,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) =&gt; {
   );
 };
 &nbsp;
-Navbar.propTypes = {
+<span class="cstat-no" title="statement not covered" >Navbar.propTypes = {</span>
   theme: PropTypes.object,
   handleToggleTheme: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,
@@ -283,7 +283,7 @@ export default Navbar;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 21 2019 17:09:22 GMT-0600 (Central Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 21 2019 17:32:40 GMT-0600 (Central Standard Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
