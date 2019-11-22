@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -12,12 +12,20 @@ import {
   Box,
   IconButton,
   Badge,
+  Drawer,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
 } from '@material-ui/core';
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles({
   docNav: {
@@ -26,10 +34,71 @@ const useStyles = makeStyles({
   pharmaNav: {
     background: 'linear-gradient(45deg, #0575E6 30%, #021B79 90%)',
   },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
 });
 
 const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
   const classes = useStyles();
+  const [notificationsDrawer, setNotificationsDrawer] = useState(false);
+
+  const toggleDrawer = open => event => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setNotificationsDrawer(open);
+  };
+
+  const notificationList = () => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <AccountCircleIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Request to Join" secondary="Jan 1, 2020" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <AccountCircleIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Request to Join" secondary="Jan 1, 2020" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <AccountCircleIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Request to Join" secondary="Jan 1, 2020" />
+        </ListItem>
+      </List>
+    </div>
+  );
+
   return (
     <AppBar
       className={isPharmacist ? classes.pharmaNav : classes.docNav}
@@ -65,11 +134,21 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
         >
           <GitHubIcon />
         </IconButton>
-        <IconButton color="inherit">
-          <Badge badgeContent={1} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
+
+        <>
+          <IconButton color="inherit" onClick={toggleDrawer(true)}>
+            <Badge badgeContent={1} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <Drawer
+            anchor="right"
+            open={notificationsDrawer}
+            onClose={toggleDrawer(false)}
+          >
+            {notificationList()}
+          </Drawer>
+        </>
       </Toolbar>
     </AppBar>
   );
