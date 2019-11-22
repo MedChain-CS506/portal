@@ -48,16 +48,12 @@ function App() {
     accounts: null,
     contract: null,
   });
-
-  const [isDoc, setIsDoc] = useState(false);
+  const [isDoctor, setIsDoctor] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
-
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
     prescriptionFormDialog: false,
   });
-
-  //! For confirmation feedback
   const [snackbar, setSnackbar] = useState({
     autoHideDuration: 0,
     message: '',
@@ -110,7 +106,7 @@ function App() {
     connectMetamask().then((data) => {
       docCheck(data).then((res) => {
         if(res == 0){
-          setIsDoc(true);
+          setIsDoctor(true);
         } else if (res == 1) {
           setIsPharmacist(true);
         }
@@ -128,11 +124,11 @@ function App() {
         }
       }, 100)
     });
-  }, [signedIn, isDoc, isPharmacist]);
+  }, [signedIn, isDoctor, isPharmacist]);
 
   const log = () => {
-    console.log(`isDoc:${isDoc}`);
-    console.log(`isPhar:${isPharmacist}`);
+    console.log(`isDoctor:${isDoctor}`);
+    console.log(`isPharmacist:${isPharmacist}`);
   };
 
   const [isLightTheme, setIsLightTheme] = useState(true);
@@ -141,7 +137,7 @@ function App() {
     setIsLightTheme(!isLightTheme);
   };
 
-  if (isDoc) {
+  if (isDoctor) {
     return (
       <PatientState>
         <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>

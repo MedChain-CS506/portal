@@ -1,7 +1,8 @@
-/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
 
 // import { Link, Redirect } from 'react-router-dom'
+
+import PropTypes from 'prop-types';
 
 import {
   makeStyles,
@@ -89,7 +90,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const BasicInfo = ({contract, aadhaar}) => {
+const BasicInfo = ({ contract, aadhaar }) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
@@ -102,26 +103,17 @@ const BasicInfo = ({contract, aadhaar}) => {
     allergies: '',
   });
 
-
   const asyncCallToGetPatient = async () => {
     const data = await patientContext.getPatient(contract, aadhaar);
     console.log(data);
-    //setPatientData(data);
+    // setPatientData(data);
   };
 
   useEffect(() => {
     asyncCallToGetPatient();
-  }, []);
+  }, [asyncCallToGetPatient]);
 
-  //! NEW
-  const [showingFields, setShowingFields] = useState({
-    name: false,
-    aadhaar: false,
-    sex: false,
-    dob: false,
-    weight: false
-  });
-
+  //! might delete these below
   const [showingField, setShowingField] = useState('');
   const [initialAadhaar, setInitialAadhaar] = useState('');
   const [initialName, setInitialName] = useState('');
@@ -129,45 +121,40 @@ const BasicInfo = ({contract, aadhaar}) => {
   const [initialDob, setInitialDob] = useState('');
   const [initialWeight, setInitialWeight] = useState('');
 
-  //* showField determines if you are currently editting the field
-  const showField = fieldId => {
-    if (!fieldId) return;
-    setShowingField(fieldId);
-  };
+  //! NEW
+  const [fields, setFields] = useState({
+    name: false,
+    aadhaar: false,
+    sex: false,
+    dob: false,
+    weight: false,
+  });
 
-  //!NEW
   const showFields = () => {
-    setShowingFields({
+    setFields({
       name: true,
       aadhaar: true,
       sex: true,
       dob: true,
-      weight: true
+      weight: true,
     });
   };
 
   const hideFields = callback => {
-    // setShowingField(''),
+    // setField(''),
     // setInitialAadhaar(''),
     // setInitialName(''),
     // setInitialSex(''),
     // setInitialDob(''),
     // setInitialWeight('')
-    // //! Might not need this below
-    // if (callback && typeof callback === 'function') {
-    //   callback();
-    // }
-  };
-
-  //!NEW
-  const newHideFields = callback => {
-    setShowingFields({
+    setFields({
       name: false,
       aadhaar: false,
       sex: false,
       dob: false,
-      weight: false
+      weight: false,
     });
+    if (callback && typeof callback === 'function') callback();
   };
 
   //* change functions will change the contract state
@@ -219,6 +206,7 @@ const BasicInfo = ({contract, aadhaar}) => {
         return;
       case 'weight':
         changeWeight();
+
       default:
     }
   };
@@ -237,7 +225,6 @@ const BasicInfo = ({contract, aadhaar}) => {
     }
   };
 
-  //* handleChange functions will change the initial state
   const handleAadhaarChange = event => {
     if (!event) return;
     const newAadhaar = event.target.value;
@@ -274,111 +261,69 @@ const BasicInfo = ({contract, aadhaar}) => {
         <Typography component="h2" variant="h5" color="primary" gutterBottom>
           {patientData.name}
         </Typography>
-          <span className={classes.toolbarButtons}>
+        <span className={classes.toolbarButtons}>
           <Tooltip title="Edit">
             <IconButton onClick={() => showFields()}>
               <CreateIcon />
             </IconButton>
-            </Tooltip>
-          </span>
+          </Tooltip>
+        </span>
       </Toolbar>
 
       <List disablePadding>
         <ListItem>
-        <Hidden xsDown>
-          <ListItemIcon>
-            <ContactsIcon />
-          </ListItemIcon>
-        </Hidden>
+          <Hidden xsDown>
+            <ListItemIcon>
+              <ContactsIcon />
+            </ListItemIcon>
+          </Hidden>
 
-      {/* <div className={classes.margin}>
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AccountCircle />
-          </Grid>
-          <Grid item>
-            <TextField 
+          {fields.aadhaar === true && (
+            <TextField
+              autoFocus
+              fullWidth
+              autoComplete="given-aadhaar"
+              helperText="Change patient's aadhaar number"
               label="Aadhaar"
-              margin="normal" 
+              type="number"
+              placeholder={patientData.aadhaar}
+              value={initialAadhaar}
+              onBlur={hideFields}
+              onKeyDown={event => handleKeyDown(event, 'aadhaar')}
+              onChange={handleAadhaarChange}
             />
-          </Grid>
-        </Grid>
-      </div> */}
+          )}
 
-      {showingField === 'aadhaar' && (
-        <TextField
-          autoComplete="given-aadhaar"
-          autoFocus
-          fullWidth
-          helperText="Press Enter to change aadhaar"
-          label="Aadhaar"
-          placeholder={patientData.aadhaar}
-          type="number"
-          value={initialAadhaar}
-          onBlur={hideFields}
-          variant="filled"
-          // ^ when a user leaves the input field
-          onKeyDown={event => handleKeyDown(event, 'aadhaar')}
-          onChange={handleAadhaarChange}
-        />
-      )}
+          {fields.aadhaar === false && (
+            <ListItemText primary="Aadhaar" secondary={patientData.aadhaar} />
+          )}
+        </ListItem>
 
-      {showingField !== 'aadhaar' && (
-        <>
-          <ListItemText primary="Aadhaar" secondary={patientData.aadhaar} />
-          <ListItemSecondaryAction>
-            {patientData.aadhaar && (
-                <div>
-                  <IconButton onClick={() => showField('aadhaar')}>
-                    <EditIcon />
-                  </IconButton>
-                </div>
-            )}
-          </ListItemSecondaryAction>
-        </>
-      )}
-      </ListItem>
-
-      <ListItem>
+        {/* <ListItem>
           <Hidden xsDown>
             <ListItemIcon>
               <WcIcon />
             </ListItemIcon>
           </Hidden>
 
-          {showingField === 'sex' && (
+          {fields.sex === true && (
             <TextField
-              autoComplete="given-aadhaar"
               autoFocus
               fullWidth
-              helperText="Press Enter to change sex"
+              helperText="Change patient's sex"
+              autoComplete="given-aadhaar"
               label="Sex"
+              type="string"
               placeholder={patientData.sex}
-              // type="number"
               value={initialSex}
-              variant="filled"
               onBlur={hideFields}
-              // ^ when a user leaves the input field
               onKeyDown={event => handleKeyDown(event, 'sex')}
               onChange={handleSexChange}
             />
           )}
 
-          {showingField !== 'sex' && (
-            <>
-              <ListItemText primary="Sex" secondary={patientData.sex} />
-              <ListItemSecondaryAction>
-                {patientData.sex && (
-                  <Tooltip title="Edit">
-                    <div>
-                      <IconButton onClick={() => showField('sex')}>
-                        <EditIcon />
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                )}
-              </ListItemSecondaryAction>
-            </>
+          {fields.sex === false && (
+            <ListItemText primary="Sex" secondary={patientData.sex} />
           )}
         </ListItem>
 
@@ -389,7 +334,7 @@ const BasicInfo = ({contract, aadhaar}) => {
             </ListItemIcon>
           </Hidden>
 
-          {showingField === 'dob' && (
+          {fields.dob === true && (
             <TextField
               autoComplete="given-dob"
               autoFocus
@@ -399,32 +344,14 @@ const BasicInfo = ({contract, aadhaar}) => {
               placeholder={patientData.dob}
               // type="number"
               value={initialDob}
-              variant="filled"
               onBlur={hideFields}
-              // ^ when a user leaves the input field
               onKeyDown={event => handleKeyDown(event, 'dob')}
               onChange={handleDobChange}
             />
           )}
 
-          {showingField !== 'dob' && (
-            <>
-              <ListItemText
-                primary="Date of Birth"
-                secondary={patientData.dob}
-              />
-              <ListItemSecondaryAction>
-                {patientData.dob && (
-                  <Tooltip title="Edit">
-                    <div>
-                      <IconButton onClick={() => showField('dob')}>
-                        <EditIcon />
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                )}
-              </ListItemSecondaryAction>
-            </>
+          {fields.dob === false && (
+            <ListItemText primary="Date of Birth" secondary={patientData.dob} />
           )}
         </ListItem>
 
@@ -435,7 +362,7 @@ const BasicInfo = ({contract, aadhaar}) => {
             </ListItemIcon>
           </Hidden>
 
-          {showingField === 'weight' && (
+          {fields.weight === true && (
             <TextField
               autoComplete="given-weight"
               autoFocus
@@ -445,34 +372,24 @@ const BasicInfo = ({contract, aadhaar}) => {
               placeholder={patientData.weight}
               type="number"
               value={initialWeight}
-              variant="filled"
               onBlur={hideFields}
-              // ^ when a user leaves the input field
               onKeyDown={event => handleKeyDown(event, 'weight')}
               onChange={handleWeightChange}
             />
           )}
 
-          {showingField !== 'weight' && (
-            <>
-              <ListItemText primary="Weight" secondary={patientData.weight} />
-              <ListItemSecondaryAction>
-                {patientData.weight && (
-                  <Tooltip title="Edit">
-                    <div>
-                      <IconButton onClick={() => showField('weight')}>
-                        <EditIcon />
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                )}
-              </ListItemSecondaryAction>
-            </>
+          {fields.weight === false && (
+            <ListItemText primary="Weight" secondary={patientData.weight} />
           )}
-        </ListItem>
+        </ListItem> */}
       </List>
     </>
   );
+};
+
+BasicInfo.propTypes = {
+  contract: PropTypes.isRequired,
+  aadhaar: PropTypes.isRequired,
 };
 
 export default BasicInfo;

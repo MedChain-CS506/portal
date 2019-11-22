@@ -82,7 +82,7 @@ const Profile = ({
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-                <BasicInfo aadhaar={match.params.id} contract={contract}/>
+                <BasicInfo aadhaar={match.params.id} contract={contract} />
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
@@ -91,8 +91,8 @@ const Profile = ({
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              {/* <Paper className={classes.paper}> */}
-              {/* <Prescriptions
+              {/* <Paper className={classes.paper}>
+                <Prescriptions
                   onNewPrescriptionClick={onNewPrescriptionClick}
                 /> */}
               <NewPrescriptionsTable />
