@@ -71,7 +71,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
               <AccountCircleIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Request to Join" secondary="Jan 1, 2020" />
+          <ListItemText primary="John Doe" secondary="Join Request" />
         </ListItem>
       </List>
       <Divider />
@@ -82,7 +82,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
               <AccountCircleIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Request to Join" secondary="Jan 1, 2020" />
+          <ListItemText primary="Charlie Smith" secondary="Join Request" />
         </ListItem>
       </List>
       <Divider />
@@ -93,7 +93,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
               <AccountCircleIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Request to Join" secondary="Jan 1, 2020" />
+          <ListItemText primary="Dave Johnson" secondary="Join Request" />
         </ListItem>
       </List>
     </div>
@@ -137,7 +137,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
 
         <>
           <IconButton color="inherit" onClick={toggleDrawer(true)}>
-            <Badge badgeContent={1} color="secondary">
+            <Badge variant="dot" color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
