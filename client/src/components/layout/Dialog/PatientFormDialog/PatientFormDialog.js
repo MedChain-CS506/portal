@@ -27,11 +27,12 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 
-// import {
-//   MuiPickersUtilsProvider,
-//   TimePicker,
-//   DatePicker,
-// } from '@material-ui/pickers';
+import {
+  MuiPickersUtilsProvider,
+  TimePicker,
+  DatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import {
   Formik,
@@ -43,7 +44,6 @@ import {
 } from 'formik';
 
 import * as yup from 'yup';
-// import DateFnsUtils from '@date-io/date-fns';
 import PatientContext from '../../../../context/patient/PatientContext';
 
 const useStyles = makeStyles({
@@ -103,21 +103,21 @@ const WeightField = ({ placeholder, label, ...props }) => {
   );
 };
 
-const DobField = ({ placeholder, label, ...props }) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : '';
-  return (
-    <TextField
-      variant="outlined"
-      label={label}
-      fullWidth
-      placeholder={placeholder}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-    />
-  );
-};
+// const DobField = ({ placeholder, label, ...props }) => {
+//   const [field, meta] = useField(props);
+//   const errorText = meta.error && meta.touched ? meta.error : '';
+//   return (
+//     <TextField
+//       variant="outlined"
+//       label={label}
+//       fullWidth
+//       placeholder={placeholder}
+//       {...field}
+//       helperText={errorText}
+//       error={!!errorText}
+//     />
+//   );
+// };
 
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
@@ -143,8 +143,7 @@ const validationSchema = yup.object().shape({
     .number('Weight must be a number')
     .positive('Weight must be postitive')
     .required('Weight is required'),
-  // dob: yup.date(),
-  // sex: yup.boolean(),
+  sex: yup.boolean(),
   notes: yup.array().of(
     yup.object({
       name: yup.string().required(),
@@ -161,6 +160,11 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   // const [weight, setWeight] = useState('');
   // const [dob, setDob] = useState('');
   // const [sex, setSex] = useState('');
+
+  //!NEW!!!!!!!!!!!!!!!!!!!!
+  const [selectedDate, handleDateChange] = useState(new Date());
+
+
   const patientContext = useContext(PatientContext);
   const register = async data => {
     console.log('call to register patient');
@@ -214,6 +218,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         }}
       >
         {({ values, errors, isSubmitting }) => (
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Form>
             <Hidden smDown>
               <DialogContent className={classes.dialogContent}>
@@ -262,10 +267,20 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                         />
                       </Grid>
                       <Grid item xs>
-                        <DobField
+                        {/* <DobField
                           label="Date of Birth"
                           placeholder="1/1/2000"
                           name="dob"
+                        /> */}
+                        <DatePicker
+                          disableFuture
+                          openTo="year"
+                          fullWidth
+                          format="MM/dd/yyyy"
+                          label="Date of birth"
+                          views={["year", "month", "date"]}
+                          value={selectedDate}
+                          onChange={handleDateChange}
                         />
                       </Grid>
                       <Grid item xs>
@@ -377,11 +392,21 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                   </Grid>
 
                   <Grid item xs>
-                    <DobField
+                    {/* <DobField
                       label="Date of Birth"
                       placeholder="1/1/2000"
                       name="dob"
-                    />
+                    /> */}
+                    <DatePicker
+                          disableFuture
+                          openTo="year"
+                          fullWidth
+                          format="MM/dd/yyyy"
+                          label="Date of birth"
+                          views={["year", "month", "date"]}
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                        />
                   </Grid>
 
                   <Grid item xs>
@@ -473,6 +498,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
             {/* <pre>{JSON.stringify(values, null, 2)}</pre>
             <pre>{JSON.stringify(errors, null, 2)}</pre> */}
           </Form>
+          </MuiPickersUtilsProvider>
         )}
       </Formik>
     </Dialog>
