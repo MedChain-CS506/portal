@@ -29,7 +29,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import {
   MuiPickersUtilsProvider,
-  TimePicker,
   DatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -121,7 +120,7 @@ const WeightField = ({ placeholder, label, ...props }) => {
 
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
-  return <FormControlLabel {...field} control={<Radio />} label={label} />;
+  return <FormControlLabel {...field} control={<Radio color="primary" />} label={label} />;
 };
 
 //! Added .shape({})
@@ -160,10 +159,8 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   // const [weight, setWeight] = useState('');
   // const [dob, setDob] = useState('');
   // const [sex, setSex] = useState('');
-
   //!NEW!!!!!!!!!!!!!!!!!!!!
   const [selectedDate, handleDateChange] = useState(new Date());
-
 
   const patientContext = useContext(PatientContext);
   const register = async data => {
@@ -283,27 +280,11 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                           onChange={handleDateChange}
                         />
                       </Grid>
+
                       <Grid item xs>
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend">Sex</FormLabel>
-                          <RadioGroup row>
-                            <FormControlLabel
-                              value="male"
-                              label="Male"
-                              control={<Radio />}
-                            />
-                            <FormControlLabel
-                              value="female"
-                              label="Female"
-                              control={<Radio />}
-                            />
-                            <FormControlLabel
-                              value="other"
-                              label="Other"
-                              control={<Radio />}
-                            />
-                          </RadioGroup>
-                        </FormControl>
+                        <SexRadio name="sex" type="radio" value="male" label="Male" />
+                        <SexRadio name="sex" type="radio" value="female" label="Female" />
+                        <SexRadio name="sex" type="radio" value="other" label="Other" />
                       </Grid>
                     </Grid>
 
@@ -410,26 +391,9 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                   </Grid>
 
                   <Grid item xs>
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">Sex</FormLabel>
-                      <RadioGroup row>
-                        <FormControlLabel
-                          value="male"
-                          label="Male"
-                          control={<Radio />}
-                        />
-                        <FormControlLabel
-                          value="female"
-                          label="Female"
-                          control={<Radio />}
-                        />
-                        <FormControlLabel
-                          value="other"
-                          label="Other"
-                          control={<Radio />}
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                    <SexRadio name="sex" type="radio" value="male" label="Male" />
+                    <SexRadio name="sex" type="radio" value="female" label="Female" />
+                    <SexRadio name="sex" type="radio" value="other" label="Other" />
                   </Grid>
 
                   <Grid item xs>
