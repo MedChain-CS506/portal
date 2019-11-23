@@ -51,4 +51,4 @@ npm start
 - Migrations
 - Tests
 
-## Roadmap... Look for issues to find out what may not be working
+## Roadmap... Look @ Issues above to find out what is to come/what may not be working at the moment
