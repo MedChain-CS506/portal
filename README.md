@@ -1,6 +1,6 @@
 # MEDCHAIN
 
-## What is it and what's the benefit
+## Description
 
 MedChain is a fully decentralized, Ethereum-based application, which looks to provide medical professionals in developing countries with easy access to their patient's medical files and prescriptions, simply through their aadhaar numbers. While there are many improvements to still be made, this is only one example of what benefits this technology can provide.
 
