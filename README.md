@@ -1,21 +1,22 @@
-# READ ME
+# MEDCHAIN
 
-## MEDCHAIN ITERATION 2
+## Instructions for starting up application
 
-Instructions for starting backend and front end processes located below
+### What needs to be installed to run this application
 
-## Back End
+- [MetaMask](https://metamask.io/)
+- [Ganache](https://www.trufflesuite.com/ganache)
+- Once these are installed, then...
+  - Connect custom RPC to `http://127.0.0.1:7545`
+  - Import a private key into Metamask
 
- 1. Install [MetaMask](https://metamask.io/)
- 2. Start [Ganache](https://www.trufflesuite.com/ganache)
- 3. Connect custom RPC to `http://127.0.0.1:7545`
- 4. Import a private key into Metamask
- 5. Run script `./run_blockchain` from the root directory
- 6. To run testing: `truffle test` from the root directory
+### Next, open the sourcecode in a text editor
 
-## Front End
+- Once inside the root directory, run script `./run_blockchain`
+- Additionally, you can verify the tests by running `truffle test` in the root directory
 
- 1. `cd client` to go in the react app
- 2. `npm install` to install dependencies
- 3. `npm start` to start development server
- 4. To run testing: ` ` //jest and/or cypress go here
+### To run the client
+
+> `cd client`
+> `npm install`
+> `npm start`
