@@ -165,7 +165,8 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
+    console.log(data);
     let medicine = '';
     for (const med in data.medicine) {
       medicine = `${medicine}-${med}`;
@@ -177,22 +178,26 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
     }
 
     medicine = medicine.substr(1);
-    console.log(medicine);
     const dt = new Date();
     const utcDate = dt.toUTCString();
-    console.log(utcDate);
-    patientContext.addPrescription(
-      contract,
-      data.d_id,
-      data.aadhaar,
-      data.disease,
-      data.symptoms,
-      medicine,
-      utcDate
-    );
-
-    //make sure to do some error checking here aswell
-    props.openSnackbar(`Prescription Successfully Prescribed`);
+    try {
+      patientContext
+        .addPrescription(
+          dialogProps.contract,
+          data.d_id,
+          data.aadhaar,
+          data.disease,
+          data.symptoms,
+          medicine,
+          utcDate
+        )
+        .then(() => {
+          props.openSnackbar(`Prescription Successfully Prescribed`);
+          dialogProps.onClose();
+      });
+    } catch {
+      props.openSnackbar('Try again');
+    };
   };
 
   return (
@@ -210,11 +215,12 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
           medicine: [{ name: '', quantity: '', id: `${Math.random()}` }],
         }}
         validationSchema={validationSchema}
-        onSubmit={(data, { setSubmitting }) => {
+        onSubmit={async (data, { setSubmitting }) => {
+          console.log("inside on submit");
           setSubmitting(true);
           // make async call
-          console.log('submit: ', data);
-          setSubmitting(false);
+          await onSubmit(data);
+          setSubmitting(false);  
         }}
       >
         {({ values, errors, isSubmitting }) => (
@@ -409,7 +415,7 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={onSubmit}
+                type='submit'
                 //   disabled={} type="submit" className={classes.button} disabled={isSubmitting}
               >
                 Prescribe

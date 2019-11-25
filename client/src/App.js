@@ -199,6 +199,8 @@ function App() {
                   prescriptionFormDialog: {
                     dialogProps: {
                       open: dialog.prescriptionFormDialog,
+                      contract,
+                      aadhaar: null,
                       onClose: () =>
                         setDialog({ ...dialog, prescriptionFormDialog: false }),
                     },

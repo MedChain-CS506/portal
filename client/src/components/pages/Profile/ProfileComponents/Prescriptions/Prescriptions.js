@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useState, useEffect, useContext } from 'react';
+import PatientContext from '../../../../../context/patient/PatientContext';
 import PropTypes from 'prop-types';
 
 import {
@@ -20,54 +20,6 @@ import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
 
-// Generate Prescription Data
-function createPrescription(id, date, name, dosage, quantity, status) {
-  return { id, date, name, dosage, quantity, status };
-}
-
-const rows = [
-  createPrescription(
-    0,
-    'Jan 1, 2020',
-    'Vicodin',
-    '300 mg',
-    '30 pills',
-    'Filled'
-  ),
-  createPrescription(
-    1,
-    'Jan 1, 2020',
-    'Simvastatin',
-    '300 mg',
-    '30 pills',
-    'Filled'
-  ),
-  createPrescription(
-    2,
-    'Jan 1, 2020',
-    'Azithromycin',
-    '300 mg',
-    '30 pills',
-    'Filled'
-  ),
-  createPrescription(
-    3,
-    'Jan 1, 2020',
-    'Lipitor',
-    '300 mg',
-    '30 pills',
-    'Pending'
-  ),
-  createPrescription(
-    4,
-    'Jan 1, 2020',
-    'Amlodipine',
-    '300 mg',
-    '30 pills',
-    'Pending'
-  ),
-];
-
 const useStyles = makeStyles(theme => ({
   toolbarButtons: {
     marginLeft: 'auto',
@@ -77,11 +29,44 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Prescriptions({
-  onNewPrescriptionClick,
-  isPharmacist,
-}) {
+const Prescriptions = ({ onNewPrescriptionClick, isPharmacist, aadhaar, contract}) => {
   const classes = useStyles();
+  const patientContext = useContext(PatientContext);
+
+  const [prescriptionData, setPrescriptiontData] = useState({
+    id: '1',
+    medicine: 'adderall',
+    doc_id: '1',
+    quantity: '1000000000',
+    symptoms: 'need to work',
+    timestamp: '10/10/10',
+  });
+
+  const get_string = (str) => {
+    let newStr = str.split('-');
+    return newStr;
+  }
+
+  const asyncCallToGetPrescriptions = async () => {
+    const data = await patientContext.lastPrescription(contract, aadhaar);
+    
+    let medicine = get_string(data.last_pres_medicine);
+    console.log(medicine);
+
+    setPrescriptiontData({
+      ...prescriptionData, 
+      id: data.last_pres_id,
+      medicine: medicine[1],
+      quantity: medicine[2],
+      doc_id: data.last_pres_doc_id,
+      symptoms: data.last_pres_symptoms, 
+      timestamp: data.last_pres_timestamp,  
+    });
+  };
+
+  useEffect(() => {
+    asyncCallToGetPrescriptions();
+  }, []);
 
   if (!isPharmacist) {
     return (
@@ -109,21 +94,17 @@ export default function Prescriptions({
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Dosage</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.id}>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.dosage}</TableCell>
-                <TableCell>{row.quantity}</TableCell>
-                <TableCell>{row.status}</TableCell>
+              <TableRow key={prescriptionData.id}>
+                <TableCell>{prescriptionData.timestamp}</TableCell>
+                <TableCell>{prescriptionData.medicine}</TableCell>
+                <TableCell>{prescriptionData.quantity}</TableCell>
+                <TableCell>"Filled"</TableCell>
               </TableRow>
-            ))}
           </TableBody>
         </Table>
         <div className={classes.seeMore}>
@@ -150,25 +131,21 @@ export default function Prescriptions({
         </Toolbar>
 
         <Table size="small">
-          <TableHead>
+        <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Dosage</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.id}>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.dosage}</TableCell>
-                <TableCell>{row.quantity}</TableCell>
-                <TableCell>{row.status}</TableCell>
+              <TableRow key={prescriptionData.id}>
+                <TableCell>{prescriptionData.timestamp}</TableCell>
+                <TableCell>{prescriptionData.medicine}</TableCell>
+                <TableCell>{prescriptionData.quantity}</TableCell>
+                <TableCell>"Filled"</TableCell>
               </TableRow>
-            ))}
           </TableBody>
         </Table>
         <div className={classes.seeMore}>
@@ -185,4 +162,7 @@ Prescriptions.propTypes = {
   // signedIn: PropTypes.bool.isRequired,
   onNewPrescriptionClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,
+  aadhaar: PropTypes.isRequired,
 };
+
+export default Prescriptions;
