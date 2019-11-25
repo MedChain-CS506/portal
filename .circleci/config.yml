@@ -33,19 +33,23 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "~/project/client/package.json" }}
 
+      # trying to solve the gyp installing error (while installing truffle on the linux machine)
+      - run: sudo apt-get install build-essential
+      
       # - run: pwd 
       # - run: ls -la
       # Install dependencies
       - run: cd ~/project/client/ && npm install
 
+      # run npm tests!
+      - run: cd ~/project/client/ && npm test
+
       # Compile and deploy contracts (good luck installing Ganache and the truffle suite on the linux machine running this)
       - run: ./run_blockchain.sh
-      
       # Test the contracts
       - run: truffle test
 
-      # run npm tests!
-      - run: cd ~/project/contextapp/ && npm test
+
       # - run: yarn test
       # - run: pwd
       # - run: ls -la
