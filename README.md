@@ -47,6 +47,12 @@ npm start
       - theme - allows the toggling between Material UI's light and dark theme
       - getWeb3 - allows for access to web3
       - aadhaar - validates aadhaar entries
+  - .env
+  - .eslintrc
+  - babel.config.js
+  - cypress.json
+  - package-lock.json
+  - package.json
 - Contracts
 - Migrations
 - Tests
