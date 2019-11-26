@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useContext } from 'react';
 
 import { Redirect } from 'react-router-dom';
@@ -18,6 +17,18 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddIcon from '@material-ui/icons/Add';
+
+//! NEW
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import Container from '@material-ui/core/Container';
 
 import PatientContext from '../../../context/patient/PatientContext';
 
@@ -51,9 +62,36 @@ const useStyles = makeStyles(theme => ({
     height: 28,
     margin: 4,
   },
+
+  //! NEW
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary,
+  },
+
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+  },
+
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
-const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
+const Landing = ({
+  signedIn = false,
+  isPharmacist,
+  onNewPatientClick,
+  isDoctor,
+}) => {
   const classes = useStyles();
   // const patientContext = useContext(PatientContext);
 
@@ -104,7 +142,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
       </form>
     );
   }
-  if (!isPharmacist && signedIn) {
+  if (isDoctor) {
     return (
       <form className={classes.root} onSubmit={redirectToPatient}>
         <Typography data-testid="app-name" color="textSecondary" variant="h2">
@@ -146,21 +184,93 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
       </form>
     );
   }
-
   return (
-    <div className={classes.root}>
-      <FavoriteIcon color="action" />
-      <Typography color="textSecondary" variant="h3">
-        {process.env.REACT_APP_NAME}
-      </Typography>
-      <Typography
-        data-testid="basic-desc"
-        color="textSecondary"
-        variant="subtitle1"
-      >
-        The simplest decentralized medical-records application
-      </Typography>
-    </div>
+    <Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <GroupAddIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Join Request
+        </Typography>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="aadhaar"
+                label="Aadhaar"
+                type="number"
+                id="aadhaar"
+                autoComplete="current-aadhaar"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="doctorId"
+                label="Doctor ID"
+                name="doctorId"
+                autoComplete="doctor-id"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="notificationEmail" color="primary" />}
+                label="I want to be notified when my request has been reviewed and resolved by the network."
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Request Access
+          </Button>
+        </form>
+      </div>
+    </Container>
   );
 };
 
@@ -168,6 +278,7 @@ Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isPharmacist: PropTypes.bool,
   onNewPatientClick: PropTypes.func.isRequired,
+  isDoctor: PropTypes.bool,
 };
 
 export default Landing;
