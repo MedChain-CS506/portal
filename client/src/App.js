@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 
 //* React Router
@@ -21,7 +22,6 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/pages/Landing';
 import NotFound from './components/pages/NotFound';
 import Profile from './components/pages/Profile';
-import RequestAccess from './components/pages/RequestAccess';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -29,7 +29,7 @@ import MedChainContract from './contracts/med_chain.json';
 
 async function docCheck(contract) {
   let result = 10;
-  try {
+  try { 
     await contract.contract.methods
       .is_doctor_or_pharmacist()
       .call({
@@ -54,7 +54,7 @@ function App() {
     contract: null,
   });
   const [isDoctor, setIsDoctor] = useState(false);
-  const [isPharmacist, setIsPharmacist] = useState(false);
+  const [isPharmacist, setIsPharmacist] = useState(true);
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
     prescriptionFormDialog: false,
@@ -92,10 +92,10 @@ function App() {
           MedChainContract.abi,
           deployedNetwork && deployedNetwork.address
         );
-        const data = {
-          accounts,
-          web3,
-          contract: instance,
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
         };
         setContract(data);
         setSignedIn(true);
@@ -108,16 +108,16 @@ function App() {
       }
     }
 
-    connectMetamask().then(data => {
-      docCheck(data).then(res => {
-        if (res === 0) {
+    connectMetamask().then((data) => {
+      docCheck(data).then((res) => {
+        if(res == 0){
           setIsDoctor(true);
-        } else if (res === 1) {
+        } else if (res == 1) {
           setIsPharmacist(true);
         }
-      });
+      })
       setInterval(async () => {
-        try {
+        try{
           const rn = await data.web3.eth.getAccounts();
           if (rn[0] !== data.accounts[0]) {
             setSignedIn(false);
@@ -125,9 +125,9 @@ function App() {
             setSignedIn(true);
           }
         } catch (err) {
-          console.log(err);
+
         }
-      }, 100);
+      }, 100)
     });
   }, [signedIn, isDoctor, isPharmacist]);
 
@@ -162,7 +162,6 @@ function App() {
                       <Landing
                         {...props}
                         signedIn={signedIn}
-                        isDoctor
                         onNewPatientClick={() =>
                           setDialog({ ...dialog, patientFormDialog: true })
                         }
@@ -280,12 +279,12 @@ function App() {
         <CssBaseline />
         {ready ? (
           <Router>
+            <Navbar
+              theme={isLightTheme ? lightTheme : darkTheme}
+              handleToggleTheme={() => toggleTheme()}
+            />
             <Switch>
-              <Route
-                exact
-                path="/request-access"
-                render={props => <RequestAccess {...props} />}
-              />
+              <Route component={NotFound} />
             </Switch>
           </Router>
         ) : (

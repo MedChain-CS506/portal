@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import PatientContext from '../../../../../context/patient/PatientContext';
 import PropTypes from 'prop-types';
 
 import {
@@ -19,7 +20,6 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
-import PatientContext from '../../../../../context/patient/PatientContext';
 
 const useStyles = makeStyles(theme => ({
   toolbarButtons: {
@@ -30,12 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Prescriptions = ({
-  onNewPrescriptionClick,
-  isPharmacist,
-  aadhaar,
-  contract,
-}) => {
+const Prescriptions = ({ onNewPrescriptionClick, isPharmacist, aadhaar, contract}) => {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
 
@@ -51,68 +46,58 @@ const Prescriptions = ({
 
   const [noPres, setNoPres] = useState(false);
 
-  const getString = str => {
-    const newStr = str.split('-');
+  const get_string = (str) => {
+    let newStr = str.split('-');
     return newStr;
-  };
+  }
 
   const asyncCallToGetPrescriptions = async () => {
     const data = await patientContext.lastPrescription(contract, aadhaar);
-    const medicine = getString(data.last_pres_medicine);
+    let medicine = get_string(data.last_pres_medicine);
 
     setPrescriptiontData({
-      ...prescriptionData,
+      ...prescriptionData, 
       id: data.last_pres_id,
       medicine: medicine[1],
       quantity: medicine[2],
       doc_id: data.last_pres_doc_id,
-      symptoms: data.last_pres_symptoms,
-      timestamp: data.last_pres_timestamp,
+      symptoms: data.last_pres_symptoms, 
+      timestamp: data.last_pres_timestamp,  
     });
   };
 
   const asyncCallToGetPharmacyPrescriptions = async () => {
-    const data = await patientContext.phatmacistLastPrescription(
-      contract,
-      aadhaar
-    );
-    const medicine = getString(data.medicine);
+    const data = await patientContext.phatmacistLastPrescription(contract, aadhaar);
+    let medicine = get_string(data.medicine);
 
     setPrescriptiontData({
-      ...prescriptionData,
+      ...prescriptionData, 
       medicine: medicine[1],
       quantity: medicine[2],
       doc_id: data.d_id,
       timestamp: data.timestamp,
-      marked: false,
+      marked: false,  
     });
   };
 
   const mark = name => async event => {
     const dt = new Date();
     const utcDate = dt.toUTCString();
-    await patientContext
-      .markPrescription(contract, aadhaar, 10, utcDate)
-      .then(() => {
-        setPrescriptiontData({ ...prescriptionData, marked: true });
-        console.log(prescriptionData.marked);
-      });
+    await patientContext.markPrescription(contract, aadhaar, 10, utcDate).then(() => {
+      setPrescriptiontData({ ...prescriptionData, marked: true });
+      console.log(prescriptionData.marked);
+    });
   };
 
   useEffect(() => {
-    if (isPharmacist) {
-      asyncCallToGetPharmacyPrescriptions();
+    if(isPharmacist) {
+      asyncCallToGetPharmacyPrescriptions();      
     }
 
-    if (!isPharmacist) {
+    if(!isPharmacist) {
       asyncCallToGetPrescriptions();
     }
-  }, [
-    asyncCallToGetPharmacyPrescriptions,
-    asyncCallToGetPrescriptions,
-    isPharmacist,
-    noPres,
-  ]);
+  }, [noPres]);
 
   if (!isPharmacist) {
     return (
@@ -145,16 +130,13 @@ const Prescriptions = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {prescriptionData.doc_id === 0 ? (
-              <>
-                <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    No Previous Prescriptions Available
-                  </TableCell>
+          { prescriptionData.doc_id == 0 
+            ? <> 
+                <TableRow >
+                  <TableCell colSpan={5} align="center" >No Previous Prescriptions Available</TableCell>
                 </TableRow>
               </>
-            ) : (
-              <>
+            : <>
                 <TableRow key={prescriptionData.id}>
                   <TableCell>{prescriptionData.timestamp}</TableCell>
                   <TableCell>{prescriptionData.medicine}</TableCell>
@@ -162,7 +144,7 @@ const Prescriptions = ({
                   <TableCell>{prescriptionData.doc_id}</TableCell>
                 </TableRow>
               </>
-            )}
+          }   
           </TableBody>
         </Table>
         <div className={classes.seeMore}>
@@ -189,7 +171,7 @@ const Prescriptions = ({
         </Toolbar>
 
         <Table size="small">
-          <TableHead>
+        <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Name</TableCell>
@@ -199,34 +181,31 @@ const Prescriptions = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {prescriptionData.doc_id === 0 ? (
-              <>
-                <TableRow>
-                  <TableCell colSpan={5} align="center">
-                    No Unmarmed Prescriptions Available
-                  </TableCell>
-                </TableRow>
-              </>
-            ) : (
-              <>
-                <TableRow>
-                  <TableCell>{prescriptionData.timestamp}</TableCell>
-                  <TableCell>{prescriptionData.medicine}</TableCell>
-                  <TableCell>{prescriptionData.quantity}</TableCell>
-                  <TableCell>{prescriptionData.doc_id}</TableCell>
-                  <TableCell>"Unmarked"</TableCell>
-                  <Checkbox
-                    checked={patientContext.marked}
-                    onChange={mark('marked')}
-                    value="marked"
-                    color="primary"
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                </TableRow>
-              </>
-            )}
+            { prescriptionData.doc_id == 0 
+              ? <> 
+                  <TableRow >
+                    <TableCell colSpan={5} align="center" >No Unmarmed Prescriptions Available</TableCell>
+                  </TableRow>
+                </>
+              : <>
+                  <TableRow>
+                    <TableCell>{prescriptionData.timestamp}</TableCell>
+                    <TableCell>{prescriptionData.medicine}</TableCell>
+                    <TableCell>{prescriptionData.quantity}</TableCell>
+                    <TableCell>{prescriptionData.doc_id}</TableCell>
+                    <TableCell>"Unmarked"</TableCell>
+                    <Checkbox
+                      checked={patientContext.marked}
+                      onChange={mark('marked')}
+                      value="marked"
+                      color="primary"
+                      inputProps={{
+                        'aria-label': 'primary checkbox',
+                      }}
+                    />
+                  </TableRow>
+                </>
+              }   
           </TableBody>
         </Table>
         <div className={classes.seeMore}>
@@ -237,7 +216,7 @@ const Prescriptions = ({
       </>
     );
   }
-};
+}
 
 Prescriptions.propTypes = {
   // signedIn: PropTypes.bool.isRequired,

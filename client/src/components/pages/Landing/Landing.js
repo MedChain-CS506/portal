@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useContext } from 'react';
 
 import { Redirect } from 'react-router-dom';
@@ -15,6 +16,7 @@ import {
 } from '@material-ui/core';
 
 import SearchIcon from '@material-ui/icons/Search';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import AddIcon from '@material-ui/icons/Add';
 
 import PatientContext from '../../../context/patient/PatientContext';
@@ -51,22 +53,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Landing = ({
-  signedIn = false,
-  isPharmacist,
-  isDoctor,
-  onNewPatientClick,
-}) => {
+const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
   const classes = useStyles();
   // const patientContext = useContext(PatientContext);
+
   const [send, setSend] = useState(false);
+
   const [aadhaar, setAadhaar] = useState('');
 
-  const setReady = () => setSend(true);
-
+  const setReady = () => {
+    setSend(true);
+  };
   const redirectToPatient = () => {
     const pageID = `/profile/${aadhaar}`;
-    if (send === true) return <Redirect to={pageID}></Redirect>;
+    if (send === true) {
+      return <Redirect to={pageID}></Redirect>;
+    }
   };
 
   if (isPharmacist) {
@@ -102,7 +104,7 @@ const Landing = ({
       </form>
     );
   }
-  if (isDoctor) {
+  if (!isPharmacist && signedIn) {
     return (
       <form className={classes.root} onSubmit={redirectToPatient}>
         <Typography data-testid="app-name" color="textSecondary" variant="h2">
@@ -144,12 +146,27 @@ const Landing = ({
       </form>
     );
   }
+
+  return (
+    <div className={classes.root}>
+      <FavoriteIcon color="action" />
+      <Typography color="textSecondary" variant="h3">
+        {process.env.REACT_APP_NAME}
+      </Typography>
+      <Typography
+        data-testid="basic-desc"
+        color="textSecondary"
+        variant="subtitle1"
+      >
+        The simplest decentralized medical-records application
+      </Typography>
+    </div>
+  );
 };
 
 Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isPharmacist: PropTypes.bool,
-  isDoctor: PropTypes.bool,
   onNewPatientClick: PropTypes.func.isRequired,
 };
 
