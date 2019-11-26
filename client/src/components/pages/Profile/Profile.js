@@ -65,7 +65,7 @@ const Profile = ({
                   <Prescriptions
                     // onNewPrescriptionClick={() => onNewPrescriptionClick}
                     isPharmacist={isPharmacist}
-                    aadhaar={match.params.id} 
+                    aadhaar={match.params.id}
                     contract={contract}
                   />
                 </Paper>
@@ -94,7 +94,11 @@ const Profile = ({
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Prescriptions onNewPrescriptionClick={onNewPrescriptionClick} aadhaar={match.params.id} contract={contract} />
+                <Prescriptions
+                  onNewPrescriptionClick={onNewPrescriptionClick}
+                  aadhaar={match.params.id}
+                  contract={contract}
+                />
                 {/* <NewPrescriptionsTable /> */}
               </Paper>
             </Grid>
