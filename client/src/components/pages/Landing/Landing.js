@@ -55,8 +55,8 @@ const useStyles = makeStyles(theme => ({
 const Landing = ({
   signedIn = false,
   isPharmacist,
-  onNewPatientClick,
   isDoctor,
+  onNewPatientClick,
 }) => {
   const classes = useStyles();
   // const patientContext = useContext(PatientContext);
@@ -103,53 +103,55 @@ const Landing = ({
       </form>
     );
   }
-  return (
-    <form className={classes.root} onSubmit={redirectToPatient}>
-      <Typography data-testid="app-name" color="textSecondary" variant="h2">
-        {process.env.REACT_APP_NAME}
-      </Typography>
-      <Paper
-        data-testid="search-patient-form"
-        component="form"
-        className={classes.inputRoot}
-        onSubmit={setReady}
-      >
-        <IconButton type="submit" className={classes.iconButton}>
-          <SearchIcon type="submit" onSubmit={setReady} />
-        </IconButton>
-        <InputBase
-          data-testid="search-bar"
-          className={classes.input}
-          placeholder="Enter Aadhaar Number"
-          autoFocus
-          type="number"
-          name="aadhaar"
-          value={aadhaar}
-          onChange={e => setAadhaar(e.target.value)}
+  if (isDoctor) {
+    return (
+      <form className={classes.root} onSubmit={redirectToPatient}>
+        <Typography data-testid="app-name" color="textSecondary" variant="h2">
+          {process.env.REACT_APP_NAME}
+        </Typography>
+        <Paper
+          data-testid="search-patient-form"
+          component="form"
+          className={classes.inputRoot}
           onSubmit={setReady}
-        />
-        <Divider className={classes.divider} orientation="vertical" />
-        <Tooltip title="New Patient">
-          <IconButton
-            data-testid="add-patient-button"
-            color="primary"
-            className={classes.iconButton}
-            onClick={onNewPatientClick}
-          >
-            <AddIcon />
+        >
+          <IconButton type="submit" className={classes.iconButton}>
+            <SearchIcon type="submit" onSubmit={setReady} />
           </IconButton>
-        </Tooltip>
-      </Paper>
-      {redirectToPatient()}
-    </form>
-  );
+          <InputBase
+            data-testid="search-bar"
+            className={classes.input}
+            placeholder="Enter Aadhaar Number"
+            autoFocus
+            type="number"
+            name="aadhaar"
+            value={aadhaar}
+            onChange={e => setAadhaar(e.target.value)}
+            onSubmit={setReady}
+          />
+          <Divider className={classes.divider} orientation="vertical" />
+          <Tooltip title="New Patient">
+            <IconButton
+              data-testid="add-patient-button"
+              color="primary"
+              className={classes.iconButton}
+              onClick={onNewPatientClick}
+            >
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+        </Paper>
+        {redirectToPatient()}
+      </form>
+    );
+  }
 };
 
 Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isPharmacist: PropTypes.bool,
-  onNewPatientClick: PropTypes.func.isRequired,
   isDoctor: PropTypes.bool,
+  onNewPatientClick: PropTypes.func.isRequired,
 };
 
 export default Landing;

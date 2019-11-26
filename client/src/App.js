@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 
 //* React Router
@@ -48,7 +47,7 @@ async function docCheck(contract) {
 
 function App() {
   const [signedIn, setSignedIn] = useState(false);
-  const [ready, setReady] = useState(true);
+  const [ready, setReady] = useState(false);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
@@ -111,9 +110,9 @@ function App() {
 
     connectMetamask().then(data => {
       docCheck(data).then(res => {
-        if (res == 0) {
+        if (res === 0) {
           setIsDoctor(true);
-        } else if (res == 1) {
+        } else if (res === 1) {
           setIsPharmacist(true);
         }
       });
@@ -125,7 +124,9 @@ function App() {
           } else if (rn[0] === data.accounts[0]) {
             setSignedIn(true);
           }
-        } catch (err) {}
+        } catch (err) {
+          console.log(err);
+        }
       }, 100);
     });
   }, [signedIn, isDoctor, isPharmacist]);
@@ -154,7 +155,6 @@ function App() {
                   handleToggleTheme={() => toggleTheme()}
                 />
                 <Switch>
-                  {console.log('getting here')}
                   <Route
                     exact
                     path="/"
@@ -162,11 +162,10 @@ function App() {
                       <Landing
                         {...props}
                         signedIn={signedIn}
+                        isDoctor
                         onNewPatientClick={() =>
                           setDialog({ ...dialog, patientFormDialog: true })
                         }
-                        isPharmacist
-                        isDoctor
                       />
                     )}
                   />
@@ -249,12 +248,7 @@ function App() {
                   exact
                   path="/"
                   render={props => (
-                    <Landing
-                      {...props}
-                      signedIn={signedIn}
-                      isPharmacist
-                      isDoctor
-                    />
+                    <Landing {...props} signedIn={signedIn} isPharmacist />
                   )}
                 />
 
