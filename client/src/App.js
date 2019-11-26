@@ -21,7 +21,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/pages/Landing';
 import NotFound from './components/pages/NotFound';
 import Profile from './components/pages/Profile';
-import RequestSignUp from './components/pages/RequestSignUp';
+import RequestAccess from './components/pages/RequestAccess';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -283,8 +283,8 @@ function App() {
             <Switch>
               <Route
                 exact
-                path="/"
-                render={props => <RequestSignUp {...props} />}
+                path="/request-access"
+                render={props => <RequestAccess {...props} />}
               />
             </Switch>
           </Router>

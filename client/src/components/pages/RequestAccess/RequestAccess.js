@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const RequestSignUp = () => {
+const RequestAccess = () => {
   const classes = useStyles();
   return (
     <Container component="main" maxWidth="xs">
@@ -129,4 +129,4 @@ const RequestSignUp = () => {
   );
 };
 
-export default RequestSignUp;
+export default RequestAccess;
