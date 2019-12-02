@@ -45,3 +45,16 @@ it("renders correctly with signedIn being true, as a doctor", () => {
   expect(getByTestId("search-bar")).toBeTruthy();
   expect(getByTestId("search-patient-form")).toBeTruthy();
 });
+
+it("renders correctly with signedIn being true, as a pharmacist", () => {
+  const { getByTestId } = render(
+    <Router>
+      <Landing signedIn={true} isPharmacist={true} />
+    </Router>
+  );
+  // expect(getByTestId("search-bar")).toHaveTextContent(
+  //   process.env.REACT_APP_NAME
+  // );
+  expect(getByTestId("search-bar")).toBeTruthy();
+  expect(getByTestId("search-patient-form")).toBeTruthy();
+});

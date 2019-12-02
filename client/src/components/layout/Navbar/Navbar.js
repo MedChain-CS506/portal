@@ -105,9 +105,9 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
       position="static"
     >
       <Toolbar variant="regular">
-        <Box data-testid="title-link" flexGrow={1}>
+        <Box flexGrow={1}>
           <Link to="/">
-            <Typography color="inherit" variant="h4">
+            <Typography data-testid="title-link" color="inherit" variant="h4">
               {process.env.REACT_APP_NAME}
             </Typography>
           </Link>

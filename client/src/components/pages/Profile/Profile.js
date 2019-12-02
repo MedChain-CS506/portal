@@ -53,7 +53,7 @@ const Profile = ({
 }) => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  console.log(match);
   if (isPharmacist) {
     return (
       <div className={classes.root}>
