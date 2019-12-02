@@ -27,11 +27,11 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 
-// import {
-//   MuiPickersUtilsProvider,
-//   TimePicker,
-//   DatePicker,
-// } from '@material-ui/pickers';
+import {
+  MuiPickersUtilsProvider,
+  DatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import {
   Formik,
@@ -43,7 +43,6 @@ import {
 } from 'formik';
 
 import * as yup from 'yup';
-// import DateFnsUtils from '@date-io/date-fns';
 import PatientContext from '../../../../context/patient/PatientContext';
 
 const useStyles = makeStyles({
@@ -103,25 +102,25 @@ const WeightField = ({ placeholder, label, ...props }) => {
   );
 };
 
-const DobField = ({ placeholder, label, ...props }) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : '';
-  return (
-    <TextField
-      variant="outlined"
-      label={label}
-      fullWidth
-      placeholder={placeholder}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-    />
-  );
-};
+// const DobField = ({ placeholder, label, ...props }) => {
+//   const [field, meta] = useField(props);
+//   const errorText = meta.error && meta.touched ? meta.error : '';
+//   return (
+//     <TextField
+//       variant="outlined"
+//       label={label}
+//       fullWidth
+//       placeholder={placeholder}
+//       {...field}
+//       helperText={errorText}
+//       error={!!errorText}
+//     />
+//   );
+// };
 
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
-  return <FormControlLabel {...field} control={<Radio />} label={label} />;
+  return <FormControlLabel {...field} control={<Radio color="primary" />} label={label} />;
 };
 
 //! Added .shape({})
@@ -143,7 +142,6 @@ const validationSchema = yup.object().shape({
     .number('Weight must be a number')
     .positive('Weight must be postitive')
     .required('Weight is required'),
-  // dob: yup.date(),
   // sex: yup.boolean(),
   notes: yup.array().of(
     yup.object({
@@ -161,6 +159,9 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   // const [weight, setWeight] = useState('');
   // const [dob, setDob] = useState('');
   // const [sex, setSex] = useState('');
+  //!NEW!!!!!!!!!!!!!!!!!!!!
+  const [selectedDate, handleDateChange] = useState(new Date());
+
   const patientContext = useContext(PatientContext);
   const register = async data => {
     console.log('call to register patient');
@@ -205,6 +206,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
+          console.log("inside on submit");
           setSubmitting(true);
           console.log('submit: ', data);
           //* make async call
@@ -214,6 +216,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         }}
       >
         {({ values, errors, isSubmitting }) => (
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Form>
             <Hidden smDown>
               <DialogContent className={classes.dialogContent}>
@@ -262,33 +265,27 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                         />
                       </Grid>
                       <Grid item xs>
-                        <DobField
+                        {/* <DobField
                           label="Date of Birth"
                           placeholder="1/1/2000"
                           name="dob"
+                        /> */}
+                        <DatePicker
+                          disableFuture
+                          openTo="year"
+                          fullWidth
+                          format="MM/dd/yyyy"
+                          label="Date of birth"
+                          views={["year", "month", "date"]}
+                          value={selectedDate}
+                          onChange={handleDateChange}
                         />
                       </Grid>
+
                       <Grid item xs>
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend">Sex</FormLabel>
-                          <RadioGroup row>
-                            <FormControlLabel
-                              value="male"
-                              label="Male"
-                              control={<Radio />}
-                            />
-                            <FormControlLabel
-                              value="female"
-                              label="Female"
-                              control={<Radio />}
-                            />
-                            <FormControlLabel
-                              value="other"
-                              label="Other"
-                              control={<Radio />}
-                            />
-                          </RadioGroup>
-                        </FormControl>
+                        <SexRadio name="sex" type="radio" value="male" label="Male" />
+                        <SexRadio name="sex" type="radio" value="female" label="Female" />
+                        <SexRadio name="sex" type="radio" value="other" label="Other" />
                       </Grid>
                     </Grid>
 
@@ -377,34 +374,27 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                   </Grid>
 
                   <Grid item xs>
-                    <DobField
+                    {/* <DobField
                       label="Date of Birth"
                       placeholder="1/1/2000"
                       name="dob"
-                    />
+                    /> */}
+                    <DatePicker
+                          disableFuture
+                          openTo="year"
+                          fullWidth
+                          format="MM/dd/yyyy"
+                          label="Date of birth"
+                          views={["year", "month", "date"]}
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                        />
                   </Grid>
 
                   <Grid item xs>
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">Sex</FormLabel>
-                      <RadioGroup row>
-                        <FormControlLabel
-                          value="male"
-                          label="Male"
-                          control={<Radio />}
-                        />
-                        <FormControlLabel
-                          value="female"
-                          label="Female"
-                          control={<Radio />}
-                        />
-                        <FormControlLabel
-                          value="other"
-                          label="Other"
-                          control={<Radio />}
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                    <SexRadio name="sex" type="radio" value="male" label="Male" />
+                    <SexRadio name="sex" type="radio" value="female" label="Female" />
+                    <SexRadio name="sex" type="radio" value="other" label="Other" />
                   </Grid>
 
                   <Grid item xs>
@@ -470,9 +460,10 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
               </Button>
             </DialogActions>
 
-            {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre> */}
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
+          </MuiPickersUtilsProvider>
         )}
       </Formik>
     </Dialog>

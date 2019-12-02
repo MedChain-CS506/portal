@@ -29,20 +29,25 @@ import MedChainContract from './contracts/med_chain.json';
 
 async function docCheck(contract) {
   let result = 10;
-  await contract.contract.methods
-    .is_doctor_or_pharmacist()
-    .call({
-      from: contract.accounts[0],
-    })
-    .then(res => {
-      result = res;
-    });
-  return result;
+  try { 
+    await contract.contract.methods
+      .is_doctor_or_pharmacist()
+      .call({
+        from: contract.accounts[0],
+      })
+      .then(res => {
+        result = res;
+      });
+    return result;
+  } catch (err) {
+    console.log("Can't connect to blockchain");
+    return 2;
+  }
 }
 
 function App() {
-  const [signedIn, setSignedIn] = useState(true);
-  const [ready, setReady] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
+  const [ready, setReady] = useState(false);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
@@ -199,6 +204,8 @@ function App() {
                   prescriptionFormDialog: {
                     dialogProps: {
                       open: dialog.prescriptionFormDialog,
+                      contract,
+                      aadhaar: null,
                       onClose: () =>
                         setDialog({ ...dialog, prescriptionFormDialog: false }),
                     },

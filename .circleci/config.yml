@@ -1,0 +1,55 @@
+# # Javascript Node CircleCI 2.0 configuration file
+# #
+# # Check https://circleci.com/docs/2.0/language-javascript/ for more details
+# #
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       # specify the version you desire here
+#       - image: circleci/node:12.12.0
+
+#       # Specify service dependencies here if necessary
+#       # CircleCI maintains a library of pre-built images
+#       # documented at https://circleci.com/docs/2.0/circleci-images/
+
+#       # - image: circleci/mongo:3.4.4
+
+#    #working_directory: ~/
+
+#     steps:
+#       - checkout
+
+#       # Download and cache dependencies
+#       - restore_cache:
+#           #run: cd ~/project/contextapp/
+#           keys:
+#             - v1-dependencies-{{ checksum "~/project/client/package.json" }}
+#             # fallback to using the latest cache if no exact match is found
+#             - v1-dependencies-
+
+#       # - save_cache:
+#           paths:
+#             - node_modules
+#           key: v1-dependencies-{{ checksum "~/project/client/package.json" }}
+
+#       # trying to solve the gyp installing error (while installing truffle on the linux machine)
+#       - run: sudo apt-get install build-essential
+
+#       # - run: pwd 
+#       # - run: ls -la
+#       # Install dependencies
+#       - run: cd ~/project/client/ && npm install
+
+#       # run npm tests!
+#       - run: cd ~/project/client/ && npm test
+
+#       # Compile and deploy contracts (good luck installing Ganache and the truffle suite on the linux machine running this)
+#       - run: ./run_blockchain.sh
+#       # Test the contracts
+#       - run: truffle test
+
+
+#       # - run: yarn test
+#       # - run: pwd
+#       # - run: ls -la

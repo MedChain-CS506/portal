@@ -157,6 +157,42 @@ const PatientState = props => {
       );
   };
 
+  const phatmacistLastPrescription = async (contract, aadhaar) => {
+    const pharmacy_portal = {};
+    try {
+      await contract.contract.methods
+        .last_prescription(aadhaar)
+        .call()
+        .then(function(res) {
+          pharmacy_portal.d_id = res[0];
+          pharmacy_portal.medicine = res[1];
+          pharmacy_portal.timestamp = res[2];
+        });
+    } catch (error) {
+      pharmacy_portal.d_id = 0;
+      pharmacy_portal.medicine = '';
+      pharmacy_portal.timestamp = '';
+    }
+    return pharmacy_portal;
+  };
+
+  const markPrescription = async ( contract, aadhaar, phar_id, time ) => {
+    try {
+      await contract.contract.methods
+        .mark_prescription(aadhaar, phar_id, time)
+        .send(
+          {
+            from: contract.accounts[0],
+          },
+          error => {
+            console.log(error);
+          }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <PatientContext.Provider
       value={{
@@ -166,6 +202,8 @@ const PatientState = props => {
         addPrescription,
         lastPrescription,
         editPatient,
+        phatmacistLastPrescription,
+        markPrescription,
       }}
     >
       {props.children}

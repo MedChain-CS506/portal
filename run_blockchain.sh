@@ -2,3 +2,4 @@
 rm ./client/src/contracts/med_chain.json
 truffle compile
 truffle migrate --reset
+node ./client/add.js

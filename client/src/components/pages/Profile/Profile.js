@@ -63,8 +63,10 @@ const Profile = ({
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <Prescriptions
-                    onNewPrescriptionClick={() => onNewPrescriptionClick}
+                    // onNewPrescriptionClick={() => onNewPrescriptionClick}
                     isPharmacist={isPharmacist}
+                    aadhaar={match.params.id}
+                    contract={contract}
                   />
                 </Paper>
               </Grid>
@@ -80,23 +82,25 @@ const Profile = ({
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={8}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <BasicInfo aadhaar={match.params.id} contract={contract} />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={4}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <Files />
               </Paper>
             </Grid>
             <Grid item xs={12}>
-              {/* <Paper className={classes.paper}>
+              <Paper className={classes.paper}>
                 <Prescriptions
                   onNewPrescriptionClick={onNewPrescriptionClick}
-                /> */}
-              <NewPrescriptionsTable />
-              {/* </Paper> */}
+                  aadhaar={match.params.id}
+                  contract={contract}
+                />
+                {/* <NewPrescriptionsTable /> */}
+              </Paper>
             </Grid>
           </Grid>
         </Container>
