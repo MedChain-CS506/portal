@@ -10,10 +10,11 @@ import "@testing-library/jest-dom/extend-expect";
 afterEach(cleanup);
 it("renders without crashing", () => {
   const div = document.createElement("div");
-
   ReactDOM.render(
     <Router>
-      <DialogHost />
+      <DialogHost
+        dialogs={{ patientFormDialog: false, prescriptionFormDialog: false }}
+      />
     </Router>,
     div
   );
