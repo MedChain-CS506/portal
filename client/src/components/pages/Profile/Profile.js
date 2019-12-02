@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 const Profile = ({
   // signedIn = false,
   onNewPrescriptionClick,
+  onNewFileClick,
   contract,
   match,
   isPharmacist,
@@ -89,7 +90,7 @@ const Profile = ({
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <Files />
+                <Files onNewFileClick={onNewFileClick} />
               </Paper>
             </Grid>
             <Grid item xs={12}>

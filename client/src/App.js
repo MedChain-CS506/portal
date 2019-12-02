@@ -58,6 +58,7 @@ function App() {
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
     prescriptionFormDialog: false,
+    fileDialog: false,
   });
   const [snackbar, setSnackbar] = useState({
     autoHideDuration: 0,
@@ -208,6 +209,18 @@ function App() {
                       aadhaar: null,
                       onClose: () =>
                         setDialog({ ...dialog, prescriptionFormDialog: false }),
+                    },
+                    props: {
+                      openSnackbar,
+                    },
+                  },
+
+                  fileDialog: {
+                    dialogProps: {
+                      open: dialog.fileDialog,
+                      contract,
+                      onClose: () =>
+                        setDialog({ ...dialog, fileDialog: false }),
                     },
                     props: {
                       openSnackbar,

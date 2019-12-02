@@ -6,10 +6,12 @@ import Hidden from '@material-ui/core/Hidden';
 
 import PatientFormDialog from '../PatientFormDialog';
 import PrescriptionFormDialog from '../PrescriptionFormDialog';
+import FileDialog from '../FileDialog';
 
 const DialogHost = ({ dialogs }) => {
   const { patientFormDialog } = dialogs;
   const { prescriptionFormDialog } = dialogs;
+  const { fileDialog } = dialogs;
 
   return (
     <>
@@ -20,6 +22,11 @@ const DialogHost = ({ dialogs }) => {
         />
 
         <PrescriptionFormDialog
+          dialogProps={prescriptionFormDialog.dialogProps}
+          {...prescriptionFormDialog.props}
+        />
+
+        <FileDialog
           dialogProps={prescriptionFormDialog.dialogProps}
           {...prescriptionFormDialog.props}
         />
@@ -40,6 +47,14 @@ const DialogHost = ({ dialogs }) => {
             ...prescriptionFormDialog.dialogProps,
           }}
           {...prescriptionFormDialog.props}
+        />
+
+        <FileDialog
+          dialogProps={{
+            fullScreen: true,
+            ...fileDialog.dialogProps,
+          }}
+          {...fileDialog.props}
         />
       </Hidden>
     </>
