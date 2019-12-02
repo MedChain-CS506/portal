@@ -54,7 +54,7 @@ function App() {
     contract: null,
   });
   const [isDoctor, setIsDoctor] = useState(false);
-  const [isPharmacist, setIsPharmacist] = useState(true);
+  const [isPharmacist, setIsPharmacist] = useState(false);
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
     prescriptionFormDialog: false,

@@ -78,6 +78,7 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
+    "json-loader": "^0.5.7",
     "prettier": "^1.19.1",
     "react-test-render": "^1.1.2"
   }
