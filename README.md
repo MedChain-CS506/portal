@@ -8,13 +8,15 @@ MedChain is a fully decentralized, Ethereum-based application, which looks to pr
 
 ### First, install these tools to build and run the application
 
-- [NodeJs](https://nodejs.org/en/download/)
+- [NodeJS](https://nodejs.org/en/download/)
 - [MetaMask](https://metamask.io/)
 - [Ganache](https://www.trufflesuite.com/ganache)
-- Next, run this in your terminal to install truffle. (which will be used to compile / deploye smart contracts)
-  ~~~~bash 
+- Next, run this in your terminal to install truffle (which will be used to compile and deploy the smart contracts)
+
+  ~~~~bash
   npm install truffle -g
   ~~~~
+
 - Open Ganache, click on Quickstart. Then copy the RPC Server address (it is `http://127.0.0.1:7545` by default)
 - Open MetaMask, create an account (this account will be used to login in to MetaMask anytime you want to use this browser wallet estension. It is very important to follow MetaMask directions in creating your accont)
 - then:
@@ -23,16 +25,15 @@ MedChain is a fully decentralized, Ethereum-based application, which looks to pr
   - Paste the RPC address that you copied form Ganache (`http://127.0.0.1:7545`)
   - Import private keys into MetaMask:(you need at least one account to be able to compile and deploye the smart contracts, so this step is crucial for the rest of the steps to work).
     - One way:
-       - From MetaMask, click on the logo at the top right
-       - Click create account, then click creaet (This will will create an account using one of your Ganache account's private keys, as long as you are succesfully connected to Ganache network)
-    - Alternatively: 
+      - From MetaMask, click on the logo at the top right
+      - Click create account, then click creaet (This will will create an account using one of your Ganache account's private keys, as long as you are succesfully connected to Ganache network)
+    - Alternatively:
       - Go to Ganache, and chose whatever account you want to import
       - Click on the key logo to the left of the that account
       - Copy the private key
       - Go back to MetaMask
       - Click the logo on the top right, then choose import account
       - Paste the private key, then click import
-    
 
 ### Next, navigate inside the app's directory from a terminal
 

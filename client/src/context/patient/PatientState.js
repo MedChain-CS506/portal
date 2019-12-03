@@ -118,6 +118,7 @@ const PatientState = props => {
 
   const addPrescription = async (
     contract,
+    d_id,
     aadhaar,
     disease,
     symptoms,
@@ -125,7 +126,7 @@ const PatientState = props => {
     time
   ) => {
     await contract.contract.methods
-      .add_prescription( aadhaar, disease, symptoms, medicine, time)
+      .add_prescription(d_id, aadhaar, disease, symptoms, medicine, time)
       .send(
         {
           from: contract.accounts[0],
@@ -175,10 +176,10 @@ const PatientState = props => {
     return pharmacy_portal;
   };
 
-  const markPrescription = async (contract, aadhaar, time) => {
+  const markPrescription = async (contract, aadhaar, phar_id, time) => {
     try {
       await contract.contract.methods
-        .mark_prescription(aadhaar, time)
+        .mark_prescription(aadhaar, phar_id, time)
         .send(
           {
             from: contract.accounts[0],
@@ -191,23 +192,6 @@ const PatientState = props => {
       console.log(err);
     }
   };
-
-  const patientExists = async (contract, aadhaar) => {
-    let exists = false;
-    try {
-      await contract.contract.methods
-        .does_patient_exists(aadhaar)
-        .call({
-          from: contract.accounts[0],
-        })
-        .then((res) => {
-          exists = res;
-      });
-    } catch (err) {
-      console.log("Not connected to blockchain")
-    }
-    return exists;
-  }
 
   return (
     <PatientContext.Provider

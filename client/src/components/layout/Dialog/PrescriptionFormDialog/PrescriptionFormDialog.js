@@ -183,6 +183,7 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
       patientContext
         .addPrescription(
           dialogProps.contract,
+          data.d_id,
           data.aadhaar,
           data.disease,
           data.symptoms,
