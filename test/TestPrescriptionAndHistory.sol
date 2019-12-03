@@ -1,6 +1,6 @@
 pragma solidity ^0.5.8;
 //import "remix_tests.sol";
-import "../contracts/med_chain.sol";
+import "../contracts/MedChain.sol";
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
@@ -8,7 +8,7 @@ import "truffle/DeployedAddresses.sol";
 
 contract TestPrescriptionAndHistory {
     
-    med_chain private testContract;
+    MedChain private testContract;
  
     //address private testAddress = 0x8881c6CFFDA34224E0B3cc62eaeeF56cCe28Aad7;
     
@@ -72,7 +72,7 @@ contract TestPrescriptionAndHistory {
     // creating a contract instance and calling add_patient and add_prescription
     // also, forcing it to run before any tests (remix runs tests alphabatically)
     function beforeAll() external {
-        testContract = new med_chain();
+        testContract = new MedChain();
         testContract.add_patient(aadhaar, name, dob, weight, sex, allergies);
         testContract.add_prescription(d_id, aadhaar, disease, symptoms, medicine, timestamp_prescribed);
     }

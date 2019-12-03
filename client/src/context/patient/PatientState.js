@@ -176,7 +176,7 @@ const PatientState = props => {
     return pharmacy_portal;
   };
 
-  const markPrescription = async ( contract, aadhaar, phar_id, time ) => {
+  const markPrescription = async (contract, aadhaar, phar_id, time) => {
     try {
       await contract.contract.methods
         .mark_prescription(aadhaar, phar_id, time)
@@ -187,7 +187,7 @@ const PatientState = props => {
           error => {
             console.log(error);
           }
-      );
+        );
     } catch (err) {
       console.log(err);
     }

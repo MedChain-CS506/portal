@@ -1,16 +1,10 @@
-/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
-
-// import { Link, Redirect } from 'react-router-dom'
 
 import PropTypes from 'prop-types';
 
 import {
   makeStyles,
-  Grid,
-  Paper,
   Typography,
-  Divider,
   Hidden,
   TextField,
   Tooltip,
@@ -19,77 +13,29 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListItemSecondaryAction,
   Toolbar,
+  Grid,
 } from '@material-ui/core';
 
-import EditIcon from '@material-ui/icons/Edit';
 import ContactsIcon from '@material-ui/icons/Contacts';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import WcIcon from '@material-ui/icons/Wc';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 
 import PatientContext from '../../../../../context/patient/PatientContext';
 
-const useStyles = makeStyles(theme => ({
-  layout: {
-    flexGrow: 1,
-    width: 'auto',
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-
-  basicInfo: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(1),
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3),
-    },
-  },
-
-  divider: {
-    marginBottom: theme.spacing(3),
-  },
-
-  prescriptionsAndFiles: {
-    marginBottom: theme.spacing(6),
-    padding: theme.spacing(2),
-  },
-
-  button: {
-    marginTop: theme.spacing(1),
-  },
-
-  buttonIcon: {
-    marginRight: theme.spacing(1),
-  },
-
-  patientFormIcon: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    background: 'red',
-    color: 'white',
-  },
-
-  margin: {
-    margin: theme.spacing(1),
-  },
+const useStyles = makeStyles({
   toolbarButtons: {
     marginLeft: 'auto',
   },
-}));
+  fields: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    // overflow: "hidden",
+  },
+});
 
 const BasicInfo = ({ contract, aadhaar }) => {
   const classes = useStyles();
@@ -172,6 +118,7 @@ const BasicInfo = ({ contract, aadhaar }) => {
 
   const changeSex = () => {
     if (initialSex === patientData.sex) return;
+    console.log('changed sex');
     // const asyncCallToEdit = (async () => {
     //   await patientContext.editPatient(contract, patientData.aadhaar, patientData.name, patientData.weight, initialSex, patientData.allergies);
     // });
@@ -206,8 +153,9 @@ const BasicInfo = ({ contract, aadhaar }) => {
         return;
       case 'weight':
         changeWeight();
-
+        return;
       default:
+        console.log('need a default');
     }
   };
 
@@ -270,111 +218,126 @@ const BasicInfo = ({ contract, aadhaar }) => {
         </span>
       </Toolbar>
 
-      <List disablePadding>
-        <ListItem>
-          <Hidden xsDown>
-            <ListItemIcon>
-              <ContactsIcon />
-            </ListItemIcon>
-          </Hidden>
+      <Grid container spacing={3} className={classes.fields}>
+        <Grid item xs={6}>
+          <List disablePadding>
+            <ListItem>
+              <Hidden xsDown>
+                <ListItemIcon>
+                  <ContactsIcon />
+                </ListItemIcon>
+              </Hidden>
 
-          {fields.aadhaar === true && (
-            <TextField
-              autoFocus
-              fullWidth
-              helperText="Change patient's aadhaar number"
-              label="Aadhaar"
-              type="number"
-              placeholder={patientData.aadhaar}
-              value={initialAadhaar}
-              onBlur={hideFields}
-              onKeyDown={event => handleKeyDown(event, 'aadhaar')}
-              onChange={handleAadhaarChange}
-            />
-          )}
+              {fields.aadhaar === true && (
+                <TextField
+                  autoFocus
+                  fullWidth
+                  helperText="Change aadhaar number"
+                  label="Aadhaar"
+                  type="number"
+                  placeholder={patientData.aadhaar}
+                  value={initialAadhaar}
+                  onBlur={hideFields}
+                  onKeyDown={event => handleKeyDown(event, 'aadhaar')}
+                  onChange={handleAadhaarChange}
+                />
+              )}
 
-          {fields.aadhaar === false && (
-            <ListItemText primary="Aadhaar" secondary={patientData.aadhaar} />
-          )}
-        </ListItem>
+              {fields.aadhaar === false && (
+                <ListItemText
+                  primary="Aadhaar"
+                  secondary={patientData.aadhaar}
+                />
+              )}
+            </ListItem>
 
-        <ListItem>
-          <Hidden xsDown>
-            <ListItemIcon>
-              <WcIcon />
-            </ListItemIcon>
-          </Hidden>
+            <ListItem>
+              <Hidden xsDown>
+                <ListItemIcon>
+                  <WcIcon />
+                </ListItemIcon>
+              </Hidden>
 
-          {fields.sex === true &&
-            <TextField
-              fullWidth
-              helperText="Change patient's sex"
-              label="Sex"
-              type="string"
-              placeholder={patientData.sex}
-              value={initialSex}
-              // onBlur={hideFields}
-              // onKeyDown={event => handleKeyDown(event, 'sex')}
-              onChange={handleSexChange}
-            />
-          }
-          {fields.sex === false && (
-            <ListItemText primary="Sex" secondary={patientData.sex} />
-          )}
-        </ListItem>
+              {fields.sex === true && (
+                <TextField
+                  fullWidth
+                  helperText="Change sex"
+                  label="Sex"
+                  type="string"
+                  placeholder={patientData.sex}
+                  value={initialSex}
+                  // onBlur={hideFields}
+                  // onKeyDown={event => handleKeyDown(event, 'sex')}
+                  onChange={handleSexChange}
+                />
+              )}
 
-        <ListItem>
-          <Hidden xsDown>
-            <ListItemIcon>
-              <DateRangeIcon />
-            </ListItemIcon>
-          </Hidden>
+              {fields.sex === false && (
+                <ListItemText primary="Sex" secondary={patientData.sex} />
+              )}
+            </ListItem>
+          </List>
+        </Grid>
 
-          {fields.dob === true && (
-            <TextField
-              fullWidth
-              helperText="Press Enter to change date of birth"
-              label="Date of Birth"
-              placeholder={patientData.dob}
-              // type="number"
-              value={initialDob}
-              // onBlur={hideFields}
-              // onKeyDown={event => handleKeyDown(event, 'dob')}
-              onChange={handleDobChange}
-            />
-          )}
+        <Grid item xs={6}>
+          <List disablePadding>
+            <ListItem>
+              <Hidden xsDown>
+                <ListItemIcon>
+                  <DateRangeIcon />
+                </ListItemIcon>
+              </Hidden>
 
-          {fields.dob === false && (
-            <ListItemText primary="Date of Birth" secondary={patientData.dob} />
-          )}
-        </ListItem>
+              {fields.dob === true && (
+                <TextField
+                  fullWidth
+                  helperText="Change date of birth"
+                  label="Date of Birth"
+                  placeholder={patientData.dob}
+                  // type="number"
+                  value={initialDob}
+                  // onBlur={hideFields}
+                  // onKeyDown={event => handleKeyDown(event, 'dob')}
+                  onChange={handleDobChange}
+                />
+              )}
 
-        <ListItem>
-          <Hidden xsDown>
-            <ListItemIcon>
-              <AccessibilityNewIcon />
-            </ListItemIcon>
-          </Hidden>
+              {fields.dob === false && (
+                <ListItemText
+                  primary="Date of Birth"
+                  secondary={patientData.dob}
+                />
+              )}
+            </ListItem>
 
-          {fields.weight === true && (
-            <TextField
-              fullWidth
-              helperText="Press Enter to change weight"
-              label="Weight"
-              placeholder={patientData.weight}
-              type="number"
-              value={initialWeight}
-              // onBlur={hideFields}
-              // onKeyDown={event => handleKeyDown(event, 'weight')}
-              onChange={handleWeightChange}
-            />
-          )}
+            <ListItem>
+              <Hidden xsDown>
+                <ListItemIcon>
+                  <AccessibilityNewIcon />
+                </ListItemIcon>
+              </Hidden>
 
-          {fields.weight === false && (
-            <ListItemText primary="Weight" secondary={patientData.weight} />
-          )}
-        </ListItem>
-      </List>
+              {fields.weight === true && (
+                <TextField
+                  fullWidth
+                  helperText="Change weight"
+                  label="Weight"
+                  placeholder={patientData.weight}
+                  type="number"
+                  value={initialWeight}
+                  // onBlur={hideFields}
+                  // onKeyDown={event => handleKeyDown(event, 'weight')}
+                  onChange={handleWeightChange}
+                />
+              )}
+
+              {fields.weight === false && (
+                <ListItemText primary="Weight" secondary={patientData.weight} />
+              )}
+            </ListItem>
+          </List>
+        </Grid>
+      </Grid>
     </>
   );
 };

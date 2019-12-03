@@ -1,6 +1,6 @@
 pragma solidity ^0.5.8;
 //import "remix_tests.sol";
-import "../contracts/med_chain.sol";
+import "../contracts/MedChain.sol";
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
@@ -8,7 +8,7 @@ import "truffle/DeployedAddresses.sol";
 
 contract TestEditPatient {
     
-    med_chain private testContract;
+    MedChain private testContract;
  
     //address private testAddress = 0x8881c6CFFDA34224E0B3cc62eaeeF56cCe28Aad7;
     
@@ -72,14 +72,14 @@ contract TestEditPatient {
     // creating a contract instance and calling add_patient and add_prescription
     // also, forcing it to run before any tests (remix runs tests alphabatically)
     function beforeAll() external {
-        testContract = new med_chain();
+        testContract = new MedChain();
         testContract.add_patient(aadhaar, name, dob, weight, sex, allergies);
         //testContract.add_prescription(d_id, aadhaar, disease, symptoms, medicine, timestamp_prescribed);
     }
 
   //test it against editing the patient's info --- NOT WORKING <OUT OF GAS> 
   function testLookUpAfterEditPatient() external {
-    //  testContract = new med_chain();
+    //  testContract = new MedChain();
       // call the edit_patient with new info
       testContract.edit_patient(aadhaar, name2, weight2, sex2, allergies2);
       (res_aadhaar, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_patient(aadhaar);

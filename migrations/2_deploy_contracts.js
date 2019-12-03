@@ -1,6 +1,6 @@
  
-var med_chain = artifacts.require("med_chain");
+var MedChain = artifacts.require("MedChain");
 
 module.exports = function(deployer) {
-  deployer.deploy(med_chain);
+  deployer.deploy(MedChain);
 };
