@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useContext } from 'react';
 
 import PropTypes from 'prop-types';
@@ -13,10 +12,7 @@ import {
   Grid,
   Button,
   TextField,
-  FormControl,
-  FormLabel,
   Radio,
-  RadioGroup,
   FormControlLabel,
   InputAdornment,
   IconButton,
@@ -153,7 +149,10 @@ const SexRadio = ({ label, ...props }) => {
 };
 
 const validationSchema = yup.object({
-  aadhaar: yup.string().matches(/^[0-9]{12}$/, 'Must be exactly 12 digits').required('Aadhaar is required'),
+  aadhaar: yup
+    .string()
+    .matches(/^[0-9]{12}$/, 'Must be exactly 12 digits')
+    .required('Aadhaar is required'),
   medicine: yup.array().of(
     yup.object({
       name: yup.string().required(),
@@ -192,12 +191,12 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
           utcDate
         )
         .then(() => {
-          props.openSnackbar(`Prescription Successfully Prescribed`);
+          props.toggleSnackbar(`Prescription Successfully Prescribed`);
           dialogProps.onClose();
-      });
+        });
     } catch {
-      props.openSnackbar('Try again');
-    };
+      props.toggleSnackbar('Try again');
+    }
   };
 
   return (
@@ -216,11 +215,11 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
         }}
         validationSchema={validationSchema}
         onSubmit={async (data, { setSubmitting }) => {
-          console.log("inside on submit");
+          console.log('inside on submit');
           setSubmitting(true);
           // make async call
           await onSubmit(data);
-          setSubmitting(false);  
+          setSubmitting(false);
         }}
       >
         {({ values, errors, isSubmitting }) => (
@@ -415,7 +414,7 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
               <Button
                 color="primary"
                 variant="contained"
-                type='submit'
+                type="submit"
                 //   disabled={} type="submit" className={classes.button} disabled={isSubmitting}
               >
                 Prescribe
@@ -431,8 +430,39 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   );
 };
 
+NameTextField.propTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
+
+MyTextField.propTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
+
+AadhaarField.propTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
+
+WeightField.propTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
+
+DobField.propTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
+
+SexRadio.propTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
+
 PrescriptionFormDialog.propTypes = {
   dialogProps: PropTypes.object.isRequired,
+  toggleSnackbar: PropTypes.func,
 };
 
 export default PrescriptionFormDialog;

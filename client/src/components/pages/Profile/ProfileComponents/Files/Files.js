@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +10,11 @@ import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+
+import AddIcon from '@material-ui/icons/Add';
 
 const ipfsClient = require('ipfs-http-client');
 
@@ -37,9 +43,12 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     height: 240,
   },
+  toolbarButtons: {
+    marginLeft: 'auto',
+  },
 }));
 
-export default function Files() {
+export default function Files({ onNewFileClick }) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -87,9 +96,19 @@ export default function Files() {
 
   return (
     <>
-      <Typography component="h2" variant="h5" color="primary" gutterBottom>
-        Files
-      </Typography>
+      <Toolbar>
+        <Typography component="h2" variant="h5" color="primary" gutterBottom>
+          Files
+        </Typography>
+        <span className={classes.toolbarButtons}>
+          <Tooltip title="Add">
+            <IconButton onClick={onNewFileClick}>
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+        </span>
+      </Toolbar>
+
       <div className={classes.root}>
         <main className={classes.content}>
           <a href="#" target="_blank" rel="noopener noreferrer">
@@ -104,3 +123,7 @@ export default function Files() {
     </>
   );
 }
+
+Files.propTypes = {
+  onNewFileClick: PropTypes.func.isRequired,
+};
