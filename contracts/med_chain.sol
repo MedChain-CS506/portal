@@ -155,7 +155,7 @@ contract med_chain {
 
     //public functions
     function add_patient(uint aadhaar, string calldata name, string calldata dob, uint weight, string calldata sex, string calldata allergies) external {
-        require(!patient_aadhaar_mapping[aadhaar].exists, "Paitent already exists");
+        require(!patient_aadhaar_mapping[aadhaar].exists, "Patient already exists");
         patient_aadhaar_mapping[aadhaar].aadhaar = aadhaar;
         patient_aadhaar_mapping[aadhaar].name = name;
         patient_aadhaar_mapping[aadhaar].dob = dob;

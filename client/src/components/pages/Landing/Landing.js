@@ -1,9 +1,8 @@
-/* eslint-disable */
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from 'react';
 
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 import {
   makeStyles,
@@ -12,45 +11,45 @@ import {
   InputBase,
   Divider,
   IconButton,
-  Tooltip
-} from "@material-ui/core";
+  Tooltip,
+} from '@material-ui/core';
 
-import SearchIcon from "@material-ui/icons/Search";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import AddIcon from "@material-ui/icons/Add";
+import SearchIcon from '@material-ui/icons/Search';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import AddIcon from '@material-ui/icons/Add';
 
-import PatientContext from "../../../context/patient/PatientContext";
+import PatientContext from '../../../context/patient/PatientContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    textAlign: "center"
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    textAlign: 'center',
   },
 
   inputRoot: {
-    padding: "2px 4px",
-    margin: "20px 0",
-    display: "flex",
-    alignItems: "center",
-    width: 400
+    padding: '2px 4px',
+    margin: '20px 0',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
   },
 
   input: {
     marginLeft: theme.spacing(1),
-    flex: 1
+    flex: 1,
   },
 
   iconButton: {
-    padding: 10
+    padding: 10,
   },
 
   divider: {
     height: 28,
-    margin: 4
-  }
+    margin: 4,
+  },
 }));
 
 const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
@@ -59,7 +58,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
 
   const [send, setSend] = useState(false);
 
-  const [aadhaar, setAadhaar] = useState("");
+  const [aadhaar, setAadhaar] = useState('');
 
   const setReady = () => {
     setSend(true);
@@ -169,7 +168,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
 Landing.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isPharmacist: PropTypes.bool,
-  onNewPatientClick: PropTypes.func.isRequired
+  onNewPatientClick: PropTypes.func.isRequired,
 };
 
 export default Landing;

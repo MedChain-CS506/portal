@@ -14,7 +14,6 @@ import {
 import BasicInfo from './ProfileComponents/BasicInfo';
 import Files from './ProfileComponents/Files';
 import Prescriptions from './ProfileComponents/Prescriptions';
-import NewPrescriptionsTable from './ProfileComponents/NewPrescriptionsTable';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -100,7 +99,6 @@ const Profile = ({
                   aadhaar={match.params.id}
                   contract={contract}
                 />
-                {/* <NewPrescriptionsTable /> */}
               </Paper>
             </Grid>
           </Grid>
@@ -113,6 +111,7 @@ const Profile = ({
 Profile.propTypes = {
   // signedIn: PropTypes.bool.isRequired,
   onNewPrescriptionClick: PropTypes.func.isRequired,
+  onNewFileClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,
 };
 

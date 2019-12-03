@@ -4,59 +4,59 @@ import PatientContext from './PatientContext';
 const PatientState = props => {
   const getPatient = async (contract, aadhaar) => {
     async function temp(contract, aadhaar) {
-      const paitent_page_data = {};
+      const patientPageData = {};
       try {
         await contract.contract.methods
           .lookup_patient(aadhaar)
           .call()
           .then(function(res) {
-            paitent_page_data.aadhaar = res[0];
-            paitent_page_data.name = res[1];
-            paitent_page_data.sex = res[2];
-            paitent_page_data.dob = res[3];
-            paitent_page_data.weight = res[4];
-            paitent_page_data.allergies = res[5];
+            patientPageData.aadhaar = res[0];
+            patientPageData.name = res[1];
+            patientPageData.sex = res[2];
+            patientPageData.dob = res[3];
+            patientPageData.weight = res[4];
+            patientPageData.allergies = res[5];
           });
       } catch (error) {
-        paitent_page_data.aadhaar = 0;
-        paitent_page_data.name = '';
-        paitent_page_data.sex = '';
-        paitent_page_data.dob = '';
-        paitent_page_data.weight = 0;
-        paitent_page_data.allergies = '';
+        patientPageData.aadhaar = 0;
+        patientPageData.name = '';
+        patientPageData.sex = '';
+        patientPageData.dob = '';
+        patientPageData.weight = 0;
+        patientPageData.allergies = '';
       }
-      return paitent_page_data;
+      return patientPageData;
     }
     const res = await temp(contract, aadhaar);
     return res;
   };
 
   const lastPrescription = async (contract, aadhaar) => {
-    const paitent_page_data = {};
+    const patientPageData = {};
     try {
       await contract.contract.methods
         .doctor_last_prescription(aadhaar)
         .call()
         .then(function(res) {
-          paitent_page_data.last_pres_id = res[0];
-          paitent_page_data.last_pres_medicine = res[1];
-          paitent_page_data.last_pres_doc_id = res[2];
-          paitent_page_data.last_pres_symptoms = res[3];
-          paitent_page_data.last_pres_timestamp = res[4];
+          patientPageData.last_pres_id = res[0];
+          patientPageData.last_pres_medicine = res[1];
+          patientPageData.last_pres_doc_id = res[2];
+          patientPageData.last_pres_symptoms = res[3];
+          patientPageData.last_pres_timestamp = res[4];
         });
     } catch (error) {
-      paitent_page_data.last_pres_id = 0;
-      paitent_page_data.last_pres_medicine = '';
-      paitent_page_data.last_pres_doc_id = 0;
-      paitent_page_data.last_pres_symptoms = '';
-      paitent_page_data.last_pres_timestamp = '';
+      patientPageData.last_pres_id = 0;
+      patientPageData.last_pres_medicine = '';
+      patientPageData.last_pres_doc_id = 0;
+      patientPageData.last_pres_symptoms = '';
+      patientPageData.last_pres_timestamp = '';
     }
-    return paitent_page_data;
+    return patientPageData;
   };
 
   const getPatientRecords = async (contract, aadhaar) => {
     async function medical_history(contract, aadhaar) {
-      function get_string(str) {
+      function getString(str) {
         const newStr = str.split('-');
         newStr.splice(0, 2);
         return newStr;
@@ -67,17 +67,17 @@ const PatientState = props => {
           .medical_history_details(aadhaar)
           .call()
           .then(function(res) {
-            medical_hist.pres_ids = get_string(res[0]).map(Number);
-            medical_hist.doctor_ids = get_string(res[1]).map(Number);
-            medical_hist.symptoms = get_string(res[2]);
+            medical_hist.pres_ids = getString(res[0]).map(Number);
+            medical_hist.doctor_ids = getString(res[1]).map(Number);
+            medical_hist.symptoms = getString(res[2]);
           });
         await contract.contract.methods
           .medical_history(aadhaar)
           .call()
           .then(function(res) {
-            medical_hist.disease = get_string(res[0]);
-            medical_hist.medicine = get_string(res[1]);
-            medical_hist.timestamp = get_string(res[2]);
+            medical_hist.disease = getString(res[0]);
+            medical_hist.medicine = getString(res[1]);
+            medical_hist.timestamp = getString(res[2]);
           });
         return medical_hist;
       } catch (error) {
@@ -158,28 +158,28 @@ const PatientState = props => {
   };
 
   const phatmacistLastPrescription = async (contract, aadhaar) => {
-    const pharmacy_portal = {};
+    const pharmacyPortal = {};
     try {
       await contract.contract.methods
         .last_prescription(aadhaar)
         .call()
         .then(function(res) {
-          pharmacy_portal.d_id = res[0];
-          pharmacy_portal.medicine = res[1];
-          pharmacy_portal.timestamp = res[2];
+          pharmacyPortal.d_id = res[0];
+          pharmacyPortal.medicine = res[1];
+          pharmacyPortal.timestamp = res[2];
         });
     } catch (error) {
-      pharmacy_portal.d_id = 0;
-      pharmacy_portal.medicine = '';
-      pharmacy_portal.timestamp = '';
+      pharmacyPortal.d_id = 0;
+      pharmacyPortal.medicine = '';
+      pharmacyPortal.timestamp = '';
     }
-    return pharmacy_portal;
+    return pharmacyPortal;
   };
 
-  const markPrescription = async ( contract, aadhaar, phar_id, time ) => {
+  const markPrescription = async (contract, aadhaar, pharmId, time) => {
     try {
       await contract.contract.methods
-        .mark_prescription(aadhaar, phar_id, time)
+        .mark_prescription(aadhaar, pharmId, time)
         .send(
           {
             from: contract.accounts[0],
@@ -187,7 +187,7 @@ const PatientState = props => {
           error => {
             console.log(error);
           }
-      );
+        );
     } catch (err) {
       console.log(err);
     }
