@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import FadeIn from 'react-fade-in';
 
 import PropTypes from 'prop-types';
 
@@ -61,14 +62,16 @@ const Profile = ({
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Prescriptions
-                    // onNewPrescriptionClick={() => onNewPrescriptionClick}
-                    isPharmacist={isPharmacist}
-                    aadhaar={match.params.id}
-                    contract={contract}
-                  />
-                </Paper>
+                <FadeIn>
+                  <Paper className={classes.paper}>
+                    <Prescriptions
+                      // onNewPrescriptionClick={() => onNewPrescriptionClick}
+                      isPharmacist={isPharmacist}
+                      aadhaar={match.params.id}
+                      contract={contract}
+                    />
+                  </Paper>
+                </FadeIn>
               </Grid>
             </Grid>
           </Container>
@@ -83,23 +86,29 @@ const Profile = ({
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper}>
-                <BasicInfo aadhaar={match.params.id} contract={contract} />
-              </Paper>
+              <FadeIn>
+                <Paper className={fixedHeightPaper}>
+                  <BasicInfo aadhaar={match.params.id} contract={contract} />
+                </Paper>
+              </FadeIn>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper}>
-                <Files onNewFileClick={onNewFileClick} />
-              </Paper>
+              <FadeIn>
+                <Paper className={fixedHeightPaper}>
+                  <Files onNewFileClick={onNewFileClick} />
+                </Paper>
+              </FadeIn>
             </Grid>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Prescriptions
-                  onNewPrescriptionClick={onNewPrescriptionClick}
-                  aadhaar={match.params.id}
-                  contract={contract}
-                />
-              </Paper>
+              <FadeIn>
+                <Paper className={classes.paper}>
+                  <Prescriptions
+                    onNewPrescriptionClick={onNewPrescriptionClick}
+                    aadhaar={match.params.id}
+                    contract={contract}
+                  />
+                </Paper>
+              </FadeIn>
             </Grid>
           </Grid>
         </Container>
