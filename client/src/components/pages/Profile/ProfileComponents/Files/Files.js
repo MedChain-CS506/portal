@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 import AddIcon from '@material-ui/icons/Add';
 
@@ -46,7 +45,20 @@ const useStyles = makeStyles(theme => ({
   toolbarButtons: {
     marginLeft: 'auto',
   },
+  table: {
+    maxHeight: 440,
+    overflow: 'auto',
+  },
 }));
+
+function createData(files, ipfsHash, timestamp, tags) {
+  return { files, ipfsHash, timestamp, tags };
+}
+
+const rows = [
+  createData('File 1', 12345, '13:00', 'Some tag'),
+  createData('File 2', 12346, '15:30', 'Some tag'),
+];
 
 export default function Files({ onNewFileClick }) {
   const classes = useStyles();
@@ -109,7 +121,7 @@ export default function Files({ onNewFileClick }) {
         </span>
       </Toolbar>
 
-      <div className={classes.root}>
+      {/* <div className={classes.root}>
         <main className={classes.content}>
           <a href="#" target="_blank" rel="noopener noreferrer">
             <img src={`https://ipfs.infura.io/ipfs/${fileHash}`} />
@@ -119,7 +131,29 @@ export default function Files({ onNewFileClick }) {
             <input type="submit" />
           </form>
         </main>
-      </div>
+      </div> */}
+      <Table stickyHeader className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell>File(s)</TableCell>
+            <TableCell align="right">IPFS Hash</TableCell>
+            <TableCell align="right">Timestamp</TableCell>
+            <TableCell align="right">Tag(s)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.files}>
+              <TableCell component="th" scope="row">
+                {row.files}
+              </TableCell>
+              <TableCell align="right">{row.ipfsHash}</TableCell>
+              <TableCell align="right">{row.timestamp}</TableCell>
+              <TableCell align="right">{row.tags}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </>
   );
 }
