@@ -45,14 +45,14 @@ async function docCheck(contract) {
 }
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
+  const [ready, setReady] = useState(true);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
     contract: null,
   });
-  const [isDoctor, setIsDoctor] = useState(false);
+  const [isDoctor, setIsDoctor] = useState(true);
   const [isPharmacist, setIsPharmacist] = useState(false);
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
