@@ -54,13 +54,14 @@ const useStyles = makeStyles(theme => ({
 
 const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
   const classes = useStyles();
-  // const patientContext = useContext(PatientContext);
+  const patientContext = useContext(PatientContext);
 
   const [send, setSend] = useState(false);
 
   const [aadhaar, setAadhaar] = useState('');
 
   const setReady = () => {
+    patientContext.
     setSend(true);
   };
   const redirectToPatient = () => {

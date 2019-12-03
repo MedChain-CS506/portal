@@ -192,6 +192,23 @@ const PatientState = props => {
     }
   };
 
+  const patientExists = async (contract, aadhaar) => {
+    let exists = false;
+    try {
+      await contract.contract.methods
+        .does_patient_exists(aadhaar)
+        .call({
+          from: contract.accounts[0],
+        })
+        .then((res) => {
+          exists = res;
+      });
+    } catch (err) {
+      console.log("Not connected to blockchain")
+    }
+    return exists;
+  }
+
   return (
     <PatientContext.Provider
       value={{
