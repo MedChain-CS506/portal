@@ -134,11 +134,6 @@ const FileDialog = ({ dialogProps, ...props }) => {
   );
 };
 
-NameTextField.propTypes = {
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-};
-
 FileDialog.propTypes = {
   dialogProps: PropTypes.object.isRequired,
 };

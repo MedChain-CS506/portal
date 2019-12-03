@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
 
 // import { Link, Redirect } from 'react-router-dom'
@@ -6,7 +7,10 @@ import PropTypes from 'prop-types';
 
 import {
   makeStyles,
+  Grid,
+  Paper,
   Typography,
+  Divider,
   Hidden,
   TextField,
   Tooltip,
@@ -15,13 +19,17 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListItemSecondaryAction,
   Toolbar,
 } from '@material-ui/core';
 
+import EditIcon from '@material-ui/icons/Edit';
 import ContactsIcon from '@material-ui/icons/Contacts';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import WcIcon from '@material-ui/icons/Wc';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 
 import PatientContext from '../../../../../context/patient/PatientContext';
@@ -164,7 +172,6 @@ const BasicInfo = ({ contract, aadhaar }) => {
 
   const changeSex = () => {
     if (initialSex === patientData.sex) return;
-    console.log('changed sex');
     // const asyncCallToEdit = (async () => {
     //   await patientContext.editPatient(contract, patientData.aadhaar, patientData.name, patientData.weight, initialSex, patientData.allergies);
     // });
@@ -199,9 +206,8 @@ const BasicInfo = ({ contract, aadhaar }) => {
         return;
       case 'weight':
         changeWeight();
-        return;
+
       default:
-        console.log('need a default');
     }
   };
 
@@ -299,7 +305,7 @@ const BasicInfo = ({ contract, aadhaar }) => {
             </ListItemIcon>
           </Hidden>
 
-          {fields.sex === true && (
+          {fields.sex === true &&
             <TextField
               fullWidth
               helperText="Change patient's sex"
@@ -311,7 +317,7 @@ const BasicInfo = ({ contract, aadhaar }) => {
               // onKeyDown={event => handleKeyDown(event, 'sex')}
               onChange={handleSexChange}
             />
-          )}
+          }
           {fields.sex === false && (
             <ListItemText primary="Sex" secondary={patientData.sex} />
           )}

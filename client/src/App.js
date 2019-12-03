@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 
 //* React Router
@@ -28,7 +29,7 @@ import MedChainContract from './contracts/med_chain.json';
 
 async function docCheck(contract) {
   let result = 10;
-  try {
+  try { 
     await contract.contract.methods
       .is_doctor_or_pharmacist()
       .call({
@@ -45,14 +46,14 @@ async function docCheck(contract) {
 }
 
 function App() {
-  const [signedIn, setSignedIn] = useState(true);
-  const [ready, setReady] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
+  const [ready, setReady] = useState(false);
   const [contract, setContract] = useState({
     web3: null,
     accounts: null,
     contract: null,
   });
-  const [isDoctor, setIsDoctor] = useState(true);
+  const [isDoctor, setIsDoctor] = useState(false);
   const [isPharmacist, setIsPharmacist] = useState(false);
   const [dialog, setDialog] = useState({
     patientFormDialog: false,
@@ -65,12 +66,21 @@ function App() {
     open: false,
   });
 
-  const toggleSnackbar = (message, autoHideDuration = 2) =>
+  // ? Need a callback??
+  const openSnackbar = (message, autoHideDuration = 2) =>
     setSnackbar({
       autoHideDuration: readingTime(message).time * autoHideDuration,
       message,
       open: true,
     });
+
+  const closeSnackbar = (clearMessage = false) => {
+    setSnackbar({
+      ...snackbar,
+      message: clearMessage ? '' : snackbar.message,
+      open: false,
+    });
+  };
 
   useEffect(() => {
     async function connectMetamask() {
@@ -83,10 +93,10 @@ function App() {
           MedChainContract.abi,
           deployedNetwork && deployedNetwork.address
         );
-        const data = {
-          accounts,
-          web3,
-          contract: instance,
+        let data = {
+          accounts: accounts,
+          web3: web3,
+          contract: instance
         };
         setContract(data);
         setSignedIn(true);
@@ -99,16 +109,16 @@ function App() {
       }
     }
 
-    connectMetamask().then(data => {
-      docCheck(data).then(res => {
-        if (res === 0) {
+    connectMetamask().then((data) => {
+      docCheck(data).then((res) => {
+        if(res == 0){
           setIsDoctor(true);
-        } else if (res === 1) {
+        } else if (res == 1) {
           setIsPharmacist(true);
         }
-      });
+      })
       setInterval(async () => {
-        try {
+        try{
           const rn = await data.web3.eth.getAccounts();
           if (rn[0] !== data.accounts[0]) {
             setSignedIn(false);
@@ -116,11 +126,16 @@ function App() {
             setSignedIn(true);
           }
         } catch (err) {
-          console.log(err);
+
         }
-      }, 100);
+      }, 100)
     });
   }, [signedIn, isDoctor, isPharmacist]);
+
+  const log = () => {
+    console.log(`isDoctor:${isDoctor}`);
+    console.log(`isPharmacist:${isPharmacist}`);
+  };
 
   const [isLightTheme, setIsLightTheme] = useState(true);
 
@@ -166,9 +181,6 @@ function App() {
                         onNewPrescriptionClick={() =>
                           setDialog({ ...dialog, prescriptionFormDialog: true })
                         }
-                        onNewFileClick={() =>
-                          setDialog({ ...dialog, fileDialog: true })
-                        }
                       />
                     )}
                   />
@@ -186,7 +198,7 @@ function App() {
                         setDialog({ ...dialog, patientFormDialog: false }),
                     },
                     props: {
-                      toggleSnackbar,
+                      openSnackbar,
                     },
                   },
 
@@ -199,7 +211,7 @@ function App() {
                         setDialog({ ...dialog, prescriptionFormDialog: false }),
                     },
                     props: {
-                      toggleSnackbar,
+                      openSnackbar,
                     },
                   },
 
@@ -211,7 +223,7 @@ function App() {
                         setDialog({ ...dialog, fileDialog: false }),
                     },
                     props: {
-                      toggleSnackbar,
+                      openSnackbar,
                     },
                   },
                 }}

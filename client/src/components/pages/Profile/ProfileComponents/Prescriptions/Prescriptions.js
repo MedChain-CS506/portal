@@ -15,6 +15,7 @@ import {
   Checkbox,
 } from '@material-ui/core';
 
+// TODO: ADD AND EDIT PRESCRIPTIONS
 import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';

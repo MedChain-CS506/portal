@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useContext } from 'react';
 
 import PropTypes from 'prop-types';
@@ -12,16 +13,24 @@ import {
   Grid,
   Button,
   TextField,
+  FormControl,
+  FormLabel,
+  RadioGroup,
   FormControlLabel,
   Radio,
   InputAdornment,
+  Select,
+  MenuItem,
   IconButton,
 } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import {
+  MuiPickersUtilsProvider,
+  DatePicker,
+} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
 import {
@@ -111,13 +120,7 @@ const WeightField = ({ placeholder, label, ...props }) => {
 
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
-  return (
-    <FormControlLabel
-      {...field}
-      control={<Radio color="primary" />}
-      label={label}
-    />
-  );
+  return <FormControlLabel {...field} control={<Radio color="primary" />} label={label} />;
 };
 
 //! Added .shape({})
@@ -156,7 +159,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   // const [weight, setWeight] = useState('');
   // const [dob, setDob] = useState('');
   // const [sex, setSex] = useState('');
-  //! NEW!!!!!!!!!!!!!!!!!!!!
+  //!NEW!!!!!!!!!!!!!!!!!!!!
   const [selectedDate, handleDateChange] = useState(new Date());
 
   const patientContext = useContext(PatientContext);
@@ -166,7 +169,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
     const fullName = `${data.firstName} ${data.lastName}`;
     let allergies = '';
     for (const allergy in data.notes) {
-      allergies = `${allergies} - ${data.notes[allergy].name}`;
+      allergies = `${allergies}-${data.notes[allergy].name}`;
     }
     console.log(allergies);
     // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
@@ -181,7 +184,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         allergies
       )
       .then(() => {
-        props.toggleSnackbar(`Patient Successfully Created`);
+        props.openSnackbar(`Patient Successfully Created`);
         dialogProps.onClose();
       });
   };
@@ -203,7 +206,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
-          console.log('inside on submit');
+          console.log("inside on submit");
           setSubmitting(true);
           console.log('submit: ', data);
           //* make async call
@@ -214,282 +217,252 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
       >
         {({ values, errors, isSubmitting }) => (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Form>
-              <Hidden smDown>
-                <DialogContent className={classes.dialogContent}>
-                  <Grid container direction="row">
-                    <Grid item xs={12}>
-                      <Grid container spacing={4}>
-                        <Grid item xs>
-                          <NameTextField
-                            label="First Name"
-                            placeholder="Satoshi"
-                            name="firstName"
-                          />
-                        </Grid>
-                        <Grid item xs>
-                          <NameTextField
-                            label="Last Name"
-                            placeholder="Nakamoto"
-                            name="lastName"
-                          />
-                        </Grid>
+          <Form>
+            <Hidden smDown>
+              <DialogContent className={classes.dialogContent}>
+                <Grid container direction="row">
+                  <Grid item xs={12}>
+                    <Grid container spacing={4}>
+                      <Grid item xs>
+                        <NameTextField
+                          label="First Name"
+                          placeholder="Satoshi"
+                          name="firstName"
+                        />
                       </Grid>
-
-                      <Grid container spacing={4}>
-                        <Grid item xs>
-                          <AadhaarField
-                            label="Aadhaar"
-                            placeholder="000011112222"
-                            name="aadhaar"
-                          />
-                        </Grid>
-                        <Grid item xs>
-                          <AadhaarField
-                            label="Aadhaar Confirmation"
-                            placeholder="000011112222"
-                            name="aadhaarConfirmation"
-                          />
-                        </Grid>
+                      <Grid item xs>
+                        <NameTextField
+                          label="Last Name"
+                          placeholder="Nakamoto"
+                          name="lastName"
+                        />
                       </Grid>
+                    </Grid>
 
-                      <Grid container spacing={4}>
-                        <Grid item xs>
-                          <WeightField
-                            label="Weight"
-                            placeholder="50"
-                            name="weight"
-                          />
-                        </Grid>
-                        <Grid item xs>
-                          {/* <DobField
+                    <Grid container spacing={4}>
+                      <Grid item xs>
+                        <AadhaarField
+                          label="Aadhaar"
+                          placeholder="000011112222"
+                          name="aadhaar"
+                        />
+                      </Grid>
+                      <Grid item xs>
+                        <AadhaarField
+                          label="Aadhaar Confirmation"
+                          placeholder="000011112222"
+                          name="aadhaarConfirmation"
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={4}>
+                      <Grid item xs>
+                        <WeightField
+                          label="Weight"
+                          placeholder="50"
+                          name="weight"
+                        />
+                      </Grid>
+                      <Grid item xs>
+                        {/* <DobField
                           label="Date of Birth"
                           placeholder="1/1/2000"
                           name="dob"
                         /> */}
-                          <DatePicker
-                            disableFuture
-                            openTo="year"
-                            fullWidth
-                            format="MM/dd/yyyy"
-                            label="Date of birth"
-                            views={['year', 'month', 'date']}
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                          />
-                        </Grid>
-
-                        <Grid item xs>
-                          <SexRadio
-                            name="sex"
-                            type="radio"
-                            value="male"
-                            label="Male"
-                          />
-                          <SexRadio
-                            name="sex"
-                            type="radio"
-                            value="female"
-                            label="Female"
-                          />
-                          <SexRadio
-                            name="sex"
-                            type="radio"
-                            value="other"
-                            label="Other"
-                          />
-                        </Grid>
+                        <DatePicker
+                          disableFuture
+                          openTo="year"
+                          fullWidth
+                          format="MM/dd/yyyy"
+                          label="Date of birth"
+                          views={["year", "month", "date"]}
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                        />
                       </Grid>
 
-                      <Grid container spacing={4}>
-                        <Grid item xs>
-                          <FieldArray name="notes">
-                            {arrayHelpers => (
-                              <>
-                                <IconButton
-                                  color="primary"
-                                  onClick={() =>
-                                    arrayHelpers.push({
-                                      name: '',
-                                      id: `${Math.random()}`,
-                                    })
-                                  }
-                                >
-                                  <AddIcon />
-                                </IconButton>
+                      <Grid item xs>
+                        <SexRadio name="sex" type="radio" value="male" label="Male" />
+                        <SexRadio name="sex" type="radio" value="female" label="Female" />
+                        <SexRadio name="sex" type="radio" value="other" label="Other" />
+                      </Grid>
+                    </Grid>
 
-                                {values.notes.map((note, index) => (
-                                  <div key={note.id}>
-                                    <NameTextField
-                                      label="New Allergy"
-                                      placeholder="Allergy"
-                                      name={`notes.${index}.name`}
-                                    />
-                                    <IconButton
-                                      className={classes.button}
-                                      onClick={() => arrayHelpers.remove(index)}
-                                    >
-                                      <ClearIcon />
-                                    </IconButton>
-                                  </div>
-                                ))}
-                              </>
-                            )}
-                          </FieldArray>
-                        </Grid>
+                    <Grid container spacing={4}>
+                      <Grid item xs>
+                        <FieldArray name="notes">
+                          {arrayHelpers => (
+                            <>
+                              <IconButton
+                                color="primary"
+                                onClick={() =>
+                                  arrayHelpers.push({
+                                    name: '',
+                                    id: `${Math.random()}`,
+                                  })
+                                }
+                              >
+                                <AddIcon />
+                              </IconButton>
+
+                              {values.notes.map((note, index) => (
+                                <div key={note.id}>
+                                  <NameTextField
+                                    label="New Allergy"
+                                    placeholder="Allergy"
+                                    name={`notes.${index}.name`}
+                                  />
+                                  <IconButton
+                                    className={classes.button}
+                                    onClick={() => arrayHelpers.remove(index)}
+                                  >
+                                    <ClearIcon />
+                                  </IconButton>
+                                </div>
+                              ))}
+                            </>
+                          )}
+                        </FieldArray>
                       </Grid>
                     </Grid>
                   </Grid>
-                </DialogContent>
-              </Hidden>
+                </Grid>
+              </DialogContent>
+            </Hidden>
 
-              <Hidden mdUp>
-                <DialogContent>
-                  <Grid container direction="column" spacing={2}>
-                    <Grid item xs>
-                      <NameTextField
-                        label="First Name"
-                        placeholder="Satoshi"
-                        name="firstName"
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <NameTextField
-                        label="Last Name"
-                        placeholder="Nakamoto"
-                        name="lastName"
-                      />
-                    </Grid>
+            <Hidden mdUp>
+              <DialogContent>
+                <Grid container direction="column" spacing={2}>
+                  <Grid item xs>
+                    <NameTextField
+                      label="First Name"
+                      placeholder="Satoshi"
+                      name="firstName"
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    <NameTextField
+                      label="Last Name"
+                      placeholder="Nakamoto"
+                      name="lastName"
+                    />
+                  </Grid>
 
-                    <Grid item xs>
-                      <AadhaarField
-                        label="Aadhaar"
-                        placeholder="000011112222"
-                        name="aadhaar"
-                      />
-                    </Grid>
+                  <Grid item xs>
+                    <AadhaarField
+                      label="Aadhaar"
+                      placeholder="000011112222"
+                      name="aadhaar"
+                    />
+                  </Grid>
 
-                    <Grid item xs>
-                      <AadhaarField
-                        label="Aadhaar Confirmation"
-                        placeholder="000011112222"
-                        name="aadhaarConfirmation"
-                      />
-                    </Grid>
+                  <Grid item xs>
+                    <AadhaarField
+                      label="Aadhaar Confirmation"
+                      placeholder="000011112222"
+                      name="aadhaarConfirmation"
+                    />
+                  </Grid>
 
-                    <Grid item xs>
-                      <WeightField
-                        label="Weight"
-                        placeholder="50"
-                        name="weight"
-                      />
-                    </Grid>
+                  <Grid item xs>
+                    <WeightField
+                      label="Weight"
+                      placeholder="50"
+                      name="weight"
+                    />
+                  </Grid>
 
-                    <Grid item xs>
-                      {/* <DobField
+                  <Grid item xs>
+                    {/* <DobField
                       label="Date of Birth"
                       placeholder="1/1/2000"
                       name="dob"
                     /> */}
-                      <DatePicker
-                        disableFuture
-                        openTo="year"
-                        fullWidth
-                        format="MM/dd/yyyy"
-                        label="Date of birth"
-                        views={['year', 'month', 'date']}
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                      />
-                    </Grid>
-
-                    <Grid item xs>
-                      <SexRadio
-                        name="sex"
-                        type="radio"
-                        value="male"
-                        label="Male"
-                      />
-                      <SexRadio
-                        name="sex"
-                        type="radio"
-                        value="female"
-                        label="Female"
-                      />
-                      <SexRadio
-                        name="sex"
-                        type="radio"
-                        value="other"
-                        label="Other"
-                      />
-                    </Grid>
-
-                    <Grid item xs>
-                      <FieldArray name="notes">
-                        {arrayHelpers => (
-                          <div>
-                            <IconButton
-                              color="primary"
-                              onClick={() =>
-                                arrayHelpers.push({
-                                  name: '',
-                                  id: `${Math.random()}`,
-                                })
-                              }
-                            >
-                              <AddIcon />
-                            </IconButton>
-                            <span>
-                              <br />
-                            </span>
-                            {values.notes.map((note, index) => (
-                              <div key={note.id}>
-                                <NameTextField
-                                  label="New Allergy"
-                                  placeholder="Allergy"
-                                  name={`notes.${index}.name`}
-                                />
-                                <IconButton
-                                  className={classes.button}
-                                  onClick={() => arrayHelpers.remove(index)}
-                                >
-                                  <ClearIcon />
-                                </IconButton>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </FieldArray>
-                    </Grid>
+                    <DatePicker
+                          disableFuture
+                          openTo="year"
+                          fullWidth
+                          format="MM/dd/yyyy"
+                          label="Date of birth"
+                          views={["year", "month", "date"]}
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                        />
                   </Grid>
-                </DialogContent>
-              </Hidden>
 
-              <DialogActions>
-                <Button color="primary" onClick={dialogProps.onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  // disabled={
-                  //   !firstName ||
-                  //   !lastName ||
-                  //   !aadhaar ||
-                  //   !aadhaarConfirmation
-                  //   // !sex ||
-                  //   // !weight ||
-                  //   // !dob
-                  // }
-                >
-                  Register
-                </Button>
-              </DialogActions>
+                  <Grid item xs>
+                    <SexRadio name="sex" type="radio" value="male" label="Male" />
+                    <SexRadio name="sex" type="radio" value="female" label="Female" />
+                    <SexRadio name="sex" type="radio" value="other" label="Other" />
+                  </Grid>
 
-              <pre>{JSON.stringify(values, null, 2)}</pre>
-              <pre>{JSON.stringify(errors, null, 2)}</pre>
-            </Form>
+                  <Grid item xs>
+                    <FieldArray name="notes">
+                      {arrayHelpers => (
+                        <div>
+                          <IconButton
+                            color="primary"
+                            onClick={() =>
+                              arrayHelpers.push({
+                                name: '',
+                                id: `${Math.random()}`,
+                              })
+                            }
+                          >
+                            <AddIcon />
+                          </IconButton>
+                          <span>
+                            <br />
+                          </span>
+                          {values.notes.map((note, index) => (
+                            <div key={note.id}>
+                              <NameTextField
+                                label="New Allergy"
+                                placeholder="Allergy"
+                                name={`notes.${index}.name`}
+                              />
+                              <IconButton
+                                className={classes.button}
+                                onClick={() => arrayHelpers.remove(index)}
+                              >
+                                <ClearIcon />
+                              </IconButton>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </FieldArray>
+                  </Grid>
+                </Grid>
+              </DialogContent>
+            </Hidden>
+
+            <DialogActions>
+              <Button color="primary" onClick={dialogProps.onClose}>
+                Cancel
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                // disabled={
+                //   !firstName ||
+                //   !lastName ||
+                //   !aadhaar ||
+                //   !aadhaarConfirmation
+                //   // !sex ||
+                //   // !weight ||
+                //   // !dob
+                // }
+              >
+                Register
+              </Button>
+            </DialogActions>
+
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
+          </Form>
           </MuiPickersUtilsProvider>
         )}
       </Formik>
@@ -497,29 +470,9 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   );
 };
 
-NameTextField.propTypes = {
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-};
-
-AadhaarField.propTypes = {
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-};
-
-WeightField.propTypes = {
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-};
-
-SexRadio.propTypes = {
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
-};
-
 PatientFormDialog.propTypes = {
   dialogProps: PropTypes.object.isRequired,
-  toggleSnackbar: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default PatientFormDialog;

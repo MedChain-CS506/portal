@@ -38,7 +38,6 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-fade-in": "^0.1.6",
     "react-filepond": "^7.0.1",
     "react-router-dom": "latest",
     "react-scripts": "latest",

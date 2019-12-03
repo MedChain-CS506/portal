@@ -27,8 +27,8 @@ const DialogHost = ({ dialogs }) => {
         />
 
         <FileDialog
-          dialogProps={fileDialog.dialogProps}
-          {...fileDialog.props}
+          dialogProps={prescriptionFormDialog.dialogProps}
+          {...prescriptionFormDialog.props}
         />
       </Hidden>
 

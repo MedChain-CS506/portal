@@ -6,28 +6,20 @@ MedChain is a fully decentralized, Ethereum-based application, which looks to pr
 
 ## Instructions for launching application
 
-### First, install these tools to build and run the application
+### First, install these tools to run this application
 
-- [NodeJs](https://nodejs.org/en/download/)
 - [MetaMask](https://metamask.io/)
 - [Ganache](https://www.trufflesuite.com/ganache)
-- Next, run this in your terminal to install truffle. (which will be used to compile / deploye smart contracts)
-  ~~~~bash 
-  npm install truffle -g
-  ~~~~
-- Open Ganach, click on Quickstart. Then copy the RPC Server address (it is `http://127.0.0.1:7545` by defaul)
-- Open metaMask, create an account, and then:
-  - Clik Network, then Custom RPC
-  - Type a name (anything would work, Ganache is usefule to use here to indicate that your are connecting to Ganache)
-  - Paste the RPC address that you copied form Ganache (`http://127.0.0.1:7545` is the default)
-  - Import private keys into Metamask, using account addresses from Ganache. (you need at least one account to be able to compile and deploye the smart contract, so this step is crucial for the rest of the steps to work).
+- Once these are installed, then...
+  - Connect custom RPC to `http://127.0.0.1:7545`
+  - Import a private key into Metamask
 
-### Next, use a terminal to navigate inside the app's directory
+### Next, open the sourcecode in a text editor
 
 - Once inside the root directory, run script `./run_blockchain`
-- Additionally, you can test the smart contract by running `truffle test` (again, from the root directory)
+- Additionally, you can verify the tests by running `truffle test` in the root directory
 
-### To run the app from the client's side
+### To run the client
 
 ~~~~bash
 cd client
