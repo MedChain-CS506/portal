@@ -1,6 +1,6 @@
 pragma solidity ^0.5.8;
 //import "remix_tests.sol";
-import "../contracts/med_chain.sol";
+import "../contracts/MedChain.sol";
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
@@ -8,7 +8,7 @@ import "truffle/DeployedAddresses.sol";
 
 contract TestLookUp {
     
-    med_chain private testContract;
+    MedChain private testContract;
     
     // patient's info for use with add_patient
     uint aadhaar = 1;
@@ -44,13 +44,13 @@ contract TestLookUp {
     // creating a contract instance and calling add_patient and add_prescription
     // also, forcing it to run before any tests (remix runs tests alphabatically)
     function beforeEach() external {
-        testContract = new med_chain();
+        testContract = new MedChain();
         testContract.add_patient(aadhaar, name, dob, weight, sex, allergies);
     }
 
     // test lookup_patient
     function testLookUppatient() external {
-      //  testContract = new med_chain();
+      //  testContract = new MedChain();
         (res_aadhaar, res_name, res_sex, res_dob, res_weight, res_allergies) = testContract.lookup_patient(aadhaar);
         Assert.equal(aadhaar, res_aadhaar, "Pateint's aadhaar does not match");
         //Assert.equal(age, res_age, "Pateint's age does not match");

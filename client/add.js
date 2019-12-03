@@ -1,17 +1,17 @@
 const Web3 = require('web3');
 
 const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545');
-// const med_chain = require('json-loader!./src/contracts/med_chain.json');
+// const MedChain = require('json-loader!./src/contracts/MedChain.json');
 
-const med_chain = require('./src/contracts/med_chain.json');
+const MedChain = require('./src/contracts/MedChain.json');
 
 const web3 = new Web3(provider);
 const add = async () => {
   const accounts = await web3.eth.getAccounts();
   const networkId = await web3.eth.net.getId();
-  const deployedNetwork = med_chain.networks[networkId];
+  const deployedNetwork = MedChain.networks[networkId];
   const instance = new web3.eth.Contract(
-    med_chain.abi,
+    MedChain.abi,
     deployedNetwork && deployedNetwork.address
   );
   const data = {
