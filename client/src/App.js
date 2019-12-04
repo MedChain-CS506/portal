@@ -21,6 +21,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/pages/Landing';
 import NotFound from './components/pages/NotFound';
 import Profile from './components/pages/Profile';
+import RequestAccess from './components/pages/RequestAccess';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -288,9 +289,7 @@ function App() {
               theme={isLightTheme ? lightTheme : darkTheme}
               handleToggleTheme={() => toggleTheme()}
             />
-            <Switch>
-              <Route component={NotFound} />
-            </Switch>
+            <RequestAccess />
           </Router>
         ) : (
           <Loading />
