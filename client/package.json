@@ -32,7 +32,6 @@
     "formik": "^2.0.6",
     "ipfs-http-client": "40.0.1",
     "lodash": "latest",
-    "material-ui-chip-input": "^1.1.0",
     "moment": "^2.24.0",
     "prop-types": "latest",
     "react": "latest",

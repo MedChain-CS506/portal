@@ -51,8 +51,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(files, ipfsHash, timestamp, tags) {
-  return { files, ipfsHash, timestamp, tags };
+function createData(files, ipfsHash, timestamp) {
+  return { files, ipfsHash, timestamp };
 }
 
 const rows = [
@@ -138,7 +138,6 @@ export default function Files({ onNewFileClick }) {
             <TableCell>File(s)</TableCell>
             <TableCell align="right">IPFS Hash</TableCell>
             <TableCell align="right">Timestamp</TableCell>
-            <TableCell align="right">Tag(s)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -149,7 +148,6 @@ export default function Files({ onNewFileClick }) {
               </TableCell>
               <TableCell align="right">{row.ipfsHash}</TableCell>
               <TableCell align="right">{row.timestamp}</TableCell>
-              <TableCell align="right">{row.tags}</TableCell>
             </TableRow>
           ))}
         </TableBody>

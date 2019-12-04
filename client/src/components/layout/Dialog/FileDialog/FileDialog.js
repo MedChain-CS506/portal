@@ -20,7 +20,6 @@ import Grid from '@material-ui/core/Grid';
 
 import { Formik, Form, useField, Field, FieldArray } from 'formik';
 import * as yup from 'yup';
-import ChipInput from 'material-ui-chip-input';
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -56,12 +55,10 @@ const FileDialog = ({ dialogProps, ...props }) => {
         validateOnChange
         initialValues={{
           fileName: '',
-          tags: [],
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
           console.log('fileName:', data.fileName);
-          console.log('tags:', data.tags);
 
           setSubmitting(false);
           //* make async call
@@ -80,25 +77,6 @@ const FileDialog = ({ dialogProps, ...props }) => {
                     label="Name"
                     placeholder="MRI Scan"
                     name="fileName"
-                  />
-                </Grid>
-                <Grid item xs>
-                  <FieldArray
-                    name="tags"
-                    render={arrayHelpers => (
-                      <Field name="tags">
-                        {({ field }) => (
-                          <ChipInput
-                            label="Tags"
-                            fullWidth
-                            margin="normal"
-                            value={field.value}
-                            onAdd={chip => arrayHelpers.push(chip)}
-                            onDelete={chip => arrayHelpers.remove(chip)}
-                          />
-                        )}
-                      </Field>
-                    )}
                   />
                 </Grid>
                 <Grid item xs>

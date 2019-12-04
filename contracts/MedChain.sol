@@ -77,7 +77,6 @@ contract MedChain {
         uint id;
         string file_hash;
         string timestamp;
-        string tags;
     }
     
     struct pending_doc {
@@ -316,24 +315,21 @@ contract MedChain {
         prescription_id_mapping[last_presc_id].timestamp_marked = time;
     }
 
-    function add_file(uint aadhaar, string calldata filehash, string calldata timestamp, string calldata tags) external {
+    function add_file(uint aadhaar, string calldata filehash, string calldata timestamp) external {
         patient_aadhaar_mapping[aadhaar].file_ids.push(current_file_id);
         file_id_mapping[current_file_id].file_hash = filehash;
         file_id_mapping[current_file_id].timestamp = timestamp;
-        file_id_mapping[current_file_id].tags = tags;
         current_file_id = current_file_id + 1;
     }
 
-    function get_files(uint aadhaar) view public returns(string memory, string memory, string memory){
+    function get_files(uint aadhaar) view public returns(string memory, string memory){
         string memory filehash = "-";
-        string memory tags = "-";
         string memory time = "-";
         for (uint i = 0; i < patient_aadhaar_mapping[aadhaar].file_ids.length; i++) {
             filehash = strConcat(filehash, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].file_hash);
-            tags = strConcat(tags, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].tags);
             time = strConcat(time, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].timestamp);
         }
-        return (filehash, tags, time);
+        return (filehash, time);
     }
 
     function request_adding_doctor (uint id, uint license_no, string calldata name, string calldata specialisation, address d_addr) external {
