@@ -59,6 +59,8 @@ function App() {
     patientFormDialog: false,
     prescriptionFormDialog: false,
     fileDialog: false,
+    docRequestDialog: false,
+    pharmRequestDialog: false,
   });
   const [snackbar, setSnackbar] = useState({
     autoHideDuration: 0,
@@ -126,7 +128,6 @@ function App() {
   }, [signedIn, isDoctor, isPharmacist]);
 
   const [isLightTheme, setIsLightTheme] = useState(true);
-
   const toggleTheme = () => setIsLightTheme(!isLightTheme);
 
   if (isDoctor) {
@@ -285,7 +286,41 @@ function App() {
               theme={isLightTheme ? lightTheme : darkTheme}
               handleToggleTheme={() => toggleTheme()}
             />
-            <RequestAccess />
+            <RequestAccess
+              onNewDoctorClick={() =>
+                setDialog({ ...dialog, docRequestDialog: true })
+              }
+              onNewPharmacistClick={() =>
+                setDialog({ ...dialog, pharmRequestDialog: true })
+              }
+            />
+            {/* TODO: need to fix this conditional rendering */}
+
+            {/* <DialogHost
+              dialogs={{
+                docRequestDialog: {
+                  dialogProps: {
+                    open: dialog.docRequestDialog,
+                    onClose: () =>
+                      setDialog({ ...dialog, docRequestDialog: false }),
+                  },
+                  props: {
+                    toggleSnackbar,
+                  },
+                },
+
+                pharmRequestDialog: {
+                  dialogProps: {
+                    open: dialog.pharmRequestDialog,
+                    onClose: () =>
+                      setDialog({ ...dialog, pharmRequestDialog: false }),
+                  },
+                  props: {
+                    toggleSnackbar,
+                  },
+                },
+              }}
+            /> */}
           </Router>
         ) : (
           <Loading />

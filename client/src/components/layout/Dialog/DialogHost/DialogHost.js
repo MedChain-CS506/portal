@@ -7,11 +7,15 @@ import Hidden from '@material-ui/core/Hidden';
 import PatientFormDialog from '../PatientFormDialog';
 import PrescriptionFormDialog from '../PrescriptionFormDialog';
 import FileDialog from '../FileDialog';
+import DocRequestDialog from '../DocRequestDialog';
+import PharmRequestDialog from '../PharmRequestDialog';
 
 const DialogHost = ({ dialogs }) => {
   const { patientFormDialog } = dialogs;
   const { prescriptionFormDialog } = dialogs;
   const { fileDialog } = dialogs;
+  const { docRequestDialog } = dialogs;
+  const { pharmRequestDialog } = dialogs;
 
   return (
     <>
@@ -30,6 +34,16 @@ const DialogHost = ({ dialogs }) => {
           dialogProps={fileDialog.dialogProps}
           {...fileDialog.props}
         />
+
+        {/* <DocRequestDialog
+          dialogProps={docRequestDialog.dialogProps}
+          {...docRequestDialog.props}
+        />
+
+        <PharmRequestDialog
+          dialogProps={pharmRequestDialog.dialogProps}
+          {...pharmRequestDialog.props}
+        /> */}
       </Hidden>
 
       <Hidden smUp>
@@ -56,13 +70,29 @@ const DialogHost = ({ dialogs }) => {
           }}
           {...fileDialog.props}
         />
+
+        {/* <DocRequestDialog
+          dialogProps={{
+            fullScreen: true,
+            ...docRequestDialog.dialogProps,
+          }}
+          {...docRequestDialog.props}
+        />
+
+        <PharmRequestDialog
+          dialogProps={{
+            fullScreen: true,
+            ...pharmRequestDialog.dialogProps,
+          }}
+          {...pharmRequestDialog.props}
+        /> */}
       </Hidden>
     </>
   );
 };
 
 DialogHost.propTypes = {
-  dialogs: PropTypes.object.isRequired,
+  dialogs: PropTypes.object,
 };
 
 export default DialogHost;
