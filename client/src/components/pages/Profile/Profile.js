@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = ({
-  // signedIn = false,
+  signedIn,
   onNewPrescriptionClick,
   onNewFileClick,
   contract,
@@ -54,63 +54,51 @@ const Profile = ({
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   console.log(match);
-  if (isPharmacist) {
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <main className={classes.content}>
-          <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <FadeIn>
-                  <Paper className={classes.paper}>
-                    <Prescriptions
-                      // onNewPrescriptionClick={() => onNewPrescriptionClick}
-                      isPharmacist={isPharmacist}
-                      aadhaar={match.params.id}
-                      contract={contract}
-                    />
-                  </Paper>
-                </FadeIn>
-              </Grid>
-            </Grid>
-          </Container>
-        </main>
-      </div>
-    );
-  }
   return (
     <div className={classes.root}>
       <CssBaseline />
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
-              <FadeIn>
-                <Paper className={fixedHeightPaper}>
-                  <BasicInfo aadhaar={match.params.id} contract={contract} />
-                </Paper>
-              </FadeIn>
+          <FadeIn>
+            <Grid container spacing={3}>
+              {isPharmacist ? (
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Prescriptions
+                      isPharmacist={isPharmacist}
+                      aadhaar={match.params.id}
+                      contract={contract}
+                    />
+                  </Paper>
+                </Grid>
+              ) : (
+                <>
+                  <Grid item xs={12} md={6} lg={6}>
+                    <Paper className={fixedHeightPaper}>
+                      <BasicInfo
+                        aadhaar={match.params.id}
+                        contract={contract}
+                      />
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} md={6} lg={6}>
+                    <Paper className={fixedHeightPaper}>
+                      <Files onNewFileClick={onNewFileClick} />
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                      <Prescriptions
+                        onNewPrescriptionClick={onNewPrescriptionClick}
+                        aadhaar={match.params.id}
+                        contract={contract}
+                      />
+                    </Paper>
+                  </Grid>
+                </>
+              )}
             </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <FadeIn>
-                <Paper className={fixedHeightPaper}>
-                  <Files onNewFileClick={onNewFileClick} />
-                </Paper>
-              </FadeIn>
-            </Grid>
-            <Grid item xs={12}>
-              <FadeIn>
-                <Paper className={classes.paper}>
-                  <Prescriptions
-                    onNewPrescriptionClick={onNewPrescriptionClick}
-                    aadhaar={match.params.id}
-                    contract={contract}
-                  />
-                </Paper>
-              </FadeIn>
-            </Grid>
-          </Grid>
+          </FadeIn>
         </Container>
       </main>
     </div>
@@ -118,7 +106,7 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-  // signedIn: PropTypes.bool.isRequired,
+  signedIn: PropTypes.bool,
   onNewPrescriptionClick: PropTypes.func.isRequired,
   onNewFileClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,

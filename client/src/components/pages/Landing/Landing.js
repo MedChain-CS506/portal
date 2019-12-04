@@ -57,111 +57,80 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
   // const patientContext = useContext(PatientContext);
 
   const [send, setSend] = useState(false);
-
   const [aadhaar, setAadhaar] = useState('');
 
-  const setReady = () => {
-    setSend(true);
-  };
+  const setReady = () => setSend(true);
+
   const redirectToPatient = () => {
     const pageID = `/profile/${aadhaar}`;
-    if (send === true) {
-      return <Redirect to={pageID}></Redirect>;
-    }
+    if (send === true) return <Redirect to={pageID}></Redirect>;
   };
 
-  if (isPharmacist) {
+  if (!signedIn) {
     return (
-      <form className={classes.root} onSubmit={redirectToPatient}>
-        <Typography data-testid="app-name" color="textSecondary" variant="h2">
+      <div className={classes.root}>
+        <FavoriteIcon color="action" />
+        <Typography color="textSecondary" variant="h3">
           {process.env.REACT_APP_NAME}
         </Typography>
-        <Paper
-          data-testid="search-patient-form"
-          component="form"
-          className={classes.inputRoot}
-          onSubmit={setReady}
+        <Typography
+          data-testid="basic-desc"
+          color="textSecondary"
+          variant="subtitle1"
         >
-          <IconButton
-            type="submit"
-            className={classes.iconButton}
-            onSubmit={setReady}
-          >
-            <SearchIcon />
-          </IconButton>
-          <InputBase
-            data-testid="search-bar"
-            className={classes.input}
-            placeholder="Search Aadhaars"
-            autoFocus
-            type="number"
-            name="aadhaar"
-            value={aadhaar}
-            onChange={e => setAadhaar(e.target.value)}
-            onSubmit={setReady}
-          />
-        </Paper>
-        {redirectToPatient()}
-      </form>
-    );
-  }
-  if (!isPharmacist && signedIn) {
-    return (
-      <form className={classes.root} onSubmit={redirectToPatient}>
-        <Typography data-testid="app-name" color="textSecondary" variant="h2">
-          {process.env.REACT_APP_NAME}
+          The simplest decentralized medical-records application
         </Typography>
-        <Paper
-          data-testid="search-patient-form"
-          component="form"
-          className={classes.inputRoot}
-          onSubmit={setReady}
-        >
-          <IconButton type="submit" className={classes.iconButton}>
-            <SearchIcon type="submit" onSubmit={setReady} />
-          </IconButton>
-          <InputBase
-            data-testid="search-bar"
-            className={classes.input}
-            placeholder="Enter Aadhaar Number"
-            autoFocus
-            type="number"
-            name="aadhaar"
-            value={aadhaar}
-            onChange={e => setAadhaar(e.target.value)}
-            onSubmit={setReady}
-          />
-          <Divider className={classes.divider} orientation="vertical" />
-          <Tooltip title="New Patient">
-            <IconButton
-              data-testid="add-patient-button"
-              color="primary"
-              className={classes.iconButton}
-              onClick={onNewPatientClick}
-            >
-              <AddIcon />
-            </IconButton>
-          </Tooltip>
-        </Paper>
-        {redirectToPatient()}
-      </form>
+      </div>
     );
   }
 
   return (
-    <div className={classes.root}>
-      <FavoriteIcon color="action" />
-      <Typography color="textSecondary" variant="h3">
+    <form className={classes.root} onSubmit={redirectToPatient}>
+      <Typography data-testid="app-name" color="textSecondary" variant="h2">
         {process.env.REACT_APP_NAME}
       </Typography>
-      <Typography
-        data-testid="basic-desc"
-        color="textSecondary"
-        variant="subtitle1"
+      <Paper
+        data-testid="search-patient-form"
+        component="form"
+        className={classes.inputRoot}
+        onSubmit={setReady}
       >
-        The simplest decentralized medical-records application
-      </Typography>
-    </div>
+        <IconButton
+          type="submit"
+          className={classes.iconButton}
+          onSubmit={setReady}
+        >
+          <SearchIcon />
+        </IconButton>
+        <InputBase
+          data-testid="search-bar"
+          className={classes.input}
+          placeholder="Search Aadhaars"
+          autoFocus
+          type="number"
+          name="aadhaar"
+          value={aadhaar}
+          onChange={e => setAadhaar(e.target.value)}
+          onSubmit={setReady}
+        />
+        {isPharmacist ? null : (
+          <>
+            <Divider className={classes.divider} orientation="vertical" />
+            <Tooltip title="New Patient">
+              <IconButton
+                data-testid="add-patient-button"
+                color="primary"
+                className={classes.iconButton}
+                onClick={onNewPatientClick}
+              >
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        )}
+      </Paper>
+      {redirectToPatient()}
+    </form>
   );
 };
 

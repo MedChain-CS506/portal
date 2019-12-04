@@ -21,6 +21,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/pages/Landing';
 import NotFound from './components/pages/NotFound';
 import Profile from './components/pages/Profile';
+import RequestAccess from './components/pages/RequestAccess';
 
 //* Blockchain
 import getWeb3 from './utils/getWeb3.js';
@@ -126,9 +127,7 @@ function App() {
 
   const [isLightTheme, setIsLightTheme] = useState(true);
 
-  const toggleTheme = () => {
-    setIsLightTheme(!isLightTheme);
-  };
+  const toggleTheme = () => setIsLightTheme(!isLightTheme);
 
   if (isDoctor) {
     return (
@@ -149,7 +148,8 @@ function App() {
                     render={props => (
                       <Landing
                         {...props}
-                        signedIn={signedIn}
+                        signedIn
+                        isDoctor
                         onNewPatientClick={() =>
                           setDialog({ ...dialog, patientFormDialog: true })
                         }
@@ -163,7 +163,8 @@ function App() {
                     render={props => (
                       <Profile
                         {...props}
-                        signedIn={signedIn}
+                        signedIn
+                        isDoctor
                         contract={contract}
                         onNewPrescriptionClick={() =>
                           setDialog({ ...dialog, prescriptionFormDialog: true })
@@ -241,17 +242,15 @@ function App() {
           {ready ? (
             <Router>
               <Navbar
+                isPharmacist
                 theme={isLightTheme ? lightTheme : darkTheme}
                 handleToggleTheme={() => toggleTheme()}
-                isPharmacist
               />
               <Switch>
                 <Route
                   exact
                   path="/"
-                  render={props => (
-                    <Landing {...props} signedIn={signedIn} isPharmacist />
-                  )}
+                  render={props => <Landing {...props} signedIn isPharmacist />}
                 />
 
                 <Route
@@ -260,7 +259,7 @@ function App() {
                   render={props => (
                     <Profile
                       {...props}
-                      signedIn={signedIn}
+                      signedIn
                       contract={contract}
                       isPharmacist
                     />
@@ -286,9 +285,7 @@ function App() {
               theme={isLightTheme ? lightTheme : darkTheme}
               handleToggleTheme={() => toggleTheme()}
             />
-            <Switch>
-              <Route component={NotFound} />
-            </Switch>
+            <RequestAccess />
           </Router>
         ) : (
           <Loading />
