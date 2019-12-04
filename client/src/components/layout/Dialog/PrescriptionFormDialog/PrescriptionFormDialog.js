@@ -199,7 +199,7 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" {...dialogProps}>
+    <Dialog fullWidth maxWidth="sm" {...dialogProps}>
       <DialogTitle>New Prescription</DialogTitle>
 
       <Formik

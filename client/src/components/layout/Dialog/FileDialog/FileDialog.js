@@ -18,7 +18,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import { Formik, Form, useField } from 'formik';
-import * as yup from 'yup';
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -26,7 +25,7 @@ const FileDialog = ({ dialogProps, ...props }) => {
   const [files, setFiles] = useState([]);
 
   return (
-    <Dialog fullWidth maxWidth="md" {...dialogProps}>
+    <Dialog fullWidth maxWidth="sm" {...dialogProps}>
       <DialogTitle>Upload File(s)</DialogTitle>
 
       <Formik
@@ -71,8 +70,6 @@ const FileDialog = ({ dialogProps, ...props }) => {
                 Submit
               </Button>
             </DialogActions>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>

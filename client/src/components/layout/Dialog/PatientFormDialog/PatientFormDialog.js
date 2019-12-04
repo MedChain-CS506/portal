@@ -187,7 +187,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" {...dialogProps}>
+    <Dialog fullWidth maxWidth="sm" {...dialogProps}>
       <DialogTitle>New Patient</DialogTitle>
       <Formik
         validateOnChange
