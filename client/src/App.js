@@ -151,30 +151,31 @@ function App() {
                   setDialog({ ...dialog, pharmRequestDialog: true })
                 }
               />
-              {/* <DialogHost
-    //             dialogs={{
-    //               docRequestDialog: {
-    //                 dialogProps: {
-    //                   open: dialog.docRequestDialog,
-    //                   onClose: () =>
-    //                     setDialog({ ...dialog, docRequestDialog: false }),
-    //                 },
-    //                 props: {
-    //                   toggleSnackbar,
-    //                 },
-    //               },
-    //               pharmRequestDialog: {
-    //                 dialogProps: {
-    //                   open: dialog.pharmRequestDialog,
-    //                   onClose: () =>
-    //                     setDialog({ ...dialog, pharmRequestDialog: false }),
-    //                 },
-    //                 props: {
-    //                   toggleSnackbar,
-    //                 },
-    //               },
-    //             }}
-    //           /> */}
+              <DialogHost
+                newUser
+                dialogs={{
+                  docRequestDialog: {
+                    dialogProps: {
+                      open: dialog.docRequestDialog,
+                      onClose: () =>
+                        setDialog({ ...dialog, docRequestDialog: false }),
+                    },
+                    props: {
+                      toggleSnackbar,
+                    },
+                  },
+                  pharmRequestDialog: {
+                    dialogProps: {
+                      open: dialog.pharmRequestDialog,
+                      onClose: () =>
+                        setDialog({ ...dialog, pharmRequestDialog: false }),
+                    },
+                    props: {
+                      toggleSnackbar,
+                    },
+                  },
+                }}
+              />
             </Router>
           ) : (
             <Loading />

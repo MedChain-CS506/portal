@@ -10,7 +10,7 @@ import FileDialog from '../FileDialog';
 import DocRequestDialog from '../DocRequestDialog';
 import PharmRequestDialog from '../PharmRequestDialog';
 
-const DialogHost = ({ dialogs }) => {
+const DialogHost = ({ newUser, dialogs }) => {
   const { patientFormDialog } = dialogs;
   const { prescriptionFormDialog } = dialogs;
   const { fileDialog } = dialogs;
@@ -20,78 +20,90 @@ const DialogHost = ({ dialogs }) => {
   return (
     <>
       <Hidden xsDown>
-        <PatientFormDialog
-          dialogProps={patientFormDialog.dialogProps}
-          {...patientFormDialog.props}
-        />
+        {newUser ? (
+          <>
+            <DocRequestDialog
+              dialogProps={docRequestDialog.dialogProps}
+              {...docRequestDialog.props}
+            />
+            <PharmRequestDialog
+              dialogProps={pharmRequestDialog.dialogProps}
+              {...pharmRequestDialog.props}
+            />
+          </>
+        ) : (
+          <>
+            <PatientFormDialog
+              dialogProps={patientFormDialog.dialogProps}
+              {...patientFormDialog.props}
+            />
 
-        <PrescriptionFormDialog
-          dialogProps={prescriptionFormDialog.dialogProps}
-          {...prescriptionFormDialog.props}
-        />
+            <PrescriptionFormDialog
+              dialogProps={prescriptionFormDialog.dialogProps}
+              {...prescriptionFormDialog.props}
+            />
 
-        <FileDialog
-          dialogProps={fileDialog.dialogProps}
-          {...fileDialog.props}
-        />
-
-        {/* <DocRequestDialog
-          dialogProps={docRequestDialog.dialogProps}
-          {...docRequestDialog.props}
-        />
-
-        <PharmRequestDialog
-          dialogProps={pharmRequestDialog.dialogProps}
-          {...pharmRequestDialog.props}
-        /> */}
+            <FileDialog
+              dialogProps={fileDialog.dialogProps}
+              {...fileDialog.props}
+            />
+          </>
+        )}
       </Hidden>
 
       <Hidden smUp>
-        <PatientFormDialog
-          dialogProps={{
-            fullScreen: true,
-            ...patientFormDialog.dialogProps,
-          }}
-          {...patientFormDialog.props}
-        />
+        {newUser ? (
+          <>
+            <DocRequestDialog
+              dialogProps={{
+                fullScreen: true,
+                ...docRequestDialog.dialogProps,
+              }}
+              {...docRequestDialog.props}
+            />
 
-        <PrescriptionFormDialog
-          dialogProps={{
-            fullScreen: true,
-            ...prescriptionFormDialog.dialogProps,
-          }}
-          {...prescriptionFormDialog.props}
-        />
+            <PharmRequestDialog
+              dialogProps={{
+                fullScreen: true,
+                ...pharmRequestDialog.dialogProps,
+              }}
+              {...pharmRequestDialog.props}
+            />
+          </>
+        ) : (
+          <>
+            <PatientFormDialog
+              dialogProps={{
+                fullScreen: true,
+                ...patientFormDialog.dialogProps,
+              }}
+              {...patientFormDialog.props}
+            />
 
-        <FileDialog
-          dialogProps={{
-            fullScreen: true,
-            ...fileDialog.dialogProps,
-          }}
-          {...fileDialog.props}
-        />
+            <PrescriptionFormDialog
+              dialogProps={{
+                fullScreen: true,
+                ...prescriptionFormDialog.dialogProps,
+              }}
+              {...prescriptionFormDialog.props}
+            />
 
-        {/* <DocRequestDialog
-          dialogProps={{
-            fullScreen: true,
-            ...docRequestDialog.dialogProps,
-          }}
-          {...docRequestDialog.props}
-        />
-
-        <PharmRequestDialog
-          dialogProps={{
-            fullScreen: true,
-            ...pharmRequestDialog.dialogProps,
-          }}
-          {...pharmRequestDialog.props}
-        /> */}
+            <FileDialog
+              dialogProps={{
+                fullScreen: true,
+                ...fileDialog.dialogProps,
+              }}
+              {...fileDialog.props}
+            />
+          </>
+        )}
       </Hidden>
     </>
   );
 };
 
 DialogHost.propTypes = {
+  newUser: PropTypes.bool,
   dialogs: PropTypes.object,
 };
 

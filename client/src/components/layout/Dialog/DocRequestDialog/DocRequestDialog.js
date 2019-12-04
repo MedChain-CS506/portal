@@ -29,12 +29,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DocRequestDialog = ({ dialogProps, ...props }) => {
+  const classes = useStyles();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [aadhaar, setAadhaar] = useState('');
   const [id, setId] = useState('');
-  const classes = useStyles();
+  const [license, setLicense] = useState('');
+  const [specialization, setSpecialization] = useState('');
 
   const handleKeyPress = event => {
     console.log(event);
@@ -154,6 +156,40 @@ const DocRequestDialog = ({ dialogProps, ...props }) => {
                     onChange={e => setId(e.target.value)}
                   />
                 </Grid>
+
+                <Grid item xs>
+                  <TextField
+                    autoFocus
+                    autoComplete="license"
+                    name="license"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="license"
+                    label="License"
+                    placeholder="123456"
+                    type="number"
+                    value={license}
+                    onChange={e => setLicense(e.target.value)}
+                  />
+                </Grid>
+
+                <Grid item xs>
+                  <TextField
+                    autoFocus
+                    autoComplete="specialization"
+                    name="specialization"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="specialization"
+                    label="Heart Surgeon"
+                    placeholder="1234"
+                    type="string"
+                    value={specialization}
+                    onChange={e => setSpecialization(e.target.value)}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -247,6 +283,38 @@ const DocRequestDialog = ({ dialogProps, ...props }) => {
                 type="number"
                 value={id}
                 onChange={e => setId(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                autoFocus
+                autoComplete="license"
+                name="license"
+                variant="outlined"
+                required
+                fullWidth
+                id="license"
+                label="License"
+                placeholder="123456"
+                type="number"
+                value={license}
+                onChange={e => setLicense(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                autoFocus
+                autoComplete="specialization"
+                name="specialization"
+                variant="outlined"
+                required
+                fullWidth
+                id="specialization"
+                label="Specialization"
+                placeholder="Heart Surgeon"
+                type="string"
+                value={specialization}
+                onChange={e => setSpecialization(e.target.value)}
               />
             </Grid>
           </Grid>

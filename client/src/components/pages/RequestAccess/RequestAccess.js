@@ -70,7 +70,7 @@ const RequestAccess = ({ onNewDoctorClick, onNewPharmacistClick }) => {
           color="secondary"
           className={classes.button}
           startIcon={<LocalPharmacyIcon />}
-          onClick={() => onNewPharmacistClick}
+          onClick={() => onNewPharmacistClick()}
         >
           New Pharmacist
         </Button>
