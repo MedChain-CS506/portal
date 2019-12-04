@@ -126,9 +126,7 @@ function App() {
 
   const [isLightTheme, setIsLightTheme] = useState(true);
 
-  const toggleTheme = () => {
-    setIsLightTheme(!isLightTheme);
-  };
+  const toggleTheme = () => setIsLightTheme(!isLightTheme);
 
   if (isDoctor) {
     return (
@@ -149,7 +147,9 @@ function App() {
                     render={props => (
                       <Landing
                         {...props}
+                        //! REPLACE SIGNEDIN WITH ISDOCTOR?
                         signedIn={signedIn}
+                        isDoctor
                         onNewPatientClick={() =>
                           setDialog({ ...dialog, patientFormDialog: true })
                         }
@@ -163,7 +163,9 @@ function App() {
                     render={props => (
                       <Profile
                         {...props}
+                        //! REPLACE SIGNEDIN WITH ISDOCTOR?
                         signedIn={signedIn}
+                        isDoctor
                         contract={contract}
                         onNewPrescriptionClick={() =>
                           setDialog({ ...dialog, prescriptionFormDialog: true })
@@ -241,9 +243,9 @@ function App() {
           {ready ? (
             <Router>
               <Navbar
+                isPharmacist
                 theme={isLightTheme ? lightTheme : darkTheme}
                 handleToggleTheme={() => toggleTheme()}
-                isPharmacist
               />
               <Switch>
                 <Route
