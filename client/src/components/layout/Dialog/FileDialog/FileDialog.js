@@ -14,35 +14,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-import { Formik, Form, useField, Field, FieldArray } from 'formik';
+import { Formik, Form, useField } from 'formik';
 import * as yup from 'yup';
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-
-const NameTextField = ({ placeholder, label, ...props }) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : '';
-  return (
-    <TextField
-      label={label}
-      fullWidth
-      placeholder={placeholder}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-      margin="normal"
-      required
-    />
-  );
-};
-
-const validationSchema = yup.object().shape({
-  fileName: yup.string().required('File Name is required'),
-});
 
 const FileDialog = ({ dialogProps, ...props }) => {
   const [files, setFiles] = useState([]);
@@ -54,12 +32,9 @@ const FileDialog = ({ dialogProps, ...props }) => {
       <Formik
         validateOnChange
         initialValues={{
-          fileName: '',
+          file: '',
         }}
-        validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
-          console.log('fileName:', data.fileName);
-
           setSubmitting(false);
           //* make async call
           // register(data).then(() => {
@@ -72,13 +47,6 @@ const FileDialog = ({ dialogProps, ...props }) => {
           <Form>
             <DialogContent>
               <Grid container direction="column" spacing={2}>
-                <Grid item xs>
-                  <NameTextField
-                    label="Name"
-                    placeholder="MRI Scan"
-                    name="fileName"
-                  />
-                </Grid>
                 <Grid item xs>
                   <FilePond
                     files={files}
@@ -110,11 +78,6 @@ const FileDialog = ({ dialogProps, ...props }) => {
       </Formik>
     </Dialog>
   );
-};
-
-NameTextField.propTypes = {
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
 };
 
 FileDialog.propTypes = {
