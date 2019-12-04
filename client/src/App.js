@@ -148,8 +148,7 @@ function App() {
                     render={props => (
                       <Landing
                         {...props}
-                        //! REPLACE SIGNEDIN WITH ISDOCTOR?
-                        signedIn={signedIn}
+                        signedIn
                         isDoctor
                         onNewPatientClick={() =>
                           setDialog({ ...dialog, patientFormDialog: true })
@@ -164,8 +163,7 @@ function App() {
                     render={props => (
                       <Profile
                         {...props}
-                        //! REPLACE SIGNEDIN WITH ISDOCTOR?
-                        signedIn={signedIn}
+                        signedIn
                         isDoctor
                         contract={contract}
                         onNewPrescriptionClick={() =>
@@ -252,9 +250,7 @@ function App() {
                 <Route
                   exact
                   path="/"
-                  render={props => (
-                    <Landing {...props} signedIn={signedIn} isPharmacist />
-                  )}
+                  render={props => <Landing {...props} signedIn isPharmacist />}
                 />
 
                 <Route
@@ -263,7 +259,7 @@ function App() {
                   render={props => (
                     <Profile
                       {...props}
-                      signedIn={signedIn}
+                      signedIn
                       contract={contract}
                       isPharmacist
                     />
