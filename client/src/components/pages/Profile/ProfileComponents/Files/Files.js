@@ -76,7 +76,7 @@ export default function Files({ onNewFileClick }) {
     //! ^ This line above will allow us to convert the file into a buffer
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
-      setBuffer(Buffer(reader.result));
+      setBuffer(Buffer.from(reader.result));
       console.log('buffer', buffer);
     };
   };

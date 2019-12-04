@@ -23,6 +23,7 @@
     "@material-ui/icons": "latest",
     "@material-ui/pickers": "latest",
     "@testing-library/jest-dom": "^4.2.4",
+    "clsx": "^1.0.4",
     "date-fns": "latest",
     "filepond": "^4.7.4",
     "filepond-plugin-image-exif-orientation": "^1.0.6",

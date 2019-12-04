@@ -50,6 +50,7 @@ const BasicInfo = ({ contract, aadhaar }) => {
     allergies: '',
   });
 
+  // TODO: Move to useEffect
   const asyncCallToGetPatient = async () => {
     const data = await patientContext.getPatient(contract, aadhaar);
     setPatientData(data);
