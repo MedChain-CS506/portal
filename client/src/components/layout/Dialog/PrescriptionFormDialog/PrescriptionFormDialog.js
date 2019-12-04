@@ -183,7 +183,6 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
       patientContext
         .addPrescription(
           dialogProps.contract,
-          data.d_id,
           data.aadhaar,
           data.disease,
           data.symptoms,
@@ -234,18 +233,6 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
                         <MyTextField
                           placeholder="Aadhaar"
                           name="aadhaar"
-                          type="input"
-                          as={TextField}
-                        />
-                      </Grid>
-                    </Grid>
-
-                    <Grid container spacing={4}>
-                      <Grid item xs>
-                        {/* <AadhaarField label="Aadhaar" placeholder="000011112222" name="aadhaar" /> */}
-                        <MyTextField
-                          placeholder="Doctor ID"
-                          name="d_id"
                           type="input"
                           as={TextField}
                         />

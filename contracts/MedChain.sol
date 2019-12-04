@@ -4,6 +4,8 @@ contract MedChain {
 
     //global variables
     uint internal current_pres_id = 1;
+    uint internal current_file_id = 1;
+    uint internal current_req_doc = 1;
     address internal oracle;
     enum auth {
         no_one,
@@ -35,6 +37,7 @@ contract MedChain {
         string disease_history;
         uint[] prescription_ids;
         uint[] doctor_ids;
+        uint[] file_ids;
         string sex;
         bool exists;
     }
@@ -46,6 +49,8 @@ contract MedChain {
         string specialisation;
         address doctor_address;
         bool exists;
+        uint d1_id;
+        uint d2_id;
     }
 
     struct pharmacy {
@@ -68,9 +73,29 @@ contract MedChain {
         bool marked;
     }
 
+    struct files {
+        uint id;
+        string file_hash;
+        string timestamp;
+        string tags;
+    }
+    
+    struct pending_doc {
+        uint id;
+        uint license_no;
+        string name;
+        string specialisation;
+        address d_addr;
+        uint d1;
+        uint d2;
+        bool d1_bool;
+        bool d2_bool;
+    }
+
     //mappings
     mapping(uint => patient) patient_aadhaar_mapping;
     mapping(uint => doctor) doctor_id_mapping;
+    mapping(address => doctor) doctor_address_mapping;
     mapping(uint => pharmacy) pharmacy_id_mapping;
     mapping(uint => prescription) prescription_id_mapping;
     mapping(uint => admin) admin_id_mapping;
@@ -78,6 +103,8 @@ contract MedChain {
     mapping(address => auth) pharmacy_auth;
     mapping(address => auth) oracle_auth;
     mapping(address => auth) admin_auth;
+    mapping(uint => files) file_id_mapping;
+    mapping(uint => pending_doc) pending_doc_id_mapping;
 
     //events
     event prescription_added(uint aadhaar);
@@ -185,7 +212,7 @@ contract MedChain {
         patient_aadhaar_mapping[aadhaar].allergies = allergies_new;
     }
 
-    function add_doctor(uint id, uint license_no, string calldata name, string calldata specialisation, address d_addr) external {
+    function add_doctor(uint id, uint license_no, string calldata name, string calldata specialisation, address d_addr, uint d1, uint d2) external {
         require(!doctor_id_mapping[id].exists, "Doctor already exists in system");
         doctor_id_mapping[id].id = id;
         doctor_id_mapping[id].license_no = license_no;
@@ -193,6 +220,9 @@ contract MedChain {
         doctor_id_mapping[id].specialisation = specialisation;
         doctor_id_mapping[id].doctor_address = d_addr;
         doctor_id_mapping[id].exists = true;
+        doctor_id_mapping[id].d1_id = d1;
+        doctor_id_mapping[id].d2_id = d2;
+        doctor_address_mapping[d_addr].id = id;
         doctor_auth[d_addr] = auth.doc;
     }
 
@@ -257,11 +287,11 @@ contract MedChain {
         return (dis, med, time);
     }
 
-    function add_prescription(uint d_id, uint p_aadhar, string calldata disease, string calldata symptoms, string calldata medicine, string calldata time) external {
+    function add_prescription( uint p_aadhar, string calldata disease, string calldata symptoms, string calldata medicine, string calldata time) external {
         require(patient_aadhaar_mapping[p_aadhar].exists, "Patient does not exists");
         patient_aadhaar_mapping[p_aadhar].prescription_ids.push(current_pres_id);
         prescription_id_mapping[current_pres_id].id = current_pres_id;
-        prescription_id_mapping[current_pres_id].doctor_id = d_id;
+        prescription_id_mapping[current_pres_id].doctor_id = doctor_address_mapping[msg.sender].id;
         prescription_id_mapping[current_pres_id].patient_aadhaar = p_aadhar;
         prescription_id_mapping[current_pres_id].disease = disease;
         prescription_id_mapping[current_pres_id].symptoms = symptoms;
@@ -284,6 +314,52 @@ contract MedChain {
         prescription_id_mapping[last_presc_id].pharmacy_id = pharmacy_id;
         prescription_id_mapping[last_presc_id].marked = true;
         prescription_id_mapping[last_presc_id].timestamp_marked = time;
+    }
+
+    function add_file(uint aadhaar, string calldata filehash, string calldata timestamp, string calldata tags) external {
+        patient_aadhaar_mapping[aadhaar].file_ids.push(current_file_id);
+        file_id_mapping[current_file_id].file_hash = filehash;
+        file_id_mapping[current_file_id].timestamp = timestamp;
+        file_id_mapping[current_file_id].tags = tags;
+        current_file_id = current_file_id + 1;
+    }
+
+    function get_files(uint aadhaar) view public returns(string memory, string memory, string memory){
+        string memory filehash = "-";
+        string memory tags = "-";
+        string memory time = "-";
+        for (uint i = 0; i < patient_aadhaar_mapping[aadhaar].file_ids.length; i++) {
+            filehash = strConcat(filehash, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].file_hash);
+            tags = strConcat(tags, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].tags);
+            time = strConcat(time, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].timestamp);
+        }
+        return (filehash, tags, time);
+    }
+
+    function request_adding_doctor (uint id, uint license_no, string calldata name, string calldata specialisation, address d_addr) external {
+
+        pending_doc_id_mapping[id].id = id;
+        pending_doc_id_mapping[id].license_no = license_no;
+        pending_doc_id_mapping[id].name = name;
+        pending_doc_id_mapping[id].specialisation = specialisation;
+        pending_doc_id_mapping[id].d_addr = d_addr;
+        pending_doc_id_mapping[id].d1 = doctor_address_mapping[msg.sender].id;
+        pending_doc_id_mapping[id].d1_bool = true;
+    }
+
+    function give_consent (uint id) external {
+        require(pending_doc_id_mapping[id].d1_bool, "Doctor isn't requested to add in the system");
+        pending_doc_id_mapping[id].d2_bool = true;
+        doctor_id_mapping[id].id = pending_doc_id_mapping[id].id;
+        doctor_id_mapping[id].license_no = pending_doc_id_mapping[id].license_no;
+        doctor_id_mapping[id].name = pending_doc_id_mapping[id].name;
+        doctor_id_mapping[id].specialisation = pending_doc_id_mapping[id].specialisation;
+        doctor_id_mapping[id].doctor_address = pending_doc_id_mapping[id].d_addr;
+        doctor_id_mapping[id].d1_id = pending_doc_id_mapping[id].d1;
+        doctor_id_mapping[id].d2_id = doctor_address_mapping[msg.sender].id;
+        doctor_id_mapping[id].exists = true;
+        doctor_id_mapping[id].doctor_address = pending_doc_id_mapping[id].d_addr;
+        doctor_auth[pending_doc_id_mapping[id].d_addr] = auth.doc;
     }
 
 }

@@ -91,7 +91,7 @@ const Prescriptions = ({
     const dt = new Date();
     const utcDate = dt.toUTCString();
     await patientContext
-      .markPrescription(contract, aadhaar, 10, utcDate)
+      .markPrescription(contract, aadhaar, utcDate)
       .then(() => {
         setPrescriptiontData({ ...prescriptionData, marked: true });
         console.log(prescriptionData.marked);

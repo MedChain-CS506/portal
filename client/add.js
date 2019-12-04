@@ -23,7 +23,7 @@ const add = async () => {
 };
 add().then(async data => {
   await data.contract.methods
-    .add_doctor(10, 10101010, 'Brennan Fife', 'Heart', data.accounts[0])
+    .add_doctor(10, 10101010, 'Brennan Fife', 'Heart', data.accounts[0], 0, 0)
     .send(
       {
         from: data.accounts[0],
