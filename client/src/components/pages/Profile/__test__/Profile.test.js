@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { render, cleanup } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Profile from '../Profile';
 
@@ -15,7 +15,7 @@ it('renders without crashing', () => {
 
   ReactDOM.render(
     <Router>
-      <Profile signedIn contract={MedChainContract} />
+      <Profile contract={MedChainContract} />
     </Router>,
     div
   );

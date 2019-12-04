@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = ({
-  signedIn,
   onNewPrescriptionClick,
   onNewFileClick,
   contract,
@@ -106,7 +105,6 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-  signedIn: PropTypes.bool,
   onNewPrescriptionClick: PropTypes.func.isRequired,
   onNewFileClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,

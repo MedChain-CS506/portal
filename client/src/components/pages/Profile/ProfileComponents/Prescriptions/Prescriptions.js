@@ -239,7 +239,6 @@ const Prescriptions = ({
 };
 
 Prescriptions.propTypes = {
-  // signedIn: PropTypes.bool.isRequired,
   onNewPrescriptionClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,
   aadhaar: PropTypes.isRequired,
