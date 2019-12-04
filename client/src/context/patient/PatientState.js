@@ -118,7 +118,6 @@ const PatientState = props => {
 
   const addPrescription = async (
     contract,
-    d_id,
     aadhaar,
     disease,
     symptoms,
@@ -126,7 +125,7 @@ const PatientState = props => {
     time
   ) => {
     await contract.contract.methods
-      .add_prescription(d_id, aadhaar, disease, symptoms, medicine, time)
+      .add_prescription(aadhaar, disease, symptoms, medicine, time)
       .send(
         {
           from: contract.accounts[0],
@@ -176,10 +175,10 @@ const PatientState = props => {
     return pharmacy_portal;
   };
 
-  const markPrescription = async (contract, aadhaar, phar_id, time) => {
+  const markPrescription = async (contract, aadhaar, time) => {
     try {
       await contract.contract.methods
-        .mark_prescription(aadhaar, phar_id, time)
+        .mark_prescription(aadhaar, time)
         .send(
           {
             from: contract.accounts[0],
