@@ -167,9 +167,9 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   const onSubmit = async data => {
     console.log(data);
     let medicine = '';
-    for (const med in data.medicine) {
+    for (let med in data.medicine) {
       medicine = `${medicine}-${med}`;
-      for (const values in data.medicine[med]) {
+      for (let values in data.medicine[med]) {
         if (values !== 'id') {
           medicine = `${medicine}-${data.medicine[med][values]}`;
         }

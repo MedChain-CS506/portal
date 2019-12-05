@@ -192,7 +192,6 @@ const PatientState = props => {
     }
   };
 
-
   const addFile = async (
     contract,
     aadhaar,
@@ -227,13 +226,12 @@ const PatientState = props => {
         .get_files(aadhaar)
         .call()
         .then(function(res) {
-          files.d_id = get_string(res[0]);
-          files.medicine = get_string(res[1]);
-          files.timestamp = get_string(res[2]);
+          files.filehash = get_string(res[0]);
+          files.timestamp = get_string(res[1]);
+
         });
     } catch (error) {
-      files.d_id = 0;
-      files.medicine = '';
+      files.filehash = '';
       files.timestamp = '';
     }
     return files;
