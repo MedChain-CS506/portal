@@ -96,6 +96,7 @@ contract MedChain {
     mapping(uint => doctor) doctor_id_mapping;
     mapping(address => doctor) doctor_address_mapping;
     mapping(uint => pharmacy) pharmacy_id_mapping;
+    mapping(address => pharmacy) pharmacy_address_mapping;
     mapping(uint => prescription) prescription_id_mapping;
     mapping(uint => admin) admin_id_mapping;
     mapping(address => auth) doctor_auth;
@@ -232,6 +233,7 @@ contract MedChain {
         pharmacy_id_mapping[id].phar_addr = p_addr;
         pharmacy_id_mapping[id].exists = true;
         pharmacy_auth[p_addr] = auth.phar;
+        pharmacy_address_mapping[p_addr].id = id;
     }
 
     function add_admin(uint id, address admin_address) external {
@@ -307,10 +309,10 @@ contract MedChain {
         return (prescription_id_mapping[last_presc_id].doctor_id, prescription_id_mapping[last_presc_id].medicine, prescription_id_mapping[last_presc_id].timestamp_prescribed);
     }
 
-    function mark_prescription(uint aadhaar, uint pharmacy_id, string memory time) public {
+    function mark_prescription(uint aadhaar, string memory time) public {
         require(prescription_id_mapping[patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1]].marked == false, "Prescription already marked");
         uint last_presc_id = patient_aadhaar_mapping[aadhaar].prescription_ids[patient_aadhaar_mapping[aadhaar].prescription_ids.length - 1];
-        prescription_id_mapping[last_presc_id].pharmacy_id = pharmacy_id;
+        prescription_id_mapping[last_presc_id].pharmacy_id = pharmacy_address_mapping[msg.sender].id;
         prescription_id_mapping[last_presc_id].marked = true;
         prescription_id_mapping[last_presc_id].timestamp_marked = time;
     }
@@ -333,7 +335,6 @@ contract MedChain {
     }
 
     function request_adding_doctor (uint id, uint license_no, string calldata name, string calldata specialisation, address d_addr) external {
-
         pending_doc_id_mapping[id].id = id;
         pending_doc_id_mapping[id].license_no = license_no;
         pending_doc_id_mapping[id].name = name;

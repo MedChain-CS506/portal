@@ -192,6 +192,53 @@ const PatientState = props => {
     }
   };
 
+
+  const addFile = async (
+    contract,
+    aadhaar,
+    filehash,
+    timestamp,
+    tags
+  ) => {
+    await contract.contract.methods
+      .add_file(aadhaar, filehash, timestamp, tags)
+      .send(
+        {
+          from: contract.accounts[0],
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  };
+
+  const getfiles = async (
+    contract,
+    aadhaar
+  ) => {
+    let files = null;
+    function get_string(str) {
+      const newStr = str.split('-');
+      newStr.splice(0, 2);
+      return newStr;
+    }
+    try {
+      await contract.contract.methods
+        .get_files(aadhaar)
+        .call()
+        .then(function(res) {
+          files.d_id = get_string(res[0]);
+          files.medicine = get_string(res[1]);
+          files.timestamp = get_string(res[2]);
+        });
+    } catch (error) {
+      files.d_id = 0;
+      files.medicine = '';
+      files.timestamp = '';
+    }
+    return files;
+  }
+
   return (
     <PatientContext.Provider
       value={{
@@ -203,6 +250,8 @@ const PatientState = props => {
         editPatient,
         phatmacistLastPrescription,
         markPrescription,
+        addFile,
+        getfiles,
       }}
     >
       {props.children}
