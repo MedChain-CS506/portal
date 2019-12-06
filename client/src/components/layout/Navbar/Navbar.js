@@ -156,7 +156,7 @@ const Navbar = ({ theme, handleToggleTheme, isPharmacist }) => {
 
 Navbar.propTypes = {
   theme: PropTypes.object,
-  handleToggleTheme: PropTypes.func.isRequired,
+  handleToggleTheme: PropTypes.func,
   isPharmacist: PropTypes.bool,
 };
 

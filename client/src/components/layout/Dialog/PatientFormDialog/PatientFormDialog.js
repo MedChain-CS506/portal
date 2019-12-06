@@ -188,7 +188,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
 
   return (
     <Dialog fullWidth maxWidth="md" {...dialogProps}>
-      <DialogTitle>New Patient</DialogTitle>
+      <DialogTitle data-testid="dialog-title">New Patient</DialogTitle>
       <Formik
         validateOnChange
         initialValues={{
