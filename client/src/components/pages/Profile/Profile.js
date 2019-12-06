@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = ({
-  signedIn,
   onNewPrescriptionClick,
   onNewFileClick,
   contract,
@@ -74,7 +73,8 @@ const Profile = ({
               ) : (
                 <>
                   <Grid item xs={12} md={6} lg={6}>
-                    <Paper className={fixedHeightPaper}>
+                    {/* <Paper className={fixedHeightPaper}> */}
+                    <Paper className={classes.fixedHeight}>
                       <BasicInfo
                         aadhaar={match.params.id}
                         contract={contract}
@@ -106,7 +106,8 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-  signedIn: PropTypes.bool,
+  match: PropTypes.any,
+  contract: PropTypes.any,
   onNewPrescriptionClick: PropTypes.func.isRequired,
   onNewFileClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,

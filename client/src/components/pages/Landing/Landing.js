@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
+const Landing = ({ isDoctor, isPharmacist, onNewPatientClick }) => {
   const classes = useStyles();
   // const patientContext = useContext(PatientContext);
 
@@ -66,7 +66,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
     if (send === true) return <Redirect to={pageID}></Redirect>;
   };
 
-  if (!signedIn) {
+  if (!isDoctor && !isPharmacist) {
     return (
       <div className={classes.root}>
         <FavoriteIcon color="action" />
@@ -135,7 +135,7 @@ const Landing = ({ signedIn = false, isPharmacist, onNewPatientClick }) => {
 };
 
 Landing.propTypes = {
-  signedIn: PropTypes.bool.isRequired,
+  isDoctor: PropTypes.bool,
   isPharmacist: PropTypes.bool,
   onNewPatientClick: PropTypes.func.isRequired,
 };

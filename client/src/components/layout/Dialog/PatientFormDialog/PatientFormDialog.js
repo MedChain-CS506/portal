@@ -165,7 +165,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
     // combine first and last names
     const fullName = `${data.firstName} ${data.lastName}`;
     let allergies = '';
-    for (const allergy in data.notes) {
+    for (let allergy in data.notes) {
       allergies = `${allergies}-${data.notes[allergy].name}`;
     }
     console.log(allergies);

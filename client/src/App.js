@@ -46,7 +46,7 @@ async function docCheck(contract) {
 }
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
+  //! const [signedIn, setSignedIn] = useState(false);
   const [ready, setReady] = useState(false);
   const [contract, setContract] = useState({
     web3: null,
@@ -59,6 +59,8 @@ function App() {
     patientFormDialog: false,
     prescriptionFormDialog: false,
     fileDialog: false,
+    docRequestDialog: false,
+    pharmRequestDialog: false,
   });
   const [snackbar, setSnackbar] = useState({
     autoHideDuration: 0,
@@ -89,12 +91,11 @@ function App() {
           web3,
           contract: instance,
         };
+        //! setSignedIn(true);
         setContract(data);
-        setSignedIn(true);
-        setReady(true);
         return data;
       } catch (error) {
-        setSignedIn(false);
+        //! setSignedIn(true);
         setReady(false);
         console.error(error);
       }
@@ -109,132 +110,29 @@ function App() {
         } else if (res == 1) {
           setIsPharmacist(true);
         }
+        setReady(true);
       });
       setInterval(async () => {
         try {
           const rn = await data.web3.eth.getAccounts();
           if (rn[0] !== data.accounts[0]) {
-            setSignedIn(false);
+            //! setSignedIn(false);
+            console.log('rn[0] !== data.accounts[0]');
           } else if (rn[0] === data.accounts[0]) {
-            setSignedIn(true);
+            //! setSignedIn(true);
+            console.log('rrn[0] === data.accounts[0]');
           }
         } catch (err) {
           console.log(err);
         }
       }, 100);
     });
-  }, [signedIn, isDoctor, isPharmacist]);
+  }, [isDoctor, isPharmacist]);
 
   const [isLightTheme, setIsLightTheme] = useState(true);
-
   const toggleTheme = () => setIsLightTheme(!isLightTheme);
 
-  if (isDoctor) {
-    return (
-      <PatientState>
-        <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
-          <CssBaseline />
-          {ready ? (
-            <>
-              <Router>
-                <Navbar
-                  theme={isLightTheme ? lightTheme : darkTheme}
-                  handleToggleTheme={() => toggleTheme()}
-                />
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={props => (
-                      <Landing
-                        {...props}
-                        signedIn
-                        isDoctor
-                        onNewPatientClick={() =>
-                          setDialog({ ...dialog, patientFormDialog: true })
-                        }
-                      />
-                    )}
-                  />
-
-                  <Route
-                    exact
-                    path="/profile/:id"
-                    render={props => (
-                      <Profile
-                        {...props}
-                        signedIn
-                        isDoctor
-                        contract={contract}
-                        onNewPrescriptionClick={() =>
-                          setDialog({ ...dialog, prescriptionFormDialog: true })
-                        }
-                        onNewFileClick={() =>
-                          setDialog({ ...dialog, fileDialog: true })
-                        }
-                      />
-                    )}
-                  />
-                  <Route component={NotFound} />
-                </Switch>
-              </Router>
-
-              <DialogHost
-                dialogs={{
-                  patientFormDialog: {
-                    dialogProps: {
-                      open: dialog.patientFormDialog,
-                      contract,
-                      onClose: () =>
-                        setDialog({ ...dialog, patientFormDialog: false }),
-                    },
-                    props: {
-                      toggleSnackbar,
-                    },
-                  },
-
-                  prescriptionFormDialog: {
-                    dialogProps: {
-                      open: dialog.prescriptionFormDialog,
-                      contract,
-                      aadhaar: null,
-                      onClose: () =>
-                        setDialog({ ...dialog, prescriptionFormDialog: false }),
-                    },
-                    props: {
-                      toggleSnackbar,
-                    },
-                  },
-
-                  fileDialog: {
-                    dialogProps: {
-                      open: dialog.fileDialog,
-                      contract,
-                      onClose: () =>
-                        setDialog({ ...dialog, fileDialog: false }),
-                    },
-                    props: {
-                      toggleSnackbar,
-                    },
-                  },
-                }}
-              />
-
-              <Snackbar
-                autoHideDuration={snackbar.autoHideDuration}
-                message={snackbar.message}
-                open={snackbar.open}
-                onClose={() => setSnackbar({ ...snackbar, open: false })}
-              />
-            </>
-          ) : (
-            <Loading />
-          )}
-        </ThemeProvider>
-      </PatientState>
-    );
-  }
-  if (isPharmacist) {
+  if (!isDoctor && !isPharmacist) {
     return (
       <PatientState>
         <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
@@ -242,31 +140,42 @@ function App() {
           {ready ? (
             <Router>
               <Navbar
-                isPharmacist
                 theme={isLightTheme ? lightTheme : darkTheme}
                 handleToggleTheme={() => toggleTheme()}
               />
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => <Landing {...props} signedIn isPharmacist />}
-                />
-
-                <Route
-                  exact
-                  path="/profile/:id"
-                  render={props => (
-                    <Profile
-                      {...props}
-                      signedIn
-                      contract={contract}
-                      isPharmacist
-                    />
-                  )}
-                />
-                <Route component={NotFound} />
-              </Switch>
+              <RequestAccess
+                onNewDoctorClick={() =>
+                  setDialog({ ...dialog, docRequestDialog: true })
+                }
+                onNewPharmacistClick={() =>
+                  setDialog({ ...dialog, pharmRequestDialog: true })
+                }
+              />
+              <DialogHost
+                newUser
+                dialogs={{
+                  docRequestDialog: {
+                    dialogProps: {
+                      open: dialog.docRequestDialog,
+                      onClose: () =>
+                        setDialog({ ...dialog, docRequestDialog: false }),
+                    },
+                    props: {
+                      toggleSnackbar,
+                    },
+                  },
+                  pharmRequestDialog: {
+                    dialogProps: {
+                      open: dialog.pharmRequestDialog,
+                      onClose: () =>
+                        setDialog({ ...dialog, pharmRequestDialog: false }),
+                    },
+                    props: {
+                      toggleSnackbar,
+                    },
+                  },
+                }}
+              />
             </Router>
           ) : (
             <Loading />
@@ -275,18 +184,139 @@ function App() {
       </PatientState>
     );
   }
+
   return (
     <PatientState>
       <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
         <CssBaseline />
         {ready ? (
-          <Router>
-            <Navbar
-              theme={isLightTheme ? lightTheme : darkTheme}
-              handleToggleTheme={() => toggleTheme()}
-            />
-            <RequestAccess />
-          </Router>
+          <>
+            {isDoctor ? (
+              <>
+                <Router>
+                  <Navbar
+                    theme={isLightTheme ? lightTheme : darkTheme}
+                    handleToggleTheme={() => toggleTheme()}
+                  />
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      render={props => (
+                        <Landing
+                          {...props}
+                          //! signedIn
+                          isDoctor
+                          onNewPatientClick={() =>
+                            setDialog({ ...dialog, patientFormDialog: true })
+                          }
+                        />
+                      )}
+                    />
+
+                    <Route
+                      exact
+                      path="/profile/:id"
+                      render={props => (
+                        <Profile
+                          {...props}
+                          //! signedIn
+                          isDoctor
+                          contract={contract}
+                          onNewPrescriptionClick={() =>
+                            setDialog({
+                              ...dialog,
+                              prescriptionFormDialog: true,
+                            })
+                          }
+                          onNewFileClick={() =>
+                            setDialog({ ...dialog, fileDialog: true })
+                          }
+                        />
+                      )}
+                    />
+
+                    <Route component={NotFound} />
+                  </Switch>
+                </Router>
+
+                <DialogHost
+                  dialogs={{
+                    patientFormDialog: {
+                      dialogProps: {
+                        open: dialog.patientFormDialog,
+                        contract,
+                        onClose: () =>
+                          setDialog({ ...dialog, patientFormDialog: false }),
+                      },
+                      props: {
+                        toggleSnackbar,
+                      },
+                    },
+
+                    prescriptionFormDialog: {
+                      dialogProps: {
+                        open: dialog.prescriptionFormDialog,
+                        contract,
+                        aadhaar: null,
+                        onClose: () =>
+                          setDialog({
+                            ...dialog,
+                            prescriptionFormDialog: false,
+                          }),
+                      },
+                      props: {
+                        toggleSnackbar,
+                      },
+                    },
+
+                    fileDialog: {
+                      dialogProps: {
+                        open: dialog.fileDialog,
+                        contract,
+                        onClose: () =>
+                          setDialog({ ...dialog, fileDialog: false }),
+                      },
+                      props: {
+                        toggleSnackbar,
+                      },
+                    },
+                  }}
+                />
+
+                <Snackbar
+                  autoHideDuration={snackbar.autoHideDuration}
+                  message={snackbar.message}
+                  open={snackbar.open}
+                  onClose={() => setSnackbar({ ...snackbar, open: false })}
+                />
+              </>
+            ) : (
+              <Router>
+                <Navbar
+                  isPharmacist
+                  theme={isLightTheme ? lightTheme : darkTheme}
+                  handleToggleTheme={() => toggleTheme()}
+                />
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={props => <Landing {...props} isPharmacist />}
+                  />
+
+                  <Route
+                    exact
+                    path="/profile/:id"
+                    render={props => (
+                      <Profile {...props} isPharmacist contract={contract} />
+                    )}
+                  />
+                  <Route component={NotFound} />
+                </Switch>
+              </Router>
+            )}
+          </>
         ) : (
           <Loading />
         )}

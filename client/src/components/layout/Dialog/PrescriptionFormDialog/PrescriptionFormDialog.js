@@ -167,9 +167,9 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   const onSubmit = async data => {
     console.log(data);
     let medicine = '';
-    for (const med in data.medicine) {
+    for (let med in data.medicine) {
       medicine = `${medicine}-${med}`;
-      for (const values in data.medicine[med]) {
+      for (let values in data.medicine[med]) {
         if (values !== 'id') {
           medicine = `${medicine}-${data.medicine[med][values]}`;
         }
@@ -183,7 +183,6 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
       patientContext
         .addPrescription(
           dialogProps.contract,
-          data.d_id,
           data.aadhaar,
           data.disease,
           data.symptoms,
@@ -200,7 +199,7 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" {...dialogProps}>
+    <Dialog fullWidth maxWidth="sm" {...dialogProps}>
       <DialogTitle>New Prescription</DialogTitle>
 
       <Formik
@@ -234,18 +233,6 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
                         <MyTextField
                           placeholder="Aadhaar"
                           name="aadhaar"
-                          type="input"
-                          as={TextField}
-                        />
-                      </Grid>
-                    </Grid>
-
-                    <Grid container spacing={4}>
-                      <Grid item xs>
-                        {/* <AadhaarField label="Aadhaar" placeholder="000011112222" name="aadhaar" /> */}
-                        <MyTextField
-                          placeholder="Doctor ID"
-                          name="d_id"
                           type="input"
                           as={TextField}
                         />

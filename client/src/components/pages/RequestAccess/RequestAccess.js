@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { makeStyles, Typography, Button, Icon } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+import { makeStyles, Typography, Button } from '@material-ui/core';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
@@ -33,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const RequestAccess = () => {
+const RequestAccess = ({ onNewDoctorClick, onNewPharmacistClick }) => {
   const classes = useStyles();
 
   return (
@@ -59,6 +61,7 @@ const RequestAccess = () => {
           color="primary"
           className={classes.button}
           startIcon={<LocalHospitalIcon />}
+          onClick={() => onNewDoctorClick()}
         >
           New Doctor
         </Button>
@@ -67,12 +70,18 @@ const RequestAccess = () => {
           color="secondary"
           className={classes.button}
           startIcon={<LocalPharmacyIcon />}
+          onClick={() => onNewPharmacistClick()}
         >
           New Pharmacist
         </Button>
       </div>
     </div>
   );
+};
+
+RequestAccess.propTypes = {
+  onNewDoctorClick: PropTypes.func,
+  onNewPharmacistClick: PropTypes.func,
 };
 
 export default RequestAccess;

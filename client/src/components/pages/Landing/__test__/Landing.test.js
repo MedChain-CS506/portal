@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { render, cleanup, Renderer } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import Landing from '../Landing';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -13,7 +13,7 @@ it('renders without crashing', () => {
 
   ReactDOM.render(
     <Router>
-      <Landing signedIn={false} />
+      <Landing />
     </Router>,
     div
   );
@@ -24,7 +24,7 @@ it('renders without crashing', () => {
 it('renders correctly with signedIn being false', () => {
   const { getByTestId } = render(
     <Router>
-      <Landing signedIn={false} />
+      <Landing />
     </Router>
   );
   expect(getByTestId('basic-desc')).toHaveTextContent(
@@ -35,7 +35,7 @@ it('renders correctly with signedIn being false', () => {
 it('renders correctly with signedIn being true, as a doctor', () => {
   const { getByTestId } = render(
     <Router>
-      <Landing signedIn isPharmacist={false} />
+      <Landing isPharmacist={false} />
     </Router>
   );
   // expect(getByTestId("search-bar")).toHaveTextContent(
@@ -49,7 +49,7 @@ it('renders correctly with signedIn being true, as a doctor', () => {
 it('renders correctly with signedIn being true, as a pharmacist', () => {
   const { getByTestId } = render(
     <Router>
-      <Landing signedIn isPharmacist />
+      <Landing isPharmacist />
     </Router>
   );
   // expect(getByTestId("search-bar")).toHaveTextContent(

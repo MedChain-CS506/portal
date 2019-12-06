@@ -55,6 +55,7 @@ const Prescriptions = ({
     return newStr;
   };
 
+  // TODO: Move into useEffect?
   const asyncCallToGetPrescriptions = async () => {
     const data = await patientContext.lastPrescription(contract, aadhaar);
     const medicine = getString(data.last_pres_medicine);
@@ -70,6 +71,7 @@ const Prescriptions = ({
     });
   };
 
+  // TODO: Move into useEffect?
   const asyncCallToGetPharmacyPrescriptions = async () => {
     const data = await patientContext.phatmacistLastPrescription(
       contract,
@@ -91,7 +93,7 @@ const Prescriptions = ({
     const dt = new Date();
     const utcDate = dt.toUTCString();
     await patientContext
-      .markPrescription(contract, aadhaar, 10, utcDate)
+      .markPrescription(contract, aadhaar, utcDate)
       .then(() => {
         setPrescriptiontData({ ...prescriptionData, marked: true });
         console.log(prescriptionData.marked);
@@ -99,13 +101,9 @@ const Prescriptions = ({
   };
 
   useEffect(() => {
-    if (isPharmacist) {
-      asyncCallToGetPharmacyPrescriptions();
-    }
+    if (isPharmacist) asyncCallToGetPharmacyPrescriptions();
 
-    if (!isPharmacist) {
-      asyncCallToGetPrescriptions();
-    }
+    if (!isPharmacist) asyncCallToGetPrescriptions();
   }, [
     asyncCallToGetPharmacyPrescriptions,
     asyncCallToGetPrescriptions,
@@ -239,7 +237,6 @@ const Prescriptions = ({
 };
 
 Prescriptions.propTypes = {
-  // signedIn: PropTypes.bool.isRequired,
   onNewPrescriptionClick: PropTypes.func.isRequired,
   isPharmacist: PropTypes.bool,
   aadhaar: PropTypes.isRequired,

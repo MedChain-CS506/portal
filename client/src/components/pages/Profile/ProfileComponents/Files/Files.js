@@ -51,14 +51,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(files, ipfsHash, timestamp, tags) {
-  return { files, ipfsHash, timestamp, tags };
+function createData(fileLinkHash, timestamp) {
+  return { fileLinkHash, timestamp };
 }
 
-const rows = [
-  createData('File 1', 12345, '13:00', 'Some tag'),
-  createData('File 2', 12346, '15:30', 'Some tag'),
-];
+const rows = [createData('File 1', '13:00'), createData('File 2', '15:30')];
 
 export default function Files({ onNewFileClick }) {
   const classes = useStyles();
@@ -79,7 +76,7 @@ export default function Files({ onNewFileClick }) {
     //! ^ This line above will allow us to convert the file into a buffer
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
-      setBuffer(Buffer(reader.result));
+      setBuffer(Buffer.from(reader.result));
       console.log('buffer', buffer);
     };
   };
@@ -135,21 +132,17 @@ export default function Files({ onNewFileClick }) {
       <Table stickyHeader className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>File(s)</TableCell>
-            <TableCell align="right">IPFS Hash</TableCell>
+            <TableCell>File Link Hash</TableCell>
             <TableCell align="right">Timestamp</TableCell>
-            <TableCell align="right">Tag(s)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow key={row.files}>
+            <TableRow key={row.fileLinkHash}>
               <TableCell component="th" scope="row">
-                {row.files}
+                {row.fileLinkHash}
               </TableCell>
-              <TableCell align="right">{row.ipfsHash}</TableCell>
               <TableCell align="right">{row.timestamp}</TableCell>
-              <TableCell align="right">{row.tags}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -118,7 +118,6 @@ const PatientState = props => {
 
   const addPrescription = async (
     contract,
-    d_id,
     aadhaar,
     disease,
     symptoms,
@@ -126,7 +125,7 @@ const PatientState = props => {
     time
   ) => {
     await contract.contract.methods
-      .add_prescription(d_id, aadhaar, disease, symptoms, medicine, time)
+      .add_prescription(aadhaar, disease, symptoms, medicine, time)
       .send(
         {
           from: contract.accounts[0],
@@ -176,10 +175,10 @@ const PatientState = props => {
     return pharmacy_portal;
   };
 
-  const markPrescription = async (contract, aadhaar, phar_id, time) => {
+  const markPrescription = async (contract, aadhaar, time) => {
     try {
       await contract.contract.methods
-        .mark_prescription(aadhaar, phar_id, time)
+        .mark_prescription(aadhaar, time)
         .send(
           {
             from: contract.accounts[0],
@@ -193,6 +192,51 @@ const PatientState = props => {
     }
   };
 
+  const addFile = async (
+    contract,
+    aadhaar,
+    filehash,
+    timestamp,
+    tags
+  ) => {
+    await contract.contract.methods
+      .add_file(aadhaar, filehash, timestamp, tags)
+      .send(
+        {
+          from: contract.accounts[0],
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  };
+
+  const getfiles = async (
+    contract,
+    aadhaar
+  ) => {
+    let files = null;
+    function get_string(str) {
+      const newStr = str.split('-');
+      newStr.splice(0, 2);
+      return newStr;
+    }
+    try {
+      await contract.contract.methods
+        .get_files(aadhaar)
+        .call()
+        .then(function(res) {
+          files.filehash = get_string(res[0]);
+          files.timestamp = get_string(res[1]);
+
+        });
+    } catch (error) {
+      files.filehash = '';
+      files.timestamp = '';
+    }
+    return files;
+  }
+
   return (
     <PatientContext.Provider
       value={{
@@ -204,6 +248,8 @@ const PatientState = props => {
         editPatient,
         phatmacistLastPrescription,
         markPrescription,
+        addFile,
+        getfiles,
       }}
     >
       {props.children}
