@@ -262,7 +262,12 @@ const PharmRequestDialog = ({ dialogProps, ...props }) => {
       </Hidden>
 
       <DialogActions>
-        <Button color="primary" onClick={dialogProps.onClose}>
+        <Button
+          color="primary"
+          onClick={() => {
+            dialogProps.onClose();
+          }}
+        >
           Cancel
         </Button>
 

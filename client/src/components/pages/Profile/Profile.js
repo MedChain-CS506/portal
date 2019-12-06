@@ -108,8 +108,8 @@ const Profile = ({
 Profile.propTypes = {
   match: PropTypes.any,
   contract: PropTypes.any,
-  onNewPrescriptionClick: PropTypes.func.isRequired,
-  onNewFileClick: PropTypes.func.isRequired,
+  onNewPrescriptionClick: PropTypes.func,
+  onNewFileClick: PropTypes.func,
   isPharmacist: PropTypes.bool,
 };
 

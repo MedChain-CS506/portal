@@ -59,6 +59,7 @@ const RequestAccess = ({ onNewDoctorClick, onNewPharmacistClick }) => {
         <Button
           variant="contained"
           color="primary"
+          data-testid="new-doc-button"
           className={classes.button}
           startIcon={<LocalHospitalIcon />}
           onClick={() => onNewDoctorClick()}
@@ -68,6 +69,7 @@ const RequestAccess = ({ onNewDoctorClick, onNewPharmacistClick }) => {
         <Button
           variant="contained"
           color="secondary"
+          data-testid="new-phar-button"
           className={classes.button}
           startIcon={<LocalPharmacyIcon />}
           onClick={() => onNewPharmacistClick()}

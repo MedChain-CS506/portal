@@ -177,28 +177,20 @@ const PatientState = props => {
 
   const markPrescription = async (contract, aadhaar, time) => {
     try {
-      await contract.contract.methods
-        .mark_prescription(aadhaar, time)
-        .send(
-          {
-            from: contract.accounts[0],
-          },
-          error => {
-            console.log(error);
-          }
-        );
+      await contract.contract.methods.mark_prescription(aadhaar, time).send(
+        {
+          from: contract.accounts[0],
+        },
+        error => {
+          console.log(error);
+        }
+      );
     } catch (err) {
       console.log(err);
     }
   };
 
-  const addFile = async (
-    contract,
-    aadhaar,
-    filehash,
-    timestamp,
-    tags
-  ) => {
+  const addFile = async (contract, aadhaar, filehash, timestamp, tags) => {
     await contract.contract.methods
       .add_file(aadhaar, filehash, timestamp, tags)
       .send(
@@ -211,11 +203,8 @@ const PatientState = props => {
       );
   };
 
-  const getfiles = async (
-    contract,
-    aadhaar
-  ) => {
-    let files = null;
+  const getfiles = async (contract, aadhaar) => {
+    const files = null;
     function get_string(str) {
       const newStr = str.split('-');
       newStr.splice(0, 2);
@@ -228,14 +217,13 @@ const PatientState = props => {
         .then(function(res) {
           files.filehash = get_string(res[0]);
           files.timestamp = get_string(res[1]);
-
         });
     } catch (error) {
       files.filehash = '';
       files.timestamp = '';
     }
     return files;
-  }
+  };
 
   return (
     <PatientContext.Provider

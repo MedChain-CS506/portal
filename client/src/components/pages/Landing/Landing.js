@@ -137,7 +137,7 @@ const Landing = ({ isDoctor, isPharmacist, onNewPatientClick }) => {
 Landing.propTypes = {
   isDoctor: PropTypes.bool,
   isPharmacist: PropTypes.bool,
-  onNewPatientClick: PropTypes.func.isRequired,
+  onNewPatientClick: PropTypes.func,
 };
 
 export default Landing;

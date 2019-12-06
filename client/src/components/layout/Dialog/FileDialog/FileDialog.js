@@ -58,7 +58,12 @@ const FileDialog = ({ dialogProps, ...props }) => {
               </Grid>
             </DialogContent>
             <DialogActions>
-              <Button color="primary" onClick={dialogProps.onClose}>
+              <Button
+                color="primary"
+                onClick={() => {
+                  dialogProps.onClose();
+                }}
+              >
                 Cancel
               </Button>
               <Button

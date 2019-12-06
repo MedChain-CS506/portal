@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`basic infor renders correctly 1`] = `undefined`;
+
 exports[`renders correctly with signedIn being true, as a pharmacist 1`] = `undefined`;
