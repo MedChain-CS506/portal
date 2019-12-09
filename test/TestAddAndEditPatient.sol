@@ -6,7 +6,7 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 
 
-contract TestEditPatient {
+contract TestAddAndEditPatient {
     
     MedChain private testContract;
  

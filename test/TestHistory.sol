@@ -6,7 +6,7 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 
 
-contract TestPrescriptionAndHistory {
+contract TestHistory {
     
     MedChain private testContract;
  
@@ -36,7 +36,7 @@ contract TestPrescriptionAndHistory {
     string res_allergies;
     
     // doc perscriptoin info for use with add_prescription
-    uint d_id = 0;
+    uint d_id = 2;
     uint p_id = 0;
     string disease = "disease";
     string symptoms = "symptoms";
@@ -76,36 +76,36 @@ contract TestPrescriptionAndHistory {
         testContract.add_patient(aadhaar, name, dob, weight, sex, allergies);
         testContract.add_prescription(aadhaar, disease, symptoms, medicine, timestamp_prescribed);
     }
- //function add_prescription( uint p_aadhar, string calldata disease, string calldata symptoms, string calldata medicine, string calldata time)
-    // test patient's last_prescription
-    function testLast_prescription() external {
-        (res_p_id, res_medicine, res_timestamp_prescribed) = testContract.last_prescription(aadhaar);
-         Assert.equal(medicine, res_medicine, "Patient's last perscriptoin does not match");
-    }
+//  //function add_prescription( uint p_aadhar, string calldata disease, string calldata symptoms, string calldata medicine, string calldata time)
+//     // test patient's last_prescription
+//     function testLast_prescription() external {
+//         (res_p_id, res_medicine, res_timestamp_prescribed) = testContract.last_prescription(aadhaar);
+//          Assert.equal(medicine, res_medicine, "Patient's last perscriptoin does not match");
+//     }
 
-    // test doctor_last_prescription
-    function testDoctorLastPrescription() external{
-      (res_per_ids, res_medicine, res_d_id, res_symptoms, res_time_) = testContract.doctor_last_prescription(aadhaar);
-      Assert.equal(per_ids, res_per_ids, "Doctor last pesrctiption's p_id does not match");
-      Assert.equal(d_id, res_d_id, "Doctor last pesrctiption's d_id does not match");
-      Assert.equal(medicine, res_medicine, "Doctor last pesrctiption's medicine does not match");
-      Assert.equal(symptoms, res_symptoms, "Doctor last pesrctiption's symptoms do not match");
-      Assert.equal(timestamp_prescribed, res_timestamp_prescribed, "Doctor last pesrctiption's timestamp does not match");
+//     // test doctor_last_prescription
+//     function testDoctorLastPrescription() external{
+//       (res_per_ids, res_medicine, res_d_id, res_symptoms, res_time_) = testContract.doctor_last_prescription(aadhaar);
+//       Assert.equal(per_ids, res_per_ids, "Doctor last pesrctiption's p_id does not match");
+//       Assert.equal(d_id, res_d_id, "Doctor last pesrctiption's d_id does not match");
+//       Assert.equal(medicine, res_medicine, "Doctor last pesrctiption's medicine does not match");
+//       Assert.equal(symptoms, res_symptoms, "Doctor last pesrctiption's symptoms do not match");
+//       Assert.equal(timestamp_prescribed, res_timestamp_prescribed, "Doctor last pesrctiption's timestamp does not match");
+//     }
+    
+    // test mdeical history part 1
+    function testMedicalHistoryDetails() external{
+        (res_ids, res_d_ids, res_symptoms) = testContract.medical_history_details(aadhaar);
+        Assert.equal(ids, res_ids, "Patient's id in medical history conflict");
+        Assert.equal(d_ids, res_d_ids, "Doctor ids in medical history conflict");
+        Assert.equal(symptoms_, res_symptoms, "Patient's sysmptoms in medical history conflict");
     }
     
-    // // test mdeical history part 1
-    // function testMedicalHistoryDetails() external{
-    //     (res_ids, res_d_ids, res_symptoms) = testContract.medical_history_details(aadhaar);
-    //     Assert.equal(ids, res_ids, "Patient's id in medical history conflict");
-    //     Assert.equal(d_ids, res_d_ids, "Doctor ids in medical history conflict");
-    //     Assert.equal(symptoms_, res_symptoms, "Patient's sysmptoms in medical history conflict");
-    // }
-    
-    // // test mdeical history part 2
-    // function testMedicalHistory() external{
-    //     (res_dis_, res_med_, res_time_) = testContract.medical_history(aadhaar);
-    //     Assert.equal(res_dis_, dis_, "Patient's disease in medical history conflict");
-    //     Assert.equal(res_med_, med_, "Patient's medicine in medical history conflict");
-    //     Assert.equal(res_time_, time_, "Patient's time in medical history conflict");
-    // }
+    // test mdeical history part 2
+    function testMedicalHistory() external{
+        (res_dis_, res_med_, res_time_) = testContract.medical_history(aadhaar);
+        Assert.equal(res_dis_, dis_, "Patient's disease in medical history conflict");
+        Assert.equal(res_med_, med_, "Patient's medicine in medical history conflict");
+        Assert.equal(res_time_, time_, "Patient's time in medical history conflict");
+    }
 }
