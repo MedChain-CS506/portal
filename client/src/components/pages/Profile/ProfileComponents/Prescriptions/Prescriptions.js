@@ -178,13 +178,13 @@ const Prescriptions = ({
           <Typography
             component="h2"
             variant="h5"
-            color="secondary"
+            color="initial"
             gutterBottom
           >
-            Prescriptions
+            {aadhaar}
           </Typography>
         </Toolbar>
-
+      
         <Table size="small">
           <TableHead>
             <TableRow>
