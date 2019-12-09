@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import BasicInfo from '../BasicInfo';
-// import MedChainContract from '../../../../../../contracts/MedChain.json';
+import MedChainContract from '../../../../../../contracts/MedChain.json';
 
 afterEach(cleanup);
 it('renders without crashing', () => {
@@ -14,10 +14,7 @@ it('renders without crashing', () => {
 
   ReactDOM.render(
     <Router>
-      <BasicInfo
-        contract={'../../../../../../contracts/MedChain.json'}
-        aadhaar={123412341234}
-      />
+      <BasicInfo contract={MedChainContract} />
     </Router>,
     div
   );
@@ -28,10 +25,7 @@ it('renders without crashing', () => {
 it('basic infor renders correctly', () => {
   const { BasicInfoCall } = render(
     <Router>
-      <BasicInfo
-        contract={'../../../../../../contracts/MedChain.json'}
-        aadhaar={123412341234}
-      />
+      <BasicInfo contract={MedChainContract} aadhaar={123412341234} />
     </Router>
   );
   // expect(getByTestId("search-bar")).toHaveTextContent(

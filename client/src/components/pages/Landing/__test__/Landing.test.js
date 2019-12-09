@@ -35,7 +35,7 @@ it('renders correctly with signedIn being false', () => {
 it('renders correctly with signedIn being true, as a doctor', () => {
   const { getByTestId } = render(
     <Router>
-      <Landing isPharmacist={false} />
+      <Landing isDoctor isPharmacist={false} />
     </Router>
   );
   // expect(getByTestId("search-bar")).toHaveTextContent(

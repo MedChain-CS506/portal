@@ -7,6 +7,8 @@
       "!**/node_modules/**",
       "!**/vendor/**",
       "!**/index.js",
+      "!**/App.js",
+      "!**/context/**",
       "!**/src/utils/*"
     ],
     "moduleNameMapper": {
