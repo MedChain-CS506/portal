@@ -50,7 +50,8 @@ npm start
 
 ## Folder Breakdown
 
-- Client
+- client
+  - _\mocks\_
   - public
   - src
     - components - Building blocks of the client application
@@ -71,11 +72,18 @@ npm start
   - .env
   - .eslintrc
   - babel.config.js
-  - cypress.json
+  - add.js
   - package-lock.json
   - package.json
-- Contracts
-- Migrations
-- Tests
+- contracts
+  - MedChain.sol
+  - Migrations.sol
+- migrations
+  - 1_initial_migration.js
+  - 2_deploy_contracts.js
+- test
+- LICENSE
+- run_blockchain.sh - shell script that runs 'truffle compile' and 'truffle migrate'
+- truffle-config.js 
 
 ## Roadmap... Look @ Issues above to find out what is to come/what may not be working at the moment
