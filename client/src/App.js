@@ -117,10 +117,10 @@ function App() {
           const rn = await data.web3.eth.getAccounts();
           if (rn[0] !== data.accounts[0]) {
             //! setSignedIn(false);
-            console.log('rn[0] !== data.accounts[0]');
+            // console.log('rn[0] !== data.accounts[0]');
           } else if (rn[0] === data.accounts[0]) {
             //! setSignedIn(true);
-            console.log('rrn[0] === data.accounts[0]');
+            // console.log('rrn[0] === data.accounts[0]');
           }
         } catch (err) {
           console.log(err);

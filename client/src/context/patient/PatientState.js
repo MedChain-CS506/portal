@@ -190,17 +190,15 @@ const PatientState = props => {
     }
   };
 
-  const addFile = async (contract, aadhaar, filehash, timestamp, tags) => {
-    await contract.contract.methods
-      .add_file(aadhaar, filehash, timestamp, tags)
-      .send(
-        {
-          from: contract.accounts[0],
-        },
-        error => {
-          console.log(error);
-        }
-      );
+  const addFile = async (contract, aadhaar, filehash, timestamp) => {
+    await contract.contract.methods.add_file(aadhaar, filehash, timestamp).send(
+      {
+        from: contract.accounts[0],
+      },
+      error => {
+        console.log(error);
+      }
+    );
   };
 
   const getfiles = async (contract, aadhaar) => {

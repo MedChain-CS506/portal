@@ -85,23 +85,6 @@ export default function Files({ onNewFileClick }) {
 
   // example hash: QmWUCkDdcgEVYDntYP6kDGeMvgiQtjuyKJWjHAzJowMXuv
   // example url: https://ipfs.infura.io/ipfs/QmWUCkDdcgEVYDntYP6kDGeMvgiQtjuyKJWjHAzJowMXuv
-  const onSubmit = event => {
-    event.preventDefault();
-    console.log('Submitting file to ipfs...');
-
-    ipfs.add(buffer, (error, result) => {
-      console.log('Ipfs result', result);
-      const _fileHash = result[0].hash;
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-      //! Now store it (uploads filehash into contract)
-      setFileHash(_fileHash);
-      console.log(fileHash);
-    });
-  };
 
   return (
     <>

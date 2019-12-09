@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
@@ -175,16 +176,11 @@ const Prescriptions = ({
     return (
       <>
         <Toolbar>
-          <Typography
-            component="h2"
-            variant="h5"
-            color="initial"
-            gutterBottom
-          >
+          <Typography component="h2" variant="h5" color="initial" gutterBottom>
             {aadhaar}
           </Typography>
         </Toolbar>
-      
+
         <Table size="small">
           <TableHead>
             <TableRow>

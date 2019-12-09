@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -17,12 +17,22 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-import { Formik, Form, useField } from 'formik';
+import { Formik, Form } from 'formik';
+import PatientContext from '../../../../context/patient/PatientContext';
+
+const ipfsClient = require('ipfs-http-client');
+
+const ipfs = ipfsClient({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+});
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-const FileDialog = ({ dialogProps, ...props }) => {
+const FileDialog = ({ dialogProps }) => {
   const [files, setFiles] = useState([]);
+  const patientContext = useContext(PatientContext);
 
   return (
     <Dialog fullWidth maxWidth="sm" {...dialogProps}>
@@ -35,14 +45,17 @@ const FileDialog = ({ dialogProps, ...props }) => {
         }}
         onSubmit={(data, { setSubmitting }) => {
           setSubmitting(false);
-          //* make async call
-          // register(data).then(() => {
-          //     setSubmitting(false);
-          // });
+          ipfs.add(data.file, (error, result) => {
+            const _fileHash = result[0].hash;
+            if (error) {
+              console.error(error);
+            }
+            console.log(_fileHash);
+          });
           dialogProps.onClose();
         }}
       >
-        {({ values, errors, isSubmitting }) => (
+        {({ isSubmitting }) => (
           <Form>
             <DialogContent>
               <Grid container direction="column" spacing={2}>
