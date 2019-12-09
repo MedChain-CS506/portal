@@ -51,7 +51,7 @@ npm start
 ## Folder Breakdown
 
 - client
-  - _\mocks\_
+  - \_mocks\_
   - public
   - src
     - components - Building blocks of the client application
