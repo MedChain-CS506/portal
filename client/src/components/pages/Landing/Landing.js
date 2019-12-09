@@ -118,12 +118,11 @@ const Landing = ({ isDoctor, isPharmacist, onNewPatientClick }) => {
             <Divider className={classes.divider} orientation="vertical" />
             <Tooltip title="New Patient">
               <IconButton
-                data-testid="add-patient-button"
                 color="primary"
                 className={classes.iconButton}
                 onClick={onNewPatientClick}
               >
-                <AddIcon />
+                <AddIcon data-testid="add-patient-button" />
               </IconButton>
             </Tooltip>
           </>
