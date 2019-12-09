@@ -222,6 +222,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                       <Grid container spacing={4}>
                         <Grid item xs>
                           <NameTextField
+                            data-testid="name-text-field"
                             label="First Name"
                             placeholder="Satoshi"
                             name="firstName"
