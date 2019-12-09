@@ -40,7 +40,7 @@ MedChain is a fully decentralized, Ethereum-based application, which looks to pr
 - Once inside the root directory, run the script `./run_blockchain`
 - Additionally, you can test the smart contract by running `truffle test` (again, from the root directory)
 
-### Now, you can run the client app on your localhost by:
+### Now, you can run the client app on your localhost
 
 ~~~~bash
 cd client
@@ -84,6 +84,6 @@ npm start
 - test
 - LICENSE
 - run_blockchain.sh - shell script that runs 'truffle compile' and 'truffle migrate'
-- truffle-config.js 
+- truffle-config.js
 
 ## Roadmap... Look @ Issues above to find out what is to come/what may not be working at the moment
