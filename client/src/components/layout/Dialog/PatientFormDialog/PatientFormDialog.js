@@ -165,7 +165,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
     // combine first and last names
     const fullName = `${data.firstName} ${data.lastName}`;
     let allergies = '';
-    for (let allergy in data.notes) {
+    for (const allergy in data.notes) {
       allergies = `${allergies}-${data.notes[allergy].name}`;
     }
     console.log(allergies);
@@ -487,9 +487,6 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                   Register
                 </Button>
               </DialogActions>
-
-              <pre>{JSON.stringify(values, null, 2)}</pre>
-              <pre>{JSON.stringify(errors, null, 2)}</pre>
             </Form>
           </MuiPickersUtilsProvider>
         )}

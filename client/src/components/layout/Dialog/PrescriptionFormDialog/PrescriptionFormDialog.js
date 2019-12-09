@@ -167,9 +167,9 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
   const onSubmit = async data => {
     console.log(data);
     let medicine = '';
-    for (let med in data.medicine) {
+    for (const med in data.medicine) {
       medicine = `${medicine}-${med}`;
-      for (let values in data.medicine[med]) {
+      for (const values in data.medicine[med]) {
         if (values !== 'id') {
           medicine = `${medicine}-${data.medicine[med][values]}`;
         }
@@ -407,9 +407,6 @@ const PrescriptionFormDialog = ({ dialogProps, ...props }) => {
                 Prescribe
               </Button>
             </DialogActions>
-
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>
