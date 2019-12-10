@@ -205,7 +205,6 @@ function App() {
                       render={props => (
                         <Landing
                           {...props}
-                          //! signedIn
                           isDoctor
                           onNewPatientClick={() =>
                             setDialog({ ...dialog, patientFormDialog: true })
@@ -220,7 +219,6 @@ function App() {
                       render={props => (
                         <Profile
                           {...props}
-                          //! signedIn
                           isDoctor
                           contract={contract}
                           onNewPrescriptionClick={() =>

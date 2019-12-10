@@ -212,7 +212,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
           });
         }}
       >
-        {({ values, errors, isSubmitting }) => (
+        {({ values }) => (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Form>
               <Hidden smDown>
@@ -387,11 +387,6 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                     </Grid>
 
                     <Grid item xs>
-                      {/* <DobField
-                      label="Date of Birth"
-                      placeholder="1/1/2000"
-                      name="dob"
-                    /> */}
                       <DatePicker
                         disableFuture
                         openTo="year"
@@ -487,6 +482,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                   Register
                 </Button>
               </DialogActions>
+              <pre>{JSON.stringify(values, null, 2)}</pre>
             </Form>
           </MuiPickersUtilsProvider>
         )}

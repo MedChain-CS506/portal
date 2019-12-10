@@ -73,7 +73,6 @@ const Profile = ({
               ) : (
                 <>
                   <Grid item xs={12} md={6} lg={6}>
-                    {/* <Paper className={fixedHeightPaper}> */}
                     <Paper className={classes.fixedHeight}>
                       <BasicInfo
                         aadhaar={match.params.id}
