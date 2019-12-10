@@ -219,13 +219,11 @@ const PatientState = props => {
     return files;
   };
 
-  const setAadhaarState = (aadhaar) => {
+  const setAadhaarState = aadhaar => {
     setAadhaar(aadhaar);
-  }
+  };
 
-  const getAadhaarState = () => {
-    return aadhaar;
-  }
+  const getAadhaarState = () => aadhaar;
 
   return (
     <PatientContext.Provider
