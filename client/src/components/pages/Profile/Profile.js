@@ -52,7 +52,6 @@ const Profile = ({
 }) => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  console.log(match);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -82,7 +81,10 @@ const Profile = ({
                   </Grid>
                   <Grid item xs={12} md={6} lg={6}>
                     <Paper className={fixedHeightPaper}>
-                      <Files onNewFileClick={onNewFileClick} />
+                      <Files 
+                        onNewFileClick={onNewFileClick}
+                        aadhaar={match.params.id} 
+                      />
                     </Paper>
                   </Grid>
                   <Grid item xs={12}>

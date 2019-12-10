@@ -30,10 +30,10 @@ const ipfs = ipfsClient({
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-const FileDialog = ({ dialogProps }) => {
+const FileDialog = ({ dialogProps } ) => {
   const [files, setFiles] = useState([]);
   const patientContext = useContext(PatientContext);
-
+  
   return (
     <Dialog fullWidth maxWidth="sm" {...dialogProps}>
       <DialogTitle>Upload File(s)</DialogTitle>
@@ -43,14 +43,19 @@ const FileDialog = ({ dialogProps }) => {
         initialValues={{
           file: '',
         }}
-        onSubmit={(data, { setSubmitting }) => {
+        onSubmit={ async (data, { setSubmitting }) => {
           setSubmitting(false);
-          ipfs.add(data.file, (error, result) => {
+          await ipfs.add(data.file, async (error, result) => {
             const _fileHash = result[0].hash;
             if (error) {
               console.error(error);
             }
             console.log(_fileHash);
+            const dt = new Date();
+            const utcDate = dt.toUTCString();
+            let aadhaar = patientContext.getAadhaarState();
+            console.log(aadhaar);
+            await patientContext.addFile(dialogProps.contract, aadhaar, _fileHash, utcDate);
           });
           dialogProps.onClose();
         }}
