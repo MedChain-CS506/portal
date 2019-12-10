@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PatientContext from './PatientContext';
 
 const PatientState = props => {
+  const [aadhaar, setAadhaar] = useState(null);
   const getPatient = async (contract, aadhaar) => {
     async function temp(contract, aadhaar) {
       const paitent_page_data = {};
@@ -223,6 +224,14 @@ const PatientState = props => {
     return files;
   };
 
+  const setAadhaarState = (aadhaar) => {
+    setAadhaar(aadhaar);
+  }
+
+  const getAadhaarState = () => {
+    return aadhaar;
+  }
+
   return (
     <PatientContext.Provider
       value={{
@@ -236,6 +245,8 @@ const PatientState = props => {
         markPrescription,
         addFile,
         getfiles,
+        setAadhaarState,
+        getAadhaarState,
       }}
     >
       {props.children}

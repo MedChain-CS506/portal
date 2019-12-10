@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
@@ -14,14 +14,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import AddIcon from '@material-ui/icons/Add';
+import PatientContext from '../../../../../context/patient/PatientContext';
 
-const ipfsClient = require('ipfs-http-client');
-
-const ipfs = ipfsClient({
-  host: 'ipfs.infura.io',
-  port: 5001,
-  protocol: 'https',
-}); // leaving out the arguments will default to these values
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,34 +51,10 @@ function createData(fileLinkHash, timestamp) {
 
 const rows = [createData('File 1', '13:00'), createData('File 2', '15:30')];
 
-export default function Files({ onNewFileClick }) {
+export default function Files({ onNewFileClick, aadhaar }) {
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-  const [fileHash, setFileHash] = useState(
-    'QmWUCkDdcgEVYDntYP6kDGeMvgiQtjuyKJWjHAzJowMXuv'
-  );
-  const [contract, setContract] = useState(null);
-  const [buffer, setBuffer] = useState(null);
-  const [fileHashUpdated, setFileHashUpdated] = useState(true);
-  const [ready, setReady] = useState(false);
-
-  const captureFile = event => {
-    event.preventDefault();
-    const file = event.target.files[0];
-    const reader = new window.FileReader();
-    //! ^ This line above will allow us to convert the file into a buffer
-    reader.readAsArrayBuffer(file);
-    reader.onloadend = () => {
-      setBuffer(Buffer.from(reader.result));
-      console.log('buffer', buffer);
-    };
-  };
-
-  useEffect(() => {}, [fileHash]);
-
-  // example hash: QmWUCkDdcgEVYDntYP6kDGeMvgiQtjuyKJWjHAzJowMXuv
-  // example url: https://ipfs.infura.io/ipfs/QmWUCkDdcgEVYDntYP6kDGeMvgiQtjuyKJWjHAzJowMXuv
+  const patientContext = useContext(PatientContext);
+  patientContext.setAadhaarState(aadhaar);
 
   return (
     <>
@@ -101,17 +71,6 @@ export default function Files({ onNewFileClick }) {
         </span>
       </Toolbar>
 
-      {/* <div className={classes.root}>
-        <main className={classes.content}>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            <img src={`https://ipfs.infura.io/ipfs/${fileHash}`} />
-          </a>
-          <form onSubmit={onSubmit}>
-            <input type="file" onChange={captureFile} />
-            <input type="submit" />
-          </form>
-        </main>
-      </div> */}
       <Table stickyHeader className={classes.table}>
         <TableHead>
           <TableRow>
