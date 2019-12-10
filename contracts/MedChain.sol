@@ -325,12 +325,10 @@ contract MedChain {
     }
 
     function get_files(uint aadhaar) view public returns(string memory, string memory){
-        string memory filehash = "-";
-        string memory time = "-";
-        for (uint i = 0; i < patient_aadhaar_mapping[aadhaar].file_ids.length; i++) {
-            filehash = strConcat(filehash, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].file_hash);
-            time = strConcat(time, file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[i]].timestamp);
-        }
+        string memory filehash = "";
+        string memory time = "";
+        filehash = file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[patient_aadhaar_mapping[aadhaar].file_ids.length-1]].file_hash;
+        time = file_id_mapping[patient_aadhaar_mapping[aadhaar].file_ids[patient_aadhaar_mapping[aadhaar].file_ids.length-1]].timestamp;
         return (filehash, time);
     }
 

@@ -83,7 +83,8 @@ const Profile = ({
                     <Paper className={fixedHeightPaper}>
                       <Files 
                         onNewFileClick={onNewFileClick}
-                        aadhaar={match.params.id} 
+                        aadhaar={match.params.id}
+                        contract={contract} 
                       />
                     </Paper>
                   </Grid>

@@ -45,16 +45,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(fileLinkHash, timestamp) {
-  return { fileLinkHash, timestamp };
-}
-
-const rows = [createData('File 1', '13:00'), createData('File 2', '15:30')];
-
-export default function Files({ onNewFileClick, aadhaar }) {
+export default function Files({ onNewFileClick, aadhaar, contract }) {
   const classes = useStyles();
   const patientContext = useContext(PatientContext);
   patientContext.setAadhaarState(aadhaar);
+  const [row, setRow] = useState({
+    filehash: '',
+    timestamp: '',
+  })
+
+  const getFiles = async () => {
+    const data = await patientContext.getfiles(contract, aadhaar);
+    setRow({
+      filehash: data.filehash,
+      timestamp: data.timestamp,
+    })
+  }
+
+  useEffect(() => {
+    getFiles();
+  }, [])
 
   return (
     <>
@@ -79,14 +89,23 @@ export default function Files({ onNewFileClick, aadhaar }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.fileLinkHash}>
+          <TableRow >
+            {row.filehash == '' ? (
+              <>
+              <TableCell colSpan={5} align="center">
+                    No Previous files uploaded
+              </TableCell>
+              </>
+            ) : (
+              <>
               <TableCell component="th" scope="row">
-                {row.fileLinkHash}
+                <a href={`https://ipfs.infura.io:5001/api/v0/get?arg=${row.filehash}`} >{row.filehash}</a>
               </TableCell>
               <TableCell align="right">{row.timestamp}</TableCell>
-            </TableRow>
-          ))}
+              </>
+            )}
+            
+          </TableRow>
         </TableBody>
       </Table>
     </>

@@ -203,19 +203,14 @@ const PatientState = props => {
   };
 
   const getfiles = async (contract, aadhaar) => {
-    const files = null;
-    function get_string(str) {
-      const newStr = str.split('-');
-      newStr.splice(0, 2);
-      return newStr;
-    }
+    const files = {};
     try {
       await contract.contract.methods
         .get_files(aadhaar)
         .call()
         .then(function(res) {
-          files.filehash = get_string(res[0]);
-          files.timestamp = get_string(res[1]);
+          files.filehash = res[0];
+          files.timestamp = res[1];
         });
     } catch (error) {
       files.filehash = '';
