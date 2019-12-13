@@ -20,15 +20,18 @@ import {
 
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
-import 'date-fns';
-import {
-  MuiPickersUtilsProvider,
-  DatePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { Formik, Form, useField, Field, FieldArray } from 'formik';
+import {
+  Formik,
+  // Field,
+  Form,
+  useField,
+  // FieldAttributes,
+  FieldArray,
+} from 'formik';
 
 import * as yup from 'yup';
 import PatientContext from '../../../../context/patient/PatientContext';
@@ -90,23 +93,21 @@ const WeightField = ({ placeholder, label, ...props }) => {
   );
 };
 
-const DatePickerField = ({ field, form, ...other }) => (
-  <KeyboardDatePicker
-    clearable
-    disableFuture
-    openTo="year"
-    name={field.name}
-    value={field.value}
-    label="Date of birth"
-    views={['year', 'month', 'date']}
-    InputAdornmentProps={{ position: 'start' }}
-    fullWidth
-    placeholder="10/10/2018"
-    format="MM/dd/yyyy"
-    onChange={date => form.setFieldValue(field.name, date, false)}
-    {...other}
-  />
-);
+// const DobField = ({ placeholder, label, ...props }) => {
+//   const [field, meta] = useField(props);
+//   const errorText = meta.error && meta.touched ? meta.error : '';
+//   return (
+//     <TextField
+//       variant="outlined"
+//       label={label}
+//       fullWidth
+//       placeholder={placeholder}
+//       {...field}
+//       helperText={errorText}
+//       error={!!errorText}
+//     />
+//   );
+// };
 
 const SexRadio = ({ placeholder, label, ...props }) => {
   const [field, meta] = useField(props);
@@ -196,7 +197,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
           aadhaar: '',
           aadhaarConfirmation: '',
           weight: '',
-          dob: new Date(),
+          dob: '',
           sex: '',
           notes: [{ name: '', id: `${Math.random()}` }],
         }}
@@ -211,7 +212,7 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
           });
         }}
       >
-        {({ values, errors }) => (
+        {({ values }) => (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Form>
               <Hidden smDown>
@@ -262,7 +263,21 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                           />
                         </Grid>
                         <Grid item xs>
-                          <Field name="date" component={DatePickerField} />
+                          {/* <DobField
+                          label="Date of Birth"
+                          placeholder="1/1/2000"
+                          name="dob"
+                        /> */}
+                          <DatePicker
+                            disableFuture
+                            openTo="year"
+                            fullWidth
+                            format="MM/dd/yyyy"
+                            label="Date of birth"
+                            views={['year', 'month', 'date']}
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                          />
                         </Grid>
 
                         <Grid item xs>
