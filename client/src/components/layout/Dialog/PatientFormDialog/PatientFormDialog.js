@@ -27,6 +27,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
 
 import { Formik, Form, useField, Field, FieldArray } from 'formik';
 
@@ -169,13 +170,15 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
     }
     console.log(allergies);
     const dob = data.dob.toString();
+    var formatedDOB = moment(dob).format('DD/MM/YYYY');
+
     // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
     patientContext
       .addPatient(
         dialogProps.contract,
         data.aadhaar,
         fullName,
-        dob,
+        formatedDOB,
         data.weight,
         data.sex,
         allergies
