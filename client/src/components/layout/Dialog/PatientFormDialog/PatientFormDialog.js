@@ -168,13 +168,14 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
       allergies = `${allergies}-${data.notes[allergy].name}`;
     }
     console.log(allergies);
+    const dob = data.dob.toString();
     // do some sort of check (i.e. all data is correct, aadhaar doesn't currently exist)
     patientContext
       .addPatient(
         dialogProps.contract,
         data.aadhaar,
         fullName,
-        data.dob,
+        dob,
         data.weight,
         data.sex,
         allergies
