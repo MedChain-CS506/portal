@@ -482,7 +482,6 @@ const PatientFormDialog = ({ dialogProps, ...props }) => {
                   Register
                 </Button>
               </DialogActions>
-              <pre>{JSON.stringify(values, null, 2)}</pre>
             </Form>
           </MuiPickersUtilsProvider>
         )}
